@@ -1,15 +1,26 @@
-import './App.css';
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import Pdfano from './pdfano'
-import regis from './regis'
-class App extends React.Component {
+import Login from './login'
+import Chapter from './chapter'
+import Managepdf from './managepdf'
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      checkAuthen: ''
+    }
+  }
 
+  componentDidMount() {
+  }
   render() {
     return (
-      <div className="App container">
-        <Route path="/student" component={Pdfano} />
-        <Route path="/register" component={regis} />
+      <div className="App container" >
+        <Route path="/login" component={Login} />
+        <Route path="/student/:pdfid" component={Pdfano} />
+        <Route path="/chapter/:userid" component={Chapter} />
+        <Route path="/managepdf/:chapterid" component={Managepdf} />
       </div>
     )
   }

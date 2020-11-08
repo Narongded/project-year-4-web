@@ -1,31 +1,91 @@
 import * as React from 'react';
 import './App.css';
+import { Redirect } from "react-router-dom";
+
 import { PdfViewerComponent, Toolbar, Magnification, Navigation, LinkAnnotation, BookmarkView, ThumbnailView, Print, TextSelection, Annotation, TextSearch, Inject } from '@syncfusion/ej2-react-pdfviewer';
-import { Button, RestoreIcon, Card, CardContent, Grid, MenuItem, Select, TextField, Typography, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 
 class Pdfano extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            test: '',
-            base64: ''
-
+            base64: '',
+            check: null,
+            loadpdf: []
         }
+        this.checkAuthen()
+
     }
-    handleSelectUrl = () => {
+    checkAuthen = () => {
+        let check = null
+        const token = localStorage.getItem('token')
+        console.log(token)
+        fetch('http://localhost:3000/checktoken', {
+            method: 'GET',
+            headers: {
+                'Authorization': `${token}`
+            }
+        }).then((res) => {
+            if (!res.ok) {
+                this.props.history.push({
+                    pathname: '/login',
+                    state: { path: this.props.location.pathname }
+                })
+            }
+            else {
+                this.setState({ check: true })
+                this.loadpdf()
+                res.json()
+            }
+        })
+        //.then((res) => {
+        //         console.log(res.status)
+        //         if (res.status === 'Success') {
+        //         }
+        //         else {
+        //             this.props.history.push({
+        //                 pathname: '/template',
+        //                 search: '?query=abc',
+        //                 state: { path: this.props.location.pathname }
+        //             })
+        //         }
+        //     })
+
+    }
+    handleSelectUrl = (pdfpath) => {
 
         // tslint:disable-next-line:one-variable-per-declaration
-        fetch('https://e-meeting.kmitl.ac.th/api/static/pdf/5nvqc4c0gtr.pdf')
+        fetch(`http://localhost:3000/static/pdf/${pdfpath}`)
             .then(res => res.blob()) // Gets the response and returns it as a blob
             .then(blob => {
                 const metadata = {
-                    type: 'image/jpeg'
+                    type: 'application/pdf'
                 };
                 const file = new File([blob], 'test.jpg', metadata);
                 this.encodeBase64(file)
 
             });
+
+    }
+    loadpdf = async () => {
+        const apiBaseUrl = `http://localhost:3000/user/getfile-pdf/${this.props.match.params.pdfid}`;
+        await fetch(apiBaseUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+
+        }).then((res) => res.json())
+            .then((res) => {
+                this.setState({ loadpdf: res.data })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        this.handleSelectUrl(this.state.loadpdf[0].pdfpath)
 
     }
 
@@ -36,28 +96,32 @@ class Pdfano extends React.Component {
         reader.onerror = error => reject(error);
         console.log(this.state.base64)
     });
+
     componentDidMount() {
 
     }
     render() {
         return (
+
             <div
                 class="container">
-                <Grid container direction="row" >
-                    <Grid item xs={8}>
-                        <PdfViewerComponent id="container"
-                            documentPath={this.state.base64}
-                            enableCommentPanel={false}
-                            serviceUrl="https://ej2services.syncfusion.com/production/web-services/api/pdfviewer" style={{ 'height': '640px' }}>
-                            <Inject services={[Toolbar, Magnification, Navigation, Annotation, LinkAnnotation, BookmarkView, ThumbnailView, Print, TextSelection, TextSearch]} />
-                        </PdfViewerComponent>
-                    </Grid>
-                    <Grid item xs={4} >
-                        <Button onClick={this.handleSelectUrl}>asdas</Button>
 
-                    </Grid>
-                </Grid>
+                { this.state.check === true ?
+                    <Grid container direction="row" >
+                        <Grid item xs={8}>
+                            <PdfViewerComponent id="container"
+                                enableToolbar={true}
+                                documentPath={this.state.base64}
+                                serviceUrl="https://ej2services.syncfusion.com/production/web-services/api/pdfviewer" style={{ 'height': '640px' }}>
+                                <Inject services={[Toolbar, Magnification, Navigation, Annotation, LinkAnnotation, BookmarkView, ThumbnailView, Print, TextSelection, TextSearch]} />
+                            </PdfViewerComponent>
+                        </Grid>
+                        <Grid item xs={4} >
+                            <Button onClick={this.handleSelectUrl}>asdas</Button>
 
+                        </Grid>
+                    </Grid>
+                    : null}
             </div>
         )
     }
