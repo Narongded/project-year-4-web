@@ -1,9 +1,7 @@
 import * as React from 'react';
 import './App.css';
-import { Redirect } from "react-router-dom";
 import WebViewer from '@pdftron/webviewer'
 
-import { PdfViewerComponent, Toolbar, Magnification, Navigation, LinkAnnotation, BookmarkView, ThumbnailView, Print, TextSelection, Annotation, TextSearch, Inject } from '@syncfusion/ej2-react-pdfviewer';
 import { Button, Grid } from '@material-ui/core';
 
 class Pdfano extends React.Component {
@@ -84,7 +82,7 @@ class Pdfano extends React.Component {
             <div class="container">
 
                     <Grid container direction="row" >
-                        <Grid item xs={8}>
+                        <Grid item xs={12}>
                             <div className="MyComponent">
                                 <div className="header">React sample</div>
                                 <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
