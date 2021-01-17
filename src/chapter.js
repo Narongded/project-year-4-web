@@ -1,8 +1,9 @@
 import * as React from 'react';
 import './App.css';
 import { Redirect } from "react-router-dom";
-import { InputLabel, Button, Grid, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-
+import Slidebar from './components/slideBar';
+import { AppBar,IconButton, Toolbar, Button, Grid, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 class Chapter extends React.Component {
     constructor(props) {
         super(props)
@@ -12,12 +13,12 @@ class Chapter extends React.Component {
             loadchapter: []
         }
     }
-    
+
     createChapter = async () => {
-        const apiBaseUrl = "http://localhost:3000/admin/create-chapter";
+        const apiBaseUrl = "http://localhost:3001/admin/create-chapter";
         const payload = {
             "chaptername": this.state.chaptername,
-            "uid" : localStorage.getItem('uid')
+            "uid": localStorage.getItem('uid')
 
         }
         await fetch(apiBaseUrl, {
@@ -36,7 +37,7 @@ class Chapter extends React.Component {
             });
     }
     loadChapter = async () => {
-        const apiBaseUrl = `http://localhost:3000/admin/getall-chapter/${localStorage.getItem('uid')}`;
+        const apiBaseUrl = `http://localhost:3001/admin/getall-chapter/${localStorage.getItem('uid')}`;
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
@@ -58,7 +59,7 @@ class Chapter extends React.Component {
             open: true
         })
     };
-    handleRedirect = (page,chapterid) => {
+    handleRedirect = (page, chapterid) => {
         if (page === 'managepdf') this.props.history.push(`/managepdf/${chapterid}`);
     }
     handleClose = () => {
@@ -74,13 +75,12 @@ class Chapter extends React.Component {
     render() {
         return (
             <div class="container" >
-
-                <Grid container direction="row" >
-
-                    <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
+                <Slidebar>
+                </Slidebar>
+                    <Button variant="contained" color="primary" style = {{marginTop : '50px'}}onClick={this.handleClickOpen}>
                         Create chapter
                      </Button>
-                </Grid>
+     
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">บทเรียน</DialogTitle>
                     <DialogContent style={{ width: '250px' }}>
@@ -108,11 +108,97 @@ class Chapter extends React.Component {
                 {this.state.loadchapter.map((value, index) => (
                     <div>
                         <p>{value.name}</p>
-                        <Button color="primary" onClick={()=> this.handleRedirect('managepdf',value.chapterid)}>
+                        <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.chapterid)}>
                             จัดการไฟล์
                         </Button>
                     </div>
                 ))}
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1><h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+                <h1>asdasdasd</h1>
+
             </div>
         )
     }

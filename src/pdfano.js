@@ -21,7 +21,7 @@ class Pdfano extends React.Component {
         let check = null
         const token = localStorage.getItem('token')
         console.log(token)
-        fetch('http://localhost:3000/checktoken', {
+        fetch('http://localhost:3001/checktoken', {
             method: 'GET',
             headers: {
                 'Authorization': `${token}`
@@ -43,7 +43,7 @@ class Pdfano extends React.Component {
     }
    
     loadpdf = async () => {
-        const apiBaseUrl = `http://localhost:3000/user/getfile-pdf/${this.props.match.params.pdfid}`;
+        const apiBaseUrl = `http://localhost:3001/user/getfile-pdf/${this.props.match.params.pdfid}`;
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
@@ -65,11 +65,13 @@ class Pdfano extends React.Component {
     showpdf = () => WebViewer(
         {
             path: '/lib',
-            initialDoc: `http://localhost:3000/static/pdf/${this.state.loadpdf[0].pdfpath}`,
+            initialDoc: `http://localhost:3001/static/pdf/${this.state.loadpdf[0].pdfpath}`,
         },
         this.viewerRef.current,
     ).then((instance) => {
         const { docViewer } = instance;
+        instance.disableElements([ 'leftPanel', 'leftPanelButton' ]);
+        
         // you can now call WebViewer APIs here...
     });
 

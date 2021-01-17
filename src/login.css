@@ -1,0 +1,38 @@
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-react-pdfviewer/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-notifications/styles/material.css";
+
+body {
+  margin: 0 0 0 0;
+}
+
+.main {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: url(./img/itkmitl.jpg) no-repeat;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+.login {
+  width: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding-top: 7%;
+  padding-left: 3%;
+}
+.fill {
+  display: block;
+}
+.card {
+  width: 40%;
+  padding-left: 3px;
+  padding-right: 3px;
+}

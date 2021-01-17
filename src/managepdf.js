@@ -14,7 +14,7 @@ class Managepdf extends React.Component {
         }
     }
     uploadPdf = async () => {
-        const apiBaseUrl = "http://localhost:3000/admin/upload-pdf";
+        const apiBaseUrl = "http://localhost:3001/admin/upload-pdf";
         const payload = {
             "chaptername": this.state.chaptername,
 
@@ -39,7 +39,7 @@ class Managepdf extends React.Component {
     }
 
     loadPdf = async () => {
-        const apiBaseUrl = `http://localhost:3000/admin/getfile-pdf/${this.props.match.params.chapterid}`;
+        const apiBaseUrl = `http://localhost:3001/admin/getfile-pdf/${this.props.match.params.chapterid}`;
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
