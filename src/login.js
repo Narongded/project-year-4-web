@@ -45,7 +45,8 @@ class Login extends Component {
         body: JSON.stringify(payload)
       }).then((response) => response.json()
       ).then((responseJson) => {
-        this.setState({ dialog: true , mes : responseJson.mes})
+        this.setState({ dialog: true, mes: responseJson.mes })
+        responseJson.mes === 'Success' ? this.setState({ type: false }) : this.setState({ type: true })
       })
         .catch((error) => {
           console.error(error);
@@ -229,7 +230,7 @@ class Login extends Component {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">{this.state.mes}</DialogTitle>
-       
+
           </Dialog>
         </div>
       </div>

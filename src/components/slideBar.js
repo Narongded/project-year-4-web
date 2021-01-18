@@ -28,14 +28,14 @@ class Slidebar extends Component {
   }
   render() {
     return (
-      <div >
+      <div classname = 'mainslideBar' style = {{paddingBottom : '20px'}} >
 
         <AppBar position="fixed">
           <Toolbar>
             <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ test: true })} >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6">
+            <Typography variant="h6" style={{marginRight : '89%'}}>
               Photos
           </Typography>
 

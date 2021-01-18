@@ -1,8 +1,12 @@
 import * as React from 'react';
-import './App.css';
 import { Redirect } from "react-router-dom";
 import Slidebar from './components/slideBar';
-import { AppBar,IconButton, Toolbar, Button, Grid, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import {
+    AppBar, IconButton, Toolbar, Button, Grid,
+    TextField, Dialog, DialogActions, DialogContent,
+    DialogContentText, DialogTitle, TableContainer, Table, TableBody, TableCell,
+    TableHead, TableRow, Paper
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 class Chapter extends React.Component {
     constructor(props) {
@@ -72,15 +76,14 @@ class Chapter extends React.Component {
         this.loadChapter()
 
     }
+
     render() {
         return (
             <div class="container" >
                 <Slidebar>
                 </Slidebar>
-                    <Button variant="contained" color="primary" style = {{marginTop : '50px'}}onClick={this.handleClickOpen}>
-                        Create chapter
-                     </Button>
-     
+
+
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">บทเรียน</DialogTitle>
                     <DialogContent style={{ width: '250px' }}>
@@ -105,100 +108,42 @@ class Chapter extends React.Component {
                          </Button>
                     </DialogActions>
                 </Dialog>
-                {this.state.loadchapter.map((value, index) => (
-                    <div>
-                        <p>{value.name}</p>
-                        <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.chapterid)}>
-                            จัดการไฟล์
-                        </Button>
-                    </div>
-                ))}
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1><h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
-                <h1>asdasdasd</h1>
 
+                <TableContainer component={Paper}>
+                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={this.handleClickOpen}>
+                        Create chapter
+                     </Button>
+                    <Table aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>รายการวิชาบทเรียน</TableCell>
+                                <TableCell align="right">Calories</TableCell>
+                                <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.loadchapter.map((value, index) => (
+                                <TableRow key={value.name}>
+                                    <TableCell component="th" scope="row">
+                                        {value.name}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.chapterid)}>
+                                            จัดการไฟล์
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell align="right">''</TableCell>
+                                    <TableCell align="right">''</TableCell>
+                                    <TableCell align="right">''</TableCell>
+                                </TableRow>
+
+                            ))}
+
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         )
     }
