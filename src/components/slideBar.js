@@ -32,7 +32,7 @@ class Slidebar extends Component {
 
         <AppBar position="fixed">
           <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu">
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ test: true })} >
               <MenuIcon />
             </IconButton>
             <Typography variant="h6">
@@ -45,7 +45,7 @@ class Slidebar extends Component {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="inherit"
-                onClick={() => this.setState({ test: true })} >
+                >
                 <AccountCircle />
               </IconButton>
               <Menu
