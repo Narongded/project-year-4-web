@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Grid, Box, MenuItem, Select, InputLabel, Button, Card, TextField } from '@material-ui/core';
+import { Grid, Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Select, InputLabel, Button, Card, TextField } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import './login.css';
 class Login extends Component {
@@ -14,10 +14,13 @@ class Login extends Component {
       last_name: '',
       email: '',
       password: '',
+      studentnumber: '',
       role: '',
       type: null,
       status: '',
       checkpassword: true,
+      dialog: false,
+      mes: '',
     }
   }
 
@@ -29,6 +32,7 @@ class Login extends Component {
         "first_name": this.state.first_name,
         "last_name": this.state.last_name,
         "email": this.state.email,
+        "studentnumber": this.state.studentnumber,
         "password": this.state.password,
         "role": this.state.role
       }
@@ -39,11 +43,10 @@ class Login extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
-      }).then((response) => response.json())
-        .then((responseJson) => {
-          console.log(responseJson)
-         
-        })
+      }).then((response) => response.json()
+      ).then((responseJson) => {
+        this.setState({ dialog: true , mes : responseJson.mes})
+      })
         .catch((error) => {
           console.error(error);
         });
@@ -97,7 +100,7 @@ class Login extends Component {
           <MuiThemeProvider s>
             <div style={{ textAlign: 'center' }}>
               {this.state.type === true ?
-                <div style={{ paddingTop: '100px' }}>
+                <div style={{ paddingTop: '10px' }}>
                   <p>สมัครสมาชิก</p>
                   <TextField
                     autoFocus
@@ -121,6 +124,15 @@ class Login extends Component {
                     autoFocus
                     size={'small'}
                     margin="normal"
+                    label="รหัสนักศึกษา"
+                    onChange={(event, newValue) => this.setState({ studentnumber: event.target.value })}
+                    variant="outlined"
+                  />
+                  <br />
+                  <TextField
+                    autoFocus
+                    size={'small'}
+                    margin="normal"
                     label="Email"
                     type="email"
                     floatingLabelText="Email"
@@ -137,7 +149,7 @@ class Login extends Component {
                     onChange={(event, newValue) => this.setState({ password: event.target.value })}
                     variant="outlined"
                   />
-                     <br />
+                  <br />
                   <TextField
                     autoFocus
                     size={'small'}
@@ -194,8 +206,8 @@ class Login extends Component {
                 </div>
               }
               <RaisedButton label="Submit" primary={true} style={{ marginTop: '17px' }} onClick={(event) => this.handleClick(event)} />
-              <br />
-   
+
+
               {this.state.status === false ? <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >Wrong Email or Password</InputLabel> : null}
               <br />
               <Button size="small" value="" onClick={() => this.setState({ type: false })}>
@@ -208,7 +220,18 @@ class Login extends Component {
             <br />
           </MuiThemeProvider>
         </Card>
+        <div>
 
+          <Dialog
+            open={this.state.dialog}
+            onClick={() => this.setState({ dialog: false })}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{this.state.mes}</DialogTitle>
+       
+          </Dialog>
+        </div>
       </div>
     );
   }
