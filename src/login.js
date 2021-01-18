@@ -101,7 +101,7 @@ class Login extends Component {
           <MuiThemeProvider s>
             <div style={{ textAlign: 'center' }}>
               {this.state.type === true ?
-                <div style={{ paddingTop: '10px' }}>
+                <div style={{ marginTop: '5vw' }}>
                   <p>สมัครสมาชิก</p>
                   <TextField
                     autoFocus
@@ -134,7 +134,7 @@ class Login extends Component {
                     autoFocus
                     size={'small'}
                     margin="normal"
-                    label="Email"
+                    label="อีเมล"
                     type="email"
                     floatingLabelText="Email"
                     onChange={(event, newValue) => this.setState({ email: event.target.value })}
@@ -145,7 +145,7 @@ class Login extends Component {
                     autoFocus
                     size={'small'}
                     margin="normal"
-                    label="Password"
+                    label="รหัสผ่าน"
                     type="password"
                     onChange={(event, newValue) => this.setState({ password: event.target.value })}
                     variant="outlined"
@@ -155,7 +155,7 @@ class Login extends Component {
                     autoFocus
                     size={'small'}
                     margin="normal"
-                    label="Confirm Password"
+                    label="ยืนยันรหัสผ่าน"
                     type="password"
                     onChange={(event, newValue) => event.target.value === this.state.password ? this.setState({ checkpassword: true }) : this.setState({ checkpassword: false })}
                     variant="outlined"
@@ -164,6 +164,7 @@ class Login extends Component {
                   {this.state.checkpassword === false ? <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >Wrong Email or Password</InputLabel> : null}
                   <br />
                   <InputLabel htmlFor="age-native-simple">Role</InputLabel>
+                  <br />
                   <Select
                     native
                     value={this.state.role}
@@ -174,8 +175,8 @@ class Login extends Component {
                     }}
                   >
                     <option aria-label="None" value="" />
-                    <option value={'teacher'}>teacher</option>
-                    <option value={'student'}>student</option>
+                    <option value={'teacher'}>อาจารย์</option>
+                    <option value={'student'}>นักศึกษา</option>
                   </Select>
                 </div>
                 :
@@ -186,7 +187,7 @@ class Login extends Component {
                     autoFocus
                     size={'small'}
                     margin="normal"
-                    label="Email"
+                    label="อีเมล"
                     type="email"
                     floatingLabelText="Email"
                     onChange={(event, newValue) => this.setState({ email: event.target.value })}
@@ -198,7 +199,7 @@ class Login extends Component {
                     autoFocus
                     size={'small'}
                     margin="normal"
-                    label="password"
+                    label="รหัสผ่าน"
                     type="password"
                     floatingLabelText="Password"
                     onChange={(event, newValue) => this.setState({ password: event.target.value })}
@@ -206,17 +207,13 @@ class Login extends Component {
                   />
                 </div>
               }
-              <RaisedButton label="Submit" primary={true} style={{ marginTop: '17px' }} onClick={(event) => this.handleClick(event)} />
-
+              <RaisedButton label="ส่ง" primary={true} style={{ marginTop: '17px' }} onClick={(event) => this.handleClick(event)} />
+              <br />
 
               {this.state.status === false ? <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >Wrong Email or Password</InputLabel> : null}
               <br />
-              <Button size="small" value="" onClick={() => this.setState({ type: false })}>
-                Login
-                </Button>
-              <Button size="small" value="" onClick={() => this.setState({ type: true })}>
-                Register
-                </Button>
+              {this.state.type === true ? <Button size="small" value="" onClick={() => this.setState({ type: false })}>Login</Button> : <Button size="small" value="" onClick={() => this.setState({ type: true })}>Register</Button>}
+
             </div>
             <br />
           </MuiThemeProvider>
