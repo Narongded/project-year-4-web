@@ -80,8 +80,7 @@ class Chapter extends React.Component {
     render() {
         return (
             <div class="container" >
-                <Slidebar>
-                </Slidebar>
+                <Slidebar prop={this.props}/>
 
 
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">

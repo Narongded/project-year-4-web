@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-
+import * as React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -12,44 +11,78 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Menu from '@material-ui/core/Menu';
-class Slidebar extends Component {
+class Slidebar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      test: false,
+      openDrawer: false,
+      AnchorEl: null
     }
+    this.checkAuthen()
   }
+  checkAuthen = () => {
+  
+    const token = localStorage.getItem('token')
 
+    fetch('http://localhost:3001/checktoken', {
+      method: 'GET',
+      headers: {
+        'Authorization': `${token}`
+      }
+    }).then((res) => {
+      if (!res.ok) {
+        this.props.prop.history.push({
+          pathname: '/login',
+          state: { path: this.props.prop.location.pathname }
+        })
+      }
+     
+    })
+
+  }
+  handleRedirec = () => {
+    localStorage.clear()
+    this.props.prop.history.push({
+      pathname: '/login'
+    })
+  }
   componentDidMount() {
 
   }
   handleOpen = (value) => {
 
   }
+  handleMenu = (event) => {
+    this.setState({ AnchorEl: event.currentTarget });
+  };
+
   render() {
     return (
-      <div classname = 'mainslideBar' style = {{paddingBottom : '20px'}} >
+      <div classname='mainslideBar' style={{ paddingBottom: '20px' }} >
 
         <AppBar position="fixed">
           <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ test: true })} >
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ openDrawer: true })} >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" style={{marginRight : '89%'}}>
+            <Typography variant="h6" style={{ flexGrow: 1 }}>
               Photos
           </Typography>
 
             <div>
+              <span>{localStorage.getItem('firstname')} {localStorage.getItem('lastname')}</span>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="inherit"
-                >
+                onClick={this.handleMenu}
+              >
                 <AccountCircle />
               </IconButton>
               <Menu
                 id="menu-appbar"
+                anchorEl={this.state.AnchorEl}
                 anchorOrigin={{
                   vertical: 'top',
                   horizontal: 'right',
@@ -59,9 +92,10 @@ class Slidebar extends Component {
                   vertical: 'top',
                   horizontal: 'right',
                 }}
+                open={this.state.AnchorEl}
+                onClose={() => this.setState({ AnchorEl: null })}
               >
-                <MenuItem>Profile</MenuItem>
-                <MenuItem >My account</MenuItem>
+                <MenuItem onClick={this.handleRedirec}>Logout</MenuItem>
               </Menu>
             </div>
 
@@ -70,15 +104,15 @@ class Slidebar extends Component {
         <Drawer
           variant="temporary"
           anchor="left"
-          open={this.state.test}
-          onClick={() => this.setState({ test: false })}
+          open={this.state.openDrawer}
+          onClick={() => this.setState({ openDrawer: false })}
           style={{ width: '250px' }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
         >
           <div style={{ width: '250px' }}>
-            <Button onClick={()=> alert('asd') }>asdas</Button>
+            <Button onClick={() => alert('asd')}>asdas</Button>
             <p>asdsad</p>
             <p>asdsad</p><p>asdsad</p>
             <p>asdsad</p><p>asdsad</p>
