@@ -1,8 +1,6 @@
 import * as React from 'react';
 import WebViewer from '@pdftron/webviewer'
-
 import { Button, Grid } from '@material-ui/core';
-
 class Pdfano extends React.Component {
 
     constructor(props) {
@@ -19,7 +17,7 @@ class Pdfano extends React.Component {
     checkAuthen = () => {
         let check = null
         const token = localStorage.getItem('token')
-        console.log(token)
+      
         fetch('http://localhost:3001/checktoken', {
             method: 'GET',
             headers: {
