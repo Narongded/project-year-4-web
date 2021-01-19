@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './App.css';
 import WebViewer from '@pdftron/webviewer'
 
 import { Button, Grid } from '@material-ui/core';
