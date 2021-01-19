@@ -27,33 +27,47 @@ class Login extends Component {
   handleClick = async (event) => {
 
     if (this.state.type) {
-      const apiBaseUrl = "http://localhost:3001/regis";
-      const payload = {
-        "first_name": this.state.first_name,
-        "last_name": this.state.last_name,
-        "email": this.state.email,
-        "studentnumber": this.state.studentnumber,
-        "password": this.state.password,
-        "role": this.state.role
+      if (this.state.first_name === ''|| this.state.last_name === '' || this.state.email === '' 
+      || this.state.password === '' || this.state.role === '') {
+        this.setState({ dialog: true, mes: 'กรุณากรอกข้อมูลให้ครบถ้วน'})
+      } else if (this.state.role === 'นักศึกษา') {
+        if (this.state.studentnumber === '') {
+          this.setState({ dialog: true, mes: 'กรุณากรอกรหัสนักศึกษา'})
+        }
+      } else if (this.state.checkpassword === false) {
+        this.setState({ dialog: true, mes: 'รหัสผ่านไม่ตรงกัน'})
       }
-      fetch(apiBaseUrl, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      }).then((response) => response.json()
-      ).then((responseJson) => {
-        this.setState({ dialog: true, mes: responseJson.mes })
-        responseJson.mes === 'Success' ? this.setState({ type: false }) : this.setState({ type: true })
-      })
-        .catch((error) => {
-          console.error(error);
-        });
+      else {
+        const apiBaseUrl = "http://localhost:3001/regis";
+        const payload = {
+          "first_name": this.state.first_name,
+          "last_name": this.state.last_name,
+          "email": this.state.email,
+          "studentnumber": this.state.studentnumber,
+          "password": this.state.password,
+          "role": this.state.role
+        }
+        fetch(apiBaseUrl, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        }).then((response) => response.json()
+        ).then((responseJson) => {
+          this.setState({ dialog: true , mes : responseJson.mes})
+        })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     }
     else {
-      const apiBaseUrl = "http://localhost:3001/login";
+      if (this.state.email === '' || this.state.password === '') {
+        this.setState({ dialog: true, mes: 'กรุณากรอกข้อมูลให้ครบถ้วน'})
+      } else {
+        const apiBaseUrl = "http://localhost:3001/login";
       const payload = {
         "email": this.state.email,
         "password": this.state.password,
@@ -88,6 +102,7 @@ class Login extends Component {
         .catch((error) => {
           console.error(error);
         });
+      }
     }
   }
   componentDidMount() {
@@ -101,8 +116,8 @@ class Login extends Component {
           <MuiThemeProvider s>
             <div style={{ textAlign: 'center' }}>
               {this.state.type === true ?
-                <div style={{ marginTop: '5vw' }}>
-                  <p>สมัครสมาชิก</p>
+                <div style={{ paddingTop: '10%' }}>
+                  <h3>สมัครสมาชิก</h3>
                   <TextField
                     autoFocus
                     size={'small'}
@@ -121,15 +136,19 @@ class Login extends Component {
                     variant="outlined"
                   />
                   <br />
-                  <TextField
-                    autoFocus
-                    size={'small'}
-                    margin="normal"
-                    label="รหัสนักศึกษา"
-                    onChange={(event, newValue) => this.setState({ studentnumber: event.target.value })}
-                    variant="outlined"
-                  />
-                  <br />
+                  {this.state.role === 'student' ? 
+                    [
+                      <TextField
+                      autoFocus
+                      size={'small'}
+                      margin="normal"
+                      label="รหัสนักศึกษา"
+                      onChange={(event, newValue) => this.setState({ studentnumber: event.target.value })}
+                      variant="outlined"
+                      />,
+                      <br />
+                    ] : null}
+                  
                   <TextField
                     autoFocus
                     size={'small'}
@@ -161,7 +180,7 @@ class Login extends Component {
                     variant="outlined"
                   />
                   <br />
-                  {this.state.checkpassword === false ? <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >Wrong Email or Password</InputLabel> : null}
+                  {this.state.checkpassword === false ? <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >รหัสผ่านไม่ตรงกัน</InputLabel> : null}
                   <br />
                   <InputLabel htmlFor="age-native-simple">Role</InputLabel>
                   <br />
@@ -180,10 +199,9 @@ class Login extends Component {
                   </Select>
                 </div>
                 :
-                <div style={{ paddingTop: '200px' }}>
-                  <p>ลงชื่อเข้าสู่ระบบ</p>
+                <div style={{ paddingTop: '35%' }}>
+                  <h3>ลงชื่อเข้าสู่ระบบ</h3>
                   <TextField
-
                     autoFocus
                     size={'small'}
                     margin="normal"
@@ -205,14 +223,15 @@ class Login extends Component {
                     onChange={(event, newValue) => this.setState({ password: event.target.value })}
                     variant="outlined"
                   />
+                  <br />
+                  {this.state.status === false ? [ <br />, <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >อีเมลหรือรหัสผ่านไม่ถูกต้อง</InputLabel>] : null}
                 </div>
               }
               <RaisedButton label="ส่ง" primary={true} style={{ marginTop: '17px' }} onClick={(event) => this.handleClick(event)} />
               <br />
-
-              {this.state.status === false ? <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >Wrong Email or Password</InputLabel> : null}
               <br />
-              {this.state.type === true ? <Button size="small" value="" onClick={() => this.setState({ type: false })}>Login</Button> : <Button size="small" value="" onClick={() => this.setState({ type: true })}>Register</Button>}
+              {this.state.type === true ? <Button size="small" value="" onClick={() => this.setState({ type: false })}>เข้าสู่ระบบ</Button> : 
+              <Button size="small" value="" onClick={() => this.setState({ type: true })}>ลงทะเบียน</Button>}
 
             </div>
             <br />
@@ -227,7 +246,7 @@ class Login extends Component {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">{this.state.mes}</DialogTitle>
-
+       
           </Dialog>
         </div>
       </div>
