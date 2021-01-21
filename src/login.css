@@ -7,11 +7,34 @@
 @import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-react-pdfviewer/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-notifications/styles/material.css";
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap");
 
 body {
   margin: 0 0 0 0;
 }
-
+p {
+  font-size: 1rem;
+  font-family: "Kanit", sans-serif;
+}
+h3 {
+  font-size: 1rem;
+  font-family: "Kanit", sans-serif;
+}
+span {
+  font-size: 1rem;
+  font-family: "Kanit", sans-serif;
+}
+.MuiInputBase-root {
+  font-size: 1rem;
+  font-family: "Kanit", sans-serif !important;
+}
+fieldset {
+  font-size: 1rem;
+  font-family: "Kanit", sans-serif;
+}
+input{
+  font-family: "Kanit", sans-serif !important;
+}
 .main {
   display: flex;
   width: 100vw;
@@ -19,6 +42,9 @@ body {
   background: url(./img/itkmitl.jpg) no-repeat;
   -webkit-background-size: cover;
   background-size: cover;
+}
+.MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #e65100 !important;
 }
 .login {
   width: max-content;
@@ -31,8 +57,34 @@ body {
 .fill {
   display: block;
 }
+.cardlogin {
+  padding-top: 35%;
+}
 .card {
   width: 40%;
   padding-left: 3px;
   padding-right: 3px;
+  color: rgb(240 240 242);
+}
+.Button {
+  color: #e65100 !important;
+  border: 1px solid rgba(230, 81, 0, 0.5) !important;
+}
+.Button:hover {
+  background-color: #e6510052 !important;
+}
+
+.button-label {
+  color: rgba(238, 14, 14, 0.322);
+}
+
+@media (max-width: 1024px) {
+  .card {
+    width: 100%;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  .cardlogin {
+    padding-top: 25%;
+  }
 }

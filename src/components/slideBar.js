@@ -21,7 +21,7 @@ class Slidebar extends React.Component {
     this.checkAuthen()
   }
   checkAuthen = () => {
-  
+
     const token = localStorage.getItem('token')
 
     fetch('http://localhost:3001/checktoken', {
@@ -36,7 +36,7 @@ class Slidebar extends React.Component {
           state: { path: this.props.prop.location.pathname }
         })
       }
-     
+
     })
 
   }
@@ -60,7 +60,7 @@ class Slidebar extends React.Component {
     return (
       <div classname='mainslideBar' style={{ paddingBottom: '20px' }} >
 
-        <AppBar position="fixed">
+        <AppBar position="fixed" style={{ backgroundColor: '#e65100' }}>
           <Toolbar>
             <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ openDrawer: true })} >
               <MenuIcon />

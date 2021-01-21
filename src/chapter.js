@@ -8,6 +8,8 @@ import {
     TableHead, TableRow, Paper
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import Container from '@material-ui/core/Container';
+
 class Chapter extends React.Component {
     constructor(props) {
         super(props)
@@ -79,71 +81,69 @@ class Chapter extends React.Component {
 
     render() {
         return (
-            <div class="container" >
-                <Slidebar prop={this.props}/>
-
-
-                <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">บทเรียน</DialogTitle>
-                    <DialogContent style={{ width: '250px' }}>
-                        <TextField
-                            id="outlined-full-width"
-                            style={{ margin: 8 }}
-                            placeholder="กรุณากรอกบทเรียน"
-                            margin="normal"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            onChange={(event) => { this.setState({ chaptername: event.target.value }) }}
-                            variant="outlined"
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => this.setState({ open: false })} color="primary">
-                            Cancel
+            <Container maxWidth="lg">
+                    <Slidebar prop={this.props} />
+                    <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">บทเรียน</DialogTitle>
+                        <DialogContent style={{ width: '250px' }}>
+                            <TextField
+                                id="outlined-full-width"
+                                style={{ margin: 8 }}
+                                placeholder="กรุณากรอกบทเรียน"
+                                margin="normal"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={(event) => { this.setState({ chaptername: event.target.value }) }}
+                                variant="outlined"
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => this.setState({ open: false })} color="primary">
+                                Cancel
                          </Button>
-                        <Button onClick={this.handleClose} color="primary">
-                            Create
+                            <Button onClick={this.handleClose} color="primary">
+                                Create
                          </Button>
-                    </DialogActions>
-                </Dialog>
+                        </DialogActions>
+                    </Dialog>
 
-                <TableContainer component={Paper}>
-                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={this.handleClickOpen}>
-                        Create chapter
+                    <TableContainer component={Paper} >
+                        <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={this.handleClickOpen}>
+                            Create chapter
                      </Button>
-                    <Table aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>รายการวิชาบทเรียน</TableCell>
-                                <TableCell align="right">Calories</TableCell>
-                                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                                <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.state.loadchapter.map((value, index) => (
-                                <TableRow key={value.name}>
-                                    <TableCell component="th" scope="row">
-                                        {value.name}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.chapterid)}>
-                                            จัดการไฟล์
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell align="right">''</TableCell>
-                                    <TableCell align="right">''</TableCell>
-                                    <TableCell align="right">''</TableCell>
+                        <Table aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>รายการวิชาบทเรียน</TableCell>
+                                    <TableCell align="right">จัดการไฟล์บทเรียน</TableCell>
+                                    <TableCell align="right">แก้ไขบทเรียน</TableCell>
+                                    <TableCell align="right">ลบ</TableCell>
                                 </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.loadchapter.map((value, index) => (
+                                    <TableRow key={value.name}>
+                                        <TableCell component="th" scope="row">
+                                            {value.name}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.chapterid)}>
+                                                จัดการไฟล์
+                                        </Button>
+                                        </TableCell>
+                                        <TableCell align="right">''</TableCell>
+                                        <TableCell align="right">''</TableCell>
+                                    </TableRow>
 
-                            ))}
+                                ))}
 
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+            
+            </Container>
+
         )
     }
 }

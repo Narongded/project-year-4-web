@@ -17,6 +17,9 @@ class App extends Component {
   render() {
     return (
       <div className="App container" >
+        <Route exact path="/">
+          <Redirect to='/login'/>
+        </Route>
         <Route path="/login" component={Login} />
         <Route path="/student/:pdfid" component={Pdfano} />
         <Route path="/chapter/:userid" component={Chapter} />
