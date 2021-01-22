@@ -15,7 +15,7 @@ class Chapter extends React.Component {
         super(props)
         this.state = {
             open: false,
-            delete: false,
+            dialogType: '',
             chapterid: '',
             chaptername: '',
             loadchapter: []
@@ -44,6 +44,7 @@ class Chapter extends React.Component {
                 console.error(error);
             });
     }
+
     loadChapter = async () => {
         const apiBaseUrl = `http://localhost:3001/admin/getall-chapter/${localStorage.getItem('uid')}`;
         await fetch(apiBaseUrl, {
@@ -62,41 +63,69 @@ class Chapter extends React.Component {
                 console.error(error);
             });
     }
-    handleClickOpen = () => {
-        this.setState({
-            open: true
-        })
-    };
-    handleClickDelete = (chapterid) => {
-        this.setState({
-            delete: true,
-            chapterid: chapterid
-        })
-    }
-    handleRedirect = async (page, chapterid) => {
-        if (page === 'managepdf') this.props.history.push(`/managepdf/${chapterid}`);
 
-        if (page === 'delete') {
+    updateChapter = async (chapterid) => {
+        const apiBaseUrl = `http://localhost:3001/admin/update-chapter/${chapterid}`;
+        const payload = {
+            "chaptername": this.state.chaptername
+        }
+        await fetch(apiBaseUrl, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then((res) => res.json())
+            .then((res) => {
+                this.loadChapter()
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    deleteChapter = async (chapterid) => {
         const apiBaseUrl = `http://localhost:3001/admin/delete-chapter/${chapterid}`;
         await fetch(apiBaseUrl, {
             method: 'DELETE'
         }).then((res) => res.json())
             .then((res) => {
                 this.loadChapter()
-                this.setState({ delete: false })
             })
             .catch((error) => {
                 console.error(error);
             });
-        }
     }
 
-    handleClose = () => {
+    handleClickOpen = (dialogType, chapterid) => {
+        this.setState({
+            open: true,
+            dialogType: dialogType,
+            chapterid: chapterid
+        })
+    };
+
+    handleRedirect = async (page, chapterid) => {
+        if (page === 'managepdf') this.props.history.push(`/managepdf/${chapterid}`);
+    }
+
+    handleClose = (page, chapterid) => {
         this.setState({
             open: false
         })
-        this.createChapter()
+        console.log(chapterid)
+        if (page === 'create') {
+            this.createChapter()
+        } 
+        if (page === 'update') {
+            this.updateChapter(chapterid)
+        }
+        if (page === 'delete') {
+            this.deleteChapter(chapterid)
+        }
     };
+
     componentDidMount() {
         this.loadChapter()
 
@@ -107,48 +136,48 @@ class Chapter extends React.Component {
             <Container maxWidth="lg">
                     <Slidebar prop={this.props} />
                     <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
-                        <DialogTitle id="form-dialog-title">บทเรียน</DialogTitle>
-                        <DialogContent style={{ width: '250px' }}>
-                            <TextField
-                                id="outlined-full-width"
-                                style={{ margin: 8 }}
-                                placeholder="กรุณากรอกบทเรียน"
-                                margin="normal"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                onChange={(event) => { this.setState({ chaptername: event.target.value }) }}
-                                variant="outlined"
-                            />
-                        </DialogContent>
+                        { this.state.dialogType !== 'delete' ?
+                        <div>
+                            <DialogTitle id="form-dialog-title">บทเรียน</DialogTitle>
+                            <DialogContent style={{ width: '250px' }}>
+                                <TextField
+                                    id="outlined-full-width"
+                                    style={{ margin: 8 }}
+                                    placeholder="กรุณากรอกชื่อบทเรียน"
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(event) => { this.setState({ chaptername: event.target.value }) }}
+                                    variant="outlined"
+                                />
+                            </DialogContent>
+                        </div>
+                        :
+                        <DialogTitle id="form-dialog-title">ต้องการลบบทเรียน</DialogTitle>
+                        }
                         <DialogActions>
                             <Button onClick={() => this.setState({ open: false })} color="primary">
-                                Cancel
-                         </Button>
-                            <Button onClick={this.handleClose} color="primary">
-                                Create
-                         </Button>
-                        </DialogActions>
-                    </Dialog>
-
-                    <Dialog
-                        open={this.state.delete}
-                        onClose={false}
-                        aria-labelledby="alert-dialog-title"
-                    >
-                        <DialogTitle id="alert-dialog-title">{"ต้องการลบวิชา?"}</DialogTitle>
-                        <DialogActions>
-                        <Button onClick={() => this.setState({ delete: false })} color="primary">
-                            ยกเลิก
-                        </Button>
-                        <Button onClick={() => this.handleRedirect('delete', this.state.chapterid)} color="primary" autoFocus>
-                            ตกลง
-                        </Button>
+                                ยกเลิก
+                            </Button>
+                            { this.state.dialogType === 'create' ?
+                            <Button onClick={() => this.handleClose('create')} color="primary">
+                                สร้าง
+                            </Button>
+                            : this.state.dialogType === 'update' ?
+                            <Button onClick={() => this.handleClose('update', this.state.chapterid)} color="primary">
+                                แก้ไข
+                            </Button>
+                            :
+                            <Button onClick={() => this.handleClose('delete', this.state.chapterid)} color="primary" autoFocus>
+                                ตกลง
+                            </Button>
+                            }
                         </DialogActions>
                     </Dialog>
 
                     <TableContainer component={Paper} >
-                        <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={this.handleClickOpen}>
+                        <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={() => this.handleClickOpen('create')}>
                             Create chapter
                      </Button>
                         <Table aria-label="simple table">
@@ -162,7 +191,7 @@ class Chapter extends React.Component {
                             </TableHead>
                             <TableBody>
                                 {this.state.loadchapter.map((value, index) => (
-                                    <TableRow key={value.name}>
+                                    <TableRow key={index}>
                                         <TableCell component="th" scope="row">
                                             {value.name}
                                         </TableCell>
@@ -171,9 +200,13 @@ class Chapter extends React.Component {
                                                 จัดการไฟล์
                                         </Button>
                                         </TableCell>
-                                        <TableCell align="right">''</TableCell>
                                         <TableCell align="right">
-                                            <Button color="primary" onClick={() => this.handleClickDelete(value.chapterid)}>
+                                            <Button color="primary" onClick={() => this.handleClickOpen('update', value.chapterid)}>
+                                                แก้ไข
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Button color="primary" onClick={() => this.handleClickOpen('delete', value.chapterid)}>
                                                 ลบ
                                             </Button>
                                         </TableCell>

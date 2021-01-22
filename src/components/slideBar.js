@@ -58,7 +58,7 @@ class Slidebar extends React.Component {
 
   render() {
     return (
-      <div classname='mainslideBar' style={{ paddingBottom: '20px' }} >
+      <div className='mainslideBar' style={{ paddingBottom: '20px' }} >
 
         <AppBar position="fixed" style={{ backgroundColor: '#e65100' }}>
           <Toolbar>
