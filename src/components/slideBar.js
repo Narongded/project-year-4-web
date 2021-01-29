@@ -62,12 +62,14 @@ class Slidebar extends React.Component {
 
         <AppBar position="fixed" style={{ backgroundColor: '#e65100' }}>
           <Toolbar>
+            {this.props.openSlide &&
             <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ openDrawer: true })} >
               <MenuIcon />
             </IconButton>
+            }
             <Typography variant="h6" style={{ flexGrow: 1 }}>
-              Photos
-          </Typography>
+              {this.props.appBarName}
+            </Typography>
 
             <div>
               <span>{localStorage.getItem('firstname')} {localStorage.getItem('lastname')}</span>
@@ -101,6 +103,7 @@ class Slidebar extends React.Component {
 
           </Toolbar>
         </AppBar>
+        {this.props.openSlide &&
         <Drawer
           variant="temporary"
           anchor="left"
@@ -119,6 +122,7 @@ class Slidebar extends React.Component {
             <p>asdsad</p>
           </div>
         </Drawer>
+        }
       </div>
     )
   }

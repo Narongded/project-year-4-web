@@ -120,9 +120,9 @@ class Login extends Component {
                 <div style={{ paddingTop: '7%' }}>
                   <h3>สมัครสมาชิก</h3>
                   <p style={{ marginRight: '169px' }}>Role</p>
-                  <RadioGroup style={{ display: 'inherit', flexWrap: 'wrap', flexDirection: 'column' }} aria-label="gender" value={this.state.role} name="role" onChange={(e) => this.setState({ role: e.target.value })}>
-                    <FormControlLabel value="teacher" control={<Radio size={'small'} color="primary" />} label="teacher" />
-                    <FormControlLabel value="student" control={<Radio size={'small'} color="primary" />} label="student" />
+                  <RadioGroup style={{ display: 'inherit', flexWrap: 'wrap', flexDirection: 'column' }} aria-label="role" value={this.state.role} name="role" onChange={(e) => this.setState({ role: e.target.value })}>
+                    <FormControlLabel value="teacher" control={<Radio size={'small'} color="primary" />} label="อาจารย์" />
+                    <FormControlLabel value="student" control={<Radio size={'small'} color="primary" />} label="นักศึกษา" />
                   </RadioGroup>
                   <TextField
                     classes={{

@@ -134,9 +134,9 @@ class Chapter extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                    <Slidebar prop={this.props} />
+                    <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
                     <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
-                        { this.state.dialogType !== 'delete' ?
+                        {this.state.dialogType !== 'delete' ?
                         <div>
                             <DialogTitle id="form-dialog-title">บทเรียน</DialogTitle>
                             <DialogContent style={{ width: '250px' }}>
@@ -160,7 +160,7 @@ class Chapter extends React.Component {
                             <Button onClick={() => this.setState({ open: false })} color="primary">
                                 ยกเลิก
                             </Button>
-                            { this.state.dialogType === 'create' ?
+                            {this.state.dialogType === 'create' ?
                             <Button onClick={() => this.handleClose('create')} color="primary">
                                 สร้าง
                             </Button>
@@ -177,9 +177,9 @@ class Chapter extends React.Component {
                     </Dialog>
 
                     <TableContainer component={Paper} >
-                        <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={() => this.handleClickOpen('create')}>
-                            Create chapter
-                     </Button>
+                        <Button variant="contained" color="primary" style={{ marginTop: '5vw' }} onClick={() => this.handleClickOpen('create')}>
+                            สร้างวิชา
+                        </Button>
                         <Table aria-label="simple table">
                             <TableHead>
                                 <TableRow>
