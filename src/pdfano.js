@@ -1,6 +1,8 @@
 import * as React from 'react';
 import WebViewer from '@pdftron/webviewer'
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Container } from '@material-ui/core';
+import Slidebar from './components/slideBar';
+
 class Pdfano extends React.Component {
 
     constructor(props) {
@@ -17,7 +19,7 @@ class Pdfano extends React.Component {
     checkAuthen = () => {
         let check = null
         const token = localStorage.getItem('token')
-      
+
         fetch('http://localhost:3001/checktoken', {
             method: 'GET',
             headers: {
@@ -38,7 +40,7 @@ class Pdfano extends React.Component {
         })
 
     }
-   
+
     loadpdf = async () => {
         const apiBaseUrl = `http://localhost:3001/user/getfile-pdf/${this.props.match.params.pdfid}`;
         await fetch(apiBaseUrl, {
@@ -56,7 +58,7 @@ class Pdfano extends React.Component {
                 console.error(error);
             });
 
-            this.showpdf()
+        this.showpdf()
     }
 
     showpdf = () => WebViewer(
@@ -67,8 +69,8 @@ class Pdfano extends React.Component {
         this.viewerRef.current,
     ).then((instance) => {
         const { docViewer } = instance;
-        instance.disableElements([ 'leftPanel', 'leftPanelButton' ]);
-        
+        instance.disableElements(['leftPanel', 'leftPanelButton']);
+
         // you can now call WebViewer APIs here...
     });
 
@@ -78,22 +80,22 @@ class Pdfano extends React.Component {
     render() {
         return (
 
-            <div class="container">
-
-                    <Grid container direction="row" >
-                        <Grid item xs={12}>
-                            <div className="MyComponent">
-                                <div className="header">React sample</div>
-                                <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
-                            </div>
-                        </Grid>
-                        <Grid item xs={4} >
-                            <Button onClick={this.handleSelectUrl}>asdas</Button>
-
-                        </Grid>
+            <Container maxWidth = 'lg'>
+                <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
+                <Grid container direction="row" >
+                    <Grid item xs={12}>
+                        <div className="MyComponent">
+                            <div className="header">React sample</div>
+                            <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
+                        </div>
                     </Grid>
-    
-            </div>
+                    <Grid item xs={4} >
+                        <Button onClick={this.handleSelectUrl}>asdas</Button>
+
+                    </Grid>
+                </Grid>
+
+            </Container >
         )
     }
 }
@@ -101,29 +103,29 @@ class Pdfano extends React.Component {
 
 
 
-    // encodeBase64 = (file) => new Promise((resolve, reject) => {
-    //     const reader = new FileReader();
-    //     reader.readAsDataURL(file);
-    //     reader.onload = () => resolve(this.setState({ base64: reader.result }));
-    //     reader.onerror = error => reject(error);
-    //     console.log(this.state.base64)
-    // });
+// encodeBase64 = (file) => new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = () => resolve(this.setState({ base64: reader.result }));
+//     reader.onerror = error => reject(error);
+//     console.log(this.state.base64)
+// });
 
 
-     // handleSelectUrl = (pdfpath) => {
+// handleSelectUrl = (pdfpath) => {
 
-    //     // tslint:disable-next-line:one-variable-per-declaration
-    //     fetch(`http://localhost:3000/static/pdf/${pdfpath}`)
-    //         .then(res => res.blob()) // Gets the response and returns it as a blob
-    //         .then(blob => {
-    //             const metadata = {
-    //                 type: 'application/pdf'
-    //             };
-    //             const file = new File([blob], 'test.jpg', metadata);
-    //             this.encodeBase64(file)
+//     // tslint:disable-next-line:one-variable-per-declaration
+//     fetch(`http://localhost:3000/static/pdf/${pdfpath}`)
+//         .then(res => res.blob()) // Gets the response and returns it as a blob
+//         .then(blob => {
+//             const metadata = {
+//                 type: 'application/pdf'
+//             };
+//             const file = new File([blob], 'test.jpg', metadata);
+//             this.encodeBase64(file)
 
-    //         });
+//         });
 
-    // }
+// }
 export default Pdfano
 

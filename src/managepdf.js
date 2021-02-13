@@ -194,14 +194,14 @@ class Managepdf extends React.Component {
                                     </TableCell>
                                     <TableCell>
                                         <Button color="primary"asd
-                                            onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.pdfid}`)}
+                                            onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
                                                 >
                                                 คัดลอก
                                             </Button>
 
                                     </TableCell>
                                     <TableCell align="right">
-                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.pdfid)}>
+                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.tpid)}>
                                             ลบ
                                             </Button>
                                     </TableCell>

@@ -10,7 +10,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 
-class Chapter extends React.Component {
+class Studentchapter extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -127,7 +127,7 @@ class Chapter extends React.Component {
     };
 
     componentDidMount() {
-        this.loadChapter()
+        // this.loadChapter()
 
     }
 
@@ -196,17 +196,17 @@ class Chapter extends React.Component {
                                             {value.name}
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.cid)}>
+                                            <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.chapterid)}>
                                                 จัดการไฟล์
                                         </Button>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Button color="primary" onClick={() => this.handleClickOpen('update', value.cid)}>
+                                            <Button color="primary" onClick={() => this.handleClickOpen('update', value.chapterid)}>
                                                 แก้ไข
                                             </Button>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Button color="primary" onClick={() => this.handleClickOpen('delete', value.cid)}>
+                                            <Button color="primary" onClick={() => this.handleClickOpen('delete', value.chapterid)}>
                                                 ลบ
                                             </Button>
                                         </TableCell>
@@ -224,5 +224,5 @@ class Chapter extends React.Component {
     }
 }
 
-export default Chapter
+export default Studentchapter
 

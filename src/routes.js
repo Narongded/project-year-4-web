@@ -4,7 +4,8 @@ import Pdfano from './pdfano'
 import Login from './login'
 import Chapter from './chapter'
 import Managepdf from './managepdf'
-class App extends Component {
+import Studentchapter from './studentChapter'
+class Routes extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -24,10 +25,11 @@ class App extends Component {
         <Route path="/student/:pdfid" component={Pdfano} />
         <Route path="/chapter/:userid" component={Chapter} />
         <Route path="/managepdf/:chapterid" component={Managepdf} />
+        <Route path= "/student-chapter/:userid" component = {Studentchapter}/>
       </div>
     )
   }
 }
 
-export default App
+export default Routes
 
