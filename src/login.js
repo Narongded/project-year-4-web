@@ -111,130 +111,45 @@ class Login extends Component {
 
   }
   render() {
-
     return (
       <div className="main">
         <Card className='card'>
           <MuiThemeProvider >
-            <div  style={{ textAlign: 'center' }}>
-              {this.state.type === true ?
-                <div style={{ paddingTop: '7%' }}>
-                  <h3>สมัครสมาชิก</h3>
-                  <p style={{ marginRight: '169px' }}>Role</p>
-                  <RadioGroup style={{ display: 'inherit', flexWrap: 'wrap', flexDirection: 'column' }} aria-label="role" value={this.state.role} name="role" onChange={(e) => this.setState({ role: e.target.value })}>
-                    <FormControlLabel value="teacher" control={<Radio size={'small'} color="primary" />} label="อาจารย์" />
-                    <FormControlLabel value="student" control={<Radio size={'small'} color="primary" />} label="นักศึกษา" />
-                  </RadioGroup>
-                  <TextField
-                    classes={{
-                      root: 'asd'
-                    }}
-                    size={'small'}
-                    margin="normal"
-                    label="ชื่อจริง"
-                    onChange={event => this.setState({ first_name: event.target.value })}
-                    variant="outlined"
-                  />
-                  <br />
-                  <TextField
-                    autoFocus
-                    size={'small'}
-                    margin="normal"
-                    label="นามสกุล"
-                    onChange={(event, newValue) => this.setState({ last_name: event.target.value })}
-                    variant="outlined"
-                  />
-                  <br />
-                  {this.state.role === 'student' ?
-                    [
-                      <TextField
-                        autoFocus
-                        size={'small'}
-                        margin="normal"
-                        label="รหัสนักศึกษา"
-                        onChange={(event, newValue) => this.setState({ studentnumber: event.target.value })}
-                        variant="outlined"
-                      />,
-                      <br />
-                    ] : null}
-
-                  <TextField
-                    autoFocus
-                    size={'small'}
-                    margin="normal"
-                    label="อีเมล"
-                    type="email"
-                    floatingLabelText="Email"
-                    onChange={(event, newValue) => this.setState({ email: event.target.value })}
-                    variant="outlined"
-                  />
-                  <br />
-                  <TextField
-                    autoFocus
-                    size={'small'}
-                    margin="normal"
-                    label="รหัสผ่าน"
-                    type="password"
-                    onChange={(event, newValue) => this.setState({ password: event.target.value })}
-                    variant="outlined"
-                  />
-                  <br />
-                  <TextField
-                    autoFocus
-                    size={'small'}
-                    margin="normal"
-                    label="ยืนยันรหัสผ่าน"
-                    type="password"
-                    onChange={(event, newValue) => event.target.value === this.state.password ? this.setState({ checkpassword: true }) : this.setState({ checkpassword: false })}
-                    variant="outlined"
-                  />
-                  <br />
-                  {this.state.checkpassword === false ? <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >รหัสผ่านไม่ตรงกัน</InputLabel> : null}
-
-
-                </div>
-                :
-                <div  className = 'cardlogin' >
-                  <h3>ลงชื่อเข้าสู่ระบบ</h3>
-                  <TextField
-                    autoFocus
-                    size={'small'}
-                    margin="normal"
-                    label="อีเมล"
-                    type="email"
-                    floatingLabelText="Email"
-                    onChange={(event, newValue) => this.setState({ email: event.target.value })}
-                    variant="outlined"
-                  />
-                  <br />
-                  <TextField
-
-                    autoFocus
-                    size={'small'}
-                    margin="normal"
-                    label="รหัสผ่าน"
-                    type="password"
-                    floatingLabelText="Password"
-                    onChange={(event, newValue) => this.setState({ password: event.target.value })}
-                    variant="outlined"
-                  />
-                  <br />
-                  {this.state.status === false ? [<br />, <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >อีเมลหรือรหัสผ่านไม่ถูกต้อง</InputLabel>] : null}
-                </div>
-              }
+            <div style={{ textAlign: 'center' }}>
+              <div className='cardlogin' >
+                <h3>ลงชื่อเข้าสู่ระบบ</h3>
+                <TextField
+                  autoFocus
+                  size={'small'}
+                  margin="normal"
+                  label="อีเมล"
+                  type="email"
+                  floatingLabelText="Email"
+                  onChange={(event, newValue) => this.setState({ email: event.target.value })}
+                  variant="outlined"
+                />
+                <br />
+                <TextField
+                  autoFocus
+                  size={'small'}
+                  margin="normal"
+                  label="รหัสผ่าน"
+                  type="password"
+                  floatingLabelText="Password"
+                  onChange={(event, newValue) => this.setState({ password: event.target.value })}
+                  variant="outlined"
+                />
+                <br />
+                {this.state.status === false ? [<br />, <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >อีเมลหรือรหัสผ่านไม่ถูกต้อง</InputLabel>] : null}
+              </div>
               <br />
               <Button classes={{ root: 'Button' }} onClick={(event) => this.handleClick(event)}>ส่ง</Button>
               <br />
               <br />
-              {this.state.type === true ? <Button size="small" value="" onClick={() => this.setState({ type: false })}>เข้าสู่ระบบ</Button> :
-                <Button size="small" value="" onClick={() => this.setState({ type: true })}>ลงทะเบียน</Button>}
             </div>
-
           </MuiThemeProvider>
         </Card>
-
         <div>
-
           <Dialog
             open={this.state.dialog}
             onClick={() => this.setState({ dialog: false })}
