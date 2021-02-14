@@ -69,11 +69,14 @@ class Pdfano extends React.Component {
         this.viewerRef.current,
     ).then((instance) => {
         const { docViewer, annotManager } = instance;
+        var FitMode = instance.FitMode;
+        instance.setFitMode(FitMode.FitWidth);
         instance.disableElements(['leftPanel', 'leftPanelButton']);
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
                 img: 'assets/icons/itkmitl.jpg',
+                title: "save to server",
                 onClick: async () => {
                     const doc = docViewer.getDocument();
                     const xfdfString = await annotManager.exportAnnotations();
@@ -95,15 +98,9 @@ class Pdfano extends React.Component {
         return (
 
             <Container maxWidth='lg' style={{ marginTop: '50px' }}>
-
-
-
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
                 <div className="header">React sample</div>
                 <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
-
-
-
             </Container >
         )
     }
