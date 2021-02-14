@@ -2,7 +2,7 @@ import * as React from 'react';
 import WebViewer from '@pdftron/webviewer'
 import { Button, Grid, Container } from '@material-ui/core';
 import Slidebar from './components/slideBar';
-
+import { saveAs } from 'file-saver';
 class Pdfano extends React.Component {
 
     constructor(props) {
@@ -68,9 +68,23 @@ class Pdfano extends React.Component {
         },
         this.viewerRef.current,
     ).then((instance) => {
-        const { docViewer } = instance;
+        const { docViewer, annotManager } = instance;
         instance.disableElements(['leftPanel', 'leftPanelButton']);
-
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
+                onClick: async () => {
+                    const doc = docViewer.getDocument();
+                    const xfdfString = await annotManager.exportAnnotations();
+                    const options = { xfdfString };
+                    const data = await doc.getFileData(options);
+                    const arr = new Uint8Array(data);
+                    const blob = new Blob([arr], { type: 'application/pdf' });
+                    window.saveAs(blob, 'downloaded.pdf');
+                }
+            });
+        });
         // you can now call WebViewer APIs here...
     });
 
@@ -80,20 +94,15 @@ class Pdfano extends React.Component {
     render() {
         return (
 
-            <Container maxWidth = 'lg'>
-                <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
-                <Grid container direction="row" >
-                    <Grid item xs={12}>
-                        <div className="MyComponent">
-                            <div className="header">React sample</div>
-                            <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
-                        </div>
-                    </Grid>
-                    <Grid item xs={4} >
-                        <Button onClick={this.handleSelectUrl}>asdas</Button>
+            <Container maxWidth='lg' style={{ marginTop: '50px' }}>
 
-                    </Grid>
-                </Grid>
+
+
+                <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
+                <div className="header">React sample</div>
+                <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
+
+
 
             </Container >
         )

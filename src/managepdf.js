@@ -3,8 +3,10 @@ import * as React from 'react';
 import SlideBar from './components/slideBar'
 import { Redirect } from "react-router-dom";
 import {
-    InputLabel, Button, Grid, TextField, Dialog, DialogActions, DialogContent, DialogContentText,
-    DialogTitle, TableContainer, Paper, Table, TableHead, TableBody, TableRow, TableCell
+    AppBar, IconButton, Toolbar, Button, Grid,
+    TextField, Dialog, DialogActions, DialogContent,
+    DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
+    TableHead, TableRow, Paper
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 
@@ -18,7 +20,9 @@ class Managepdf extends React.Component {
             pdfname: '',
             loadPdf: [],
             file: null,
-            fileName: null
+            fileName: null,
+            rowperpage: 5,
+            page: 0
         }
     }
     uploadPdf = async () => {
@@ -162,7 +166,7 @@ class Managepdf extends React.Component {
                 </Dialog>
 
                 <TableContainer component={Paper}>
-                    <Button variant="contained" color="primary" style={{ marginTop: '5vw' }} onClick={() => this.handleClickOpen('create')}>
+                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={() => this.handleClickOpen('create')}>
                         อัปโหลดเอกสารบทเรียน
                     </Button>
 
@@ -177,7 +181,9 @@ class Managepdf extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.loadPdf.map((value, index) => (
+                            {(this.state.rowperpage > 0 ? this.state.loadPdf.slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
+                                : this.state.loadPdf
+                            ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
                                         {value.pdfname}
@@ -193,10 +199,10 @@ class Managepdf extends React.Component {
                                         </Button>
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary"asd
+                                        <Button color="primary" asd
                                             onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
-                                                >
-                                                คัดลอก
+                                        >
+                                            คัดลอก
                                             </Button>
 
                                     </TableCell>
@@ -206,10 +212,25 @@ class Managepdf extends React.Component {
                                             </Button>
                                     </TableCell>
                                 </TableRow>
-
                             ))}
-
                         </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                    colSpan={5}
+                                    count={this.state.loadPdf.length}
+                                    rowsPerPage={this.state.rowperpage}
+                                    page={this.state.page}
+                                    SelectProps={{
+                                        inputProps: { 'aria-label': 'rows per page' },
+                                        native: true,
+                                    }}
+                                    onChangePage={(event, newPage) => this.setState({ page: newPage })}
+                                    onChangeRowsPerPage={(event) => this.setState({ rowperpage: parseInt(event.target.value, 10) })}
+                                />
+                            </TableRow>
+                        </TableFooter>
                     </Table>
                 </TableContainer>
             </Container>
