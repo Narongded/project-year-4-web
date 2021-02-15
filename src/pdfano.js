@@ -53,6 +53,7 @@ class Pdfano extends React.Component {
         }).then((res) => res.json())
             .then((res) => {
                 this.setState({ loadpdf: res.data })
+
             })
             .catch((error) => {
                 console.error(error);
@@ -84,7 +85,20 @@ class Pdfano extends React.Component {
                     const data = await doc.getFileData(options);
                     const arr = new Uint8Array(data);
                     const blob = new Blob([arr], { type: 'application/pdf' });
-                    window.saveAs(blob, 'downloaded.pdf');
+                    const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf";
+                    const formData = new FormData();
+                    formData.append('file', blob);
+                    formData.append('userid', localStorage.getItem('uid'));
+                    formData.append('teacherpdf_tpid', this.props.match.params.pdfid);
+                    await fetch(apiBaseUrl, {
+                        method: 'POST',
+                        body: formData
+                    }).then((res) => res.json())
+                        .then((res) => {
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
                 }
             });
         });
@@ -98,7 +112,11 @@ class Pdfano extends React.Component {
         return (
 
             <Container maxWidth='lg' style={{ marginTop: '50px' }}>
+
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
+                <Button onClick={() => this.setState({ open: false })} color="primary">
+                    ยกเลิก
+                            </Button>
                 <div className="header">React sample</div>
                 <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
             </Container >
