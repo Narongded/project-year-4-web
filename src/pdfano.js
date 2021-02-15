@@ -2,12 +2,18 @@ import * as React from 'react';
 import WebViewer from '@pdftron/webviewer'
 import { Button, Grid, Container } from '@material-ui/core';
 import Slidebar from './components/slideBar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { saveAs } from 'file-saver';
 class Pdfano extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            open: false,
             base64: '',
             check: null,
             loadpdf: []
@@ -90,6 +96,7 @@ class Pdfano extends React.Component {
                     formData.append('file', blob);
                     formData.append('userid', localStorage.getItem('uid'));
                     formData.append('teacherpdf_tpid', this.props.match.params.pdfid);
+                    this.handleOpen();
                     await fetch(apiBaseUrl, {
                         method: 'POST',
                         body: formData
@@ -104,6 +111,12 @@ class Pdfano extends React.Component {
         });
         // you can now call WebViewer APIs here...
     });
+    
+    handleOpen = () => {
+        this.setState({
+            open: true
+        })
+    }
 
     componentDidMount() {
 
@@ -112,6 +125,20 @@ class Pdfano extends React.Component {
         return (
 
             <Container maxWidth='lg' style={{ marginTop: '50px' }}>
+
+                <Dialog
+                    open={this.state.open}
+                    onClose={false}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"บันทึกแล้ว"}</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ open: false })} color="primary">
+                            ปิด
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
                 <Button onClick={() => this.setState({ open: false })} color="primary">
