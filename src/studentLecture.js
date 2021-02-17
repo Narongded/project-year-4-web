@@ -8,15 +8,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { saveAs } from 'file-saver';
-class Pdfano extends React.Component {
+class Studentlecture extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             open: false,
             base64: '',
-            check: null,
-            loadpdf: []
+            check: null
         }
         this.viewerRef = React.createRef();
         this.checkAuthen()
@@ -40,38 +39,16 @@ class Pdfano extends React.Component {
             }
             else {
                 this.setState({ check: true })
-                this.loadpdf()
                 res.json()
             }
         })
 
     }
 
-    loadpdf = async () => {
-        const apiBaseUrl = `http://localhost:3001/user/getfile-pdf/${this.props.match.params.pdfid}`;
-        await fetch(apiBaseUrl, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-
-        }).then((res) => res.json())
-            .then((res) => {
-                this.setState({ loadpdf: res.data })
-
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-
-        this.showpdf()
-    }
-
     showpdf = () => WebViewer(
         {
             path: '/lib',
-            initialDoc: `http://localhost:3001/static/pdf/${this.state.loadpdf[0].tpdfpath}`,
+            initialDoc: `http://localhost:3001/static/pdf/${this.props.location.state.pdfpath}`,
         },
         this.viewerRef.current,
     ).then((instance) => {
@@ -95,7 +72,7 @@ class Pdfano extends React.Component {
                     const formData = new FormData();
                     formData.append('file', blob);
                     formData.append('userid', localStorage.getItem('email'));
-                    formData.append('teacherpdf_tpid', this.props.match.params.pdfid);
+                    formData.append('teacherpdf_tpid', this.props.match.params.lectureid);
                     this.handleOpen();
                     await fetch(apiBaseUrl, {
                         method: 'POST',
@@ -119,13 +96,12 @@ class Pdfano extends React.Component {
     }
 
     componentDidMount() {
-
+        this.showpdf()
     }
     render() {
         return (
 
             <Container maxWidth='lg' style={{ marginTop: '50px' }}>
-
                 <Dialog
                     open={this.state.open}
                     onClose={false}
@@ -139,8 +115,8 @@ class Pdfano extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
+         
                 <Button onClick={() => this.setState({ open: false })} color="primary">
                     ยกเลิก
                             </Button>
@@ -178,4 +154,5 @@ class Pdfano extends React.Component {
 //         });
 
 // }
-export default Pdfano
+export default Studentlecture
+

@@ -23,8 +23,16 @@ class Login extends Component {
       dialog: false,
       mes: '',
     }
+   
   }
-
+  handleAuthenicate = () => {
+    try {
+      if (localStorage.getItem('role') === 'teacher') this.props.history.push(`/chapter/${localStorage.getItem('uid')}`);
+      else if (localStorage.getItem('role') === 'student') this.props.history.push(`/student-chapter/${localStorage.getItem('email')}`);
+    } catch (error) {
+      
+    }
+  }
   handleClick = async (event) => {
 
     if (this.state.type) {
@@ -96,7 +104,7 @@ class Login extends Component {
                 else this.props.history.push(`${this.props.location.state.path}`);
               } catch (error) {
                 if (res.data.role === 'teacher') this.props.history.push(`/chapter/${res.data.uid}`);
-                else this.props.history.push(`/student-chapter/${res.data.uid}`);
+                else this.props.history.push(`/student-chapter/${res.data.email}`);
               }
 
             }
@@ -108,7 +116,7 @@ class Login extends Component {
     }
   }
   componentDidMount() {
-
+    this.handleAuthenicate()
   }
   render() {
     return (

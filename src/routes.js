@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import Pdfano from './pdfano'
 import Login from './login'
-import Chapter from './chapter'
-import Managepdf from './managepdf'
+import Chapter from './teacherChapter'
+import Managepdf from './teacherManagepdf'
 import Studentchapter from './studentChapter'
-import StudentPdf from './studentPdf'
+import StudentPdf from './studentFilepdf'
+import Studentlecture from './studentLecture'
 class Routes extends Component {
   constructor(props) {
     super(props)
@@ -27,7 +28,8 @@ class Routes extends Component {
         <Route path="/chapter/:userid" component={Chapter} />
         <Route path="/managepdf/:chapterid" component={Managepdf} />
         <Route path= "/student-chapter/:userid" component = {Studentchapter}/>
-        <Route path= "/student-pdf/:chapterid" component = {StudentPdf}/>
+        <Route path= "/student-pdf/:userid/:chapterid" component = {StudentPdf}/>
+        <Route path= "/student-lecture/:userid/:lectureid" component = {Studentlecture}/>
       </div>
     )
   }

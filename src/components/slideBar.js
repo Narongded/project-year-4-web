@@ -16,7 +16,7 @@ class Slidebar extends React.Component {
     super(props)
     this.state = {
       openDrawer: false,
-      AnchorEl: null
+      AnchorEl: null,
     }
     this.checkAuthen()
   }
@@ -57,6 +57,7 @@ class Slidebar extends React.Component {
   };
 
   render() {
+
     return (
       <div className='mainslideBar' style={{ paddingBottom: '20px' }} >
 

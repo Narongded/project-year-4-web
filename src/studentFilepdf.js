@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 
-class Managepdf extends React.Component {
+class StudentPdf extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -51,7 +51,7 @@ class Managepdf extends React.Component {
     }
 
     loadPdf = async () => {
-        const apiBaseUrl = `http://localhost:3001/admin/getfile-pdf/${this.props.match.params.chapterid}`;
+        const apiBaseUrl = `http://localhost:3001/user/getdata-lecture/${localStorage.getItem('email')}/${this.props.match.params.chapterid}`;
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
@@ -69,7 +69,7 @@ class Managepdf extends React.Component {
     }
 
     deletePdf = async (pdfid) => {
-        const apiBaseUrl = `http://localhost:3001/admin/delete-pdf/${pdfid}`;
+        const apiBaseUrl = `http://localhost:3001/user/delete-pdf/${pdfid}`;
         await fetch(apiBaseUrl, {
             method: 'DELETE'
         }).then((res) => res.json())
@@ -88,6 +88,10 @@ class Managepdf extends React.Component {
             pdfid: pdfid
         })
     };
+
+    handleRedirect = (page, sid) => {
+        // if (page === 'openpdf') this.props.history.push(`/student/${sid}`);
+    }
 
     handleClose = (page, pdfid) => {
         this.setState({
@@ -189,7 +193,14 @@ class Managepdf extends React.Component {
                                         {value.pdfname}
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary" >
+                                        <Button color="primary"
+                                            onClick={() => {
+                                                this.props.history.push({
+                                                    pathname: `/student-lecture/${localStorage.getItem('email')}/${value.teacherpdf_tpid}`,
+                                                    state: { pdfpath: value.spdfname }
+                                                })
+                                            }}
+                                        >
                                             ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
@@ -199,15 +210,13 @@ class Managepdf extends React.Component {
                                         </Button>
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary" asd
-                                            onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
-                                        >
-                                            คัดลอก
+                                        <Button color="primary">
+                                            เปิด
                                             </Button>
 
                                     </TableCell>
                                     <TableCell align="right">
-                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.tpid)}>
+                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.spid)}>
                                             ลบ
                                             </Button>
                                     </TableCell>
@@ -238,5 +247,5 @@ class Managepdf extends React.Component {
     }
 }
 
-export default Managepdf
+export default StudentPdf
 

@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 
-class StudentPdf extends React.Component {
+class Managepdf extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -51,7 +51,7 @@ class StudentPdf extends React.Component {
     }
 
     loadPdf = async () => {
-        const apiBaseUrl = `http://localhost:3001/user/getchapter/${localStorage.getItem('uid')}`;
+        const apiBaseUrl = `http://localhost:3001/admin/getfile-pdf/${this.props.match.params.chapterid}`;
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
@@ -69,7 +69,7 @@ class StudentPdf extends React.Component {
     }
 
     deletePdf = async (pdfid) => {
-        const apiBaseUrl = `http://localhost:3001/user/delete-pdf/${pdfid}`;
+        const apiBaseUrl = `http://localhost:3001/admin/delete-pdf/${pdfid}`;
         await fetch(apiBaseUrl, {
             method: 'DELETE'
         }).then((res) => res.json())
@@ -88,10 +88,6 @@ class StudentPdf extends React.Component {
             pdfid: pdfid
         })
     };
-
-    handleRedirect = (page, sid) => {
-        // if (page === 'openpdf') this.props.history.push(`/student/${sid}`);
-    }
 
     handleClose = (page, pdfid) => {
         this.setState({
@@ -139,7 +135,11 @@ class StudentPdf extends React.Component {
                                     id="contained-button-file"
                                     multiple
                                     type="file"
-                                    onChange={(event) => this.setState({ file: event.target.files[0], fileName: event.target.files[0].name })}
+                                    onChange={(event) =>
+                                        event.target.files[0].name === undefined ?
+                                            this.setState({ file: null, fileName: null })
+                                            :
+                                            this.setState({ file: event.target.files[0], fileName: event.target.files[0].name })}
                                 />
                                 <label htmlFor="contained-button-file">
                                     <Button variant="contained" color="primary" component="span">
@@ -204,14 +204,14 @@ class StudentPdf extends React.Component {
                                     </TableCell>
                                     <TableCell>
                                         <Button color="primary" asd
-                                            onClick={() => this.handleRedirect('openpdf', value.sid)}
+                                            onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
                                         >
-                                            เปิด
+                                            คัดลอก
                                             </Button>
 
                                     </TableCell>
                                     <TableCell align="right">
-                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.spid)}>
+                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.tpid)}>
                                             ลบ
                                             </Button>
                                     </TableCell>
@@ -242,5 +242,5 @@ class StudentPdf extends React.Component {
     }
 }
 
-export default StudentPdf
+export default Managepdf
 
