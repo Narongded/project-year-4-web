@@ -5,6 +5,7 @@ import Login from './login'
 import Chapter from './chapter'
 import Managepdf from './managepdf'
 import Studentchapter from './studentChapter'
+import StudentPdf from './studentPdf'
 class Routes extends Component {
   constructor(props) {
     super(props)
@@ -26,6 +27,7 @@ class Routes extends Component {
         <Route path="/chapter/:userid" component={Chapter} />
         <Route path="/managepdf/:chapterid" component={Managepdf} />
         <Route path= "/student-chapter/:userid" component = {Studentchapter}/>
+        <Route path= "/student-pdf/:chapterid" component = {StudentPdf}/>
       </div>
     )
   }

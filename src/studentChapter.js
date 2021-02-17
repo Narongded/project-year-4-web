@@ -48,7 +48,7 @@ class Studentchapter extends React.Component {
     }
 
     loadChapter = async () => {
-        const apiBaseUrl = `http://localhost:3001/admin/getall-chapter/${localStorage.getItem('uid')}`;
+        const apiBaseUrl = `http://localhost:3001/user/getchapter/${localStorage.getItem('uid')}`;
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
@@ -88,7 +88,7 @@ class Studentchapter extends React.Component {
     }
 
     deleteChapter = async (chapterid) => {
-        const apiBaseUrl = `http://localhost:3001/admin/delete-chapter/${chapterid}`;
+        const apiBaseUrl = `http://localhost:3001/user/delete-chapter/${chapterid}`;
         await fetch(apiBaseUrl, {
             method: 'DELETE'
         }).then((res) => res.json())
@@ -109,7 +109,7 @@ class Studentchapter extends React.Component {
     };
 
     handleRedirect = async (page, chapterid) => {
-        if (page === 'managepdf') this.props.history.push(`/managepdf/${chapterid}`);
+        if (page === 'managepdf') this.props.history.push(`/student-pdf/${chapterid}`);
     }
 
     handleClose = (page, chapterid) => {
@@ -129,8 +129,7 @@ class Studentchapter extends React.Component {
     };
 
     componentDidMount() {
-        // this.loadChapter()
-
+        this.loadChapter()
     }
 
     render() {
@@ -198,17 +197,17 @@ class Studentchapter extends React.Component {
                                             {value.name}
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.chapterid)}>
+                                            <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.sid)}>
                                                 จัดการไฟล์
                                         </Button>
                                         </TableCell>
-                                        <TableCell align="right">
-                                            <Button color="primary" onClick={() => this.handleClickOpen('update', value.chapterid)}>
+                                        {/* <TableCell align="right">
+                                            <Button color="primary" onClick={() => this.handleClickOpen('update', value.sid)}>
                                                 แก้ไข
                                             </Button>
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell align="right">
-                                            <Button color="primary" onClick={() => this.handleClickOpen('delete', value.chapterid)}>
+                                            <Button color="primary" onClick={() => this.handleClickOpen('delete', value.sid)}>
                                                 ลบ
                                             </Button>
                                         </TableCell>
