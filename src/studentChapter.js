@@ -18,7 +18,9 @@ class Studentchapter extends React.Component {
             dialogType: '',
             chapterid: '',
             chaptername: '',
-            loadchapter: []
+            loadchapter: [],
+            rowperpage: 5,
+            page: 0
         }
     }
 

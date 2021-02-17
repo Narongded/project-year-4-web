@@ -88,7 +88,7 @@ class Pdfano extends React.Component {
                     const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf";
                     const formData = new FormData();
                     formData.append('file', blob);
-                    formData.append('userid', localStorage.getItem('uid'));
+                    formData.append('userid', localStorage.getItem('email'));
                     formData.append('teacherpdf_tpid', this.props.match.params.pdfid);
                     await fetch(apiBaseUrl, {
                         method: 'POST',
