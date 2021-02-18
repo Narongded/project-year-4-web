@@ -7,6 +7,7 @@ import Managepdf from './teacherManagepdf'
 import Studentchapter from './studentChapter'
 import StudentPdf from './studentFilepdf'
 import Studentlecture from './studentLecture'
+import Teacherlecturestudent from './teacherLecturestudent'
 class Routes extends Component {
   constructor(props) {
     super(props)
@@ -27,6 +28,7 @@ class Routes extends Component {
         <Route path="/student/:pdfid" component={Pdfano} />
         <Route path="/chapter/:userid" component={Chapter} />
         <Route path="/managepdf/:chapterid" component={Managepdf} />
+        <Route path="/lecture-student/:pdfid" component={Teacherlecturestudent} />
         <Route path= "/student-chapter/:userid" component = {Studentchapter}/>
         <Route path= "/student-pdf/:userid/:chapterid" component = {StudentPdf}/>
         <Route path= "/student-lecture/:userid/:lectureid" component = {Studentlecture}/>

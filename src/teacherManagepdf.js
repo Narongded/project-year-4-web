@@ -136,7 +136,7 @@ class Managepdf extends React.Component {
                                     multiple
                                     type="file"
                                     onChange={(event) =>
-                                        event.target.files[0].name === undefined ?
+                                        event.target.files[0] === undefined ?
                                             this.setState({ file: null, fileName: null })
                                             :
                                             this.setState({ file: event.target.files[0], fileName: event.target.files[0].name })}
@@ -193,8 +193,15 @@ class Managepdf extends React.Component {
                                         {value.pdfname}
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary" >
-                                            ดูเลคเชอร์
+                                        <Button color="primary"
+                                            onClick={() =>
+                                                this.props.history.push({
+                                                    pathname: `/lecture-student/${value.tpid}`,
+                                                    state: { pdfpath: value.spdfname }
+                                                })
+                                            }
+                                        >
+                                            ดูเลคเชอร์222
                                         </Button>
                                     </TableCell>
                                     <TableCell>

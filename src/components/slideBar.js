@@ -31,6 +31,7 @@ class Slidebar extends React.Component {
       }
     }).then((res) => {
       if (!res.ok) {
+        localStorage.clear()
         this.props.prop.history.push({
           pathname: '/login',
           state: { path: this.props.prop.location.pathname }
