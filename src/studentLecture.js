@@ -55,12 +55,12 @@ class Studentlecture extends React.Component {
         const { docViewer, annotManager } = instance;
         var FitMode = instance.FitMode;
         instance.setFitMode(FitMode.FitWidth);
-        instance.disableElements(['leftPanel', 'leftPanelButton']);
+        // instance.disableElements(['leftPanel', 'leftPanelButton']);
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
                 img: 'assets/icons/itkmitl.jpg',
-                title: "save to server",
+                title: "Save to Server",
                 onClick: async () => {
                     const doc = docViewer.getDocument();
                     const xfdfString = await annotManager.exportAnnotations();
@@ -116,10 +116,9 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
-         
                 <Button onClick={() => this.setState({ open: false })} color="primary">
-                    ยกเลิก
-                            </Button>
+                    คำถามคำตอบ
+                </Button>
                 <div className="header">React sample</div>
                 <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
             </Container >

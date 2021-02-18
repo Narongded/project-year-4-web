@@ -74,9 +74,8 @@ class Studentchapter extends React.Component {
                     <Table aria-label="simple table" style={{ marginTop: '80px' }}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>รายการวิชาบทเรียน</TableCell>
-                                <TableCell align="right">จัดการไฟล์บทเรียน</TableCell>
-                                <TableCell align="right">แก้ไขบทเรียน</TableCell>
+                                <TableCell>รายการวิชา</TableCell>
+                                <TableCell align="right">จัดการไฟล์เลคเชอร์</TableCell>
                                 <TableCell align="right">ลบ</TableCell>
                             </TableRow>
                         </TableHead>

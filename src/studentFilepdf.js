@@ -89,10 +89,6 @@ class StudentPdf extends React.Component {
         })
     };
 
-    handleRedirect = (page, sid) => {
-        // if (page === 'openpdf') this.props.history.push(`/student/${sid}`);
-    }
-
     handleClose = (page, pdfid) => {
         this.setState({
             open: false
@@ -179,8 +175,8 @@ class StudentPdf extends React.Component {
                             <TableRow>
                                 <TableCell>รายการเอกสารบทเรียน</TableCell>
                                 <TableCell>ดูเลคเชอร์</TableCell>
-                                <TableCell>ดูคำถาม</TableCell>
-                                <TableCell>Link เปิดเอกสารบทเรียน</TableCell>
+                                <TableCell>ดูคำถามและคำตอบ</TableCell>
+                                <TableCell>คลิปเสียงและวิดีโอ</TableCell>
                                 <TableCell align="right">ลบ</TableCell>
                             </TableRow>
                         </TableHead>
@@ -206,14 +202,13 @@ class StudentPdf extends React.Component {
                                     </TableCell>
                                     <TableCell>
                                         <Button color="primary" >
-                                            ดูคำถาม
+                                            ดูคำถามและคำตอบ
                                         </Button>
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary">
-                                            เปิด
-                                            </Button>
-
+                                        <Button color="primary" >
+                                            ดูไฟล์เสียงและวิดีโอ
+                                        </Button>
                                     </TableCell>
                                     <TableCell align="right">
                                         <Button color="primary" onClick={() => this.handleClickOpen('delete', value.spid)}>
