@@ -14,14 +14,13 @@ class Studentchapter extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            open: false,
-            dialogType: '',
-            chapterid: '',
-            chaptername: '',
             loadchapter: [],
             rowperpage: 5,
             page: 0
         }
+    }
+    handleRedirect = async (page, chapterid) => {
+        if (page === 'managepdf') this.props.history.push(`/student-pdf/${localStorage.getItem('email')}/${chapterid}`);
     }
 
     loadChapter = async () => {
@@ -41,26 +40,6 @@ class Studentchapter extends React.Component {
                 console.error(error);
             });
     }
-
-    handleRedirect = async (page, chapterid) => {
-        if (page === 'managepdf') this.props.history.push(`/student-pdf/${localStorage.getItem('email')}/${chapterid}`);
-    }
-
-    handleClose = (page, chapterid) => {
-        this.setState({
-            open: false
-        })
-        console.log(chapterid)
-        if (page === 'create') {
-            this.createChapter()
-        }
-        if (page === 'update') {
-            this.updateChapter(chapterid)
-        }
-        if (page === 'delete') {
-            this.deleteChapter(chapterid)
-        }
-    };
 
     componentDidMount() {
         this.loadChapter()

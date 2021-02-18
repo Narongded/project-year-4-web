@@ -18,33 +18,8 @@ class Studentlecture extends React.Component {
             check: null
         }
         this.viewerRef = React.createRef();
-        this.checkAuthen()
 
     }
-    checkAuthen = () => {
-        let check = null
-        const token = localStorage.getItem('token')
-
-        fetch('http://localhost:3001/checktoken', {
-            method: 'GET',
-            headers: {
-                'Authorization': `${token}`
-            }
-        }).then((res) => {
-            if (!res.ok) {
-                this.props.history.push({
-                    pathname: '/login',
-                    state: { path: this.props.location.pathname }
-                })
-            }
-            else {
-                this.setState({ check: true })
-                res.json()
-            }
-        })
-
-    }
-
     showpdf = () => WebViewer(
         {
             path: '/lib',
@@ -53,9 +28,13 @@ class Studentlecture extends React.Component {
         this.viewerRef.current,
     ).then((instance) => {
         const { docViewer, annotManager } = instance;
+        instance.closeElements([ 'AnnotationCreateSticky', 'AnnotationCreateFreeText' ]);
         var FitMode = instance.FitMode;
         instance.setFitMode(FitMode.FitWidth);
-        // instance.disableElements(['leftPanel', 'leftPanelButton']);
+        // instance.closeElements(['leftPanel', 'notesPanel']);
+        // instance.closeElements(['leftPanel', 'notesPanelButton']);
+        // instance.disableElements([ 'notesPanel' ]);
+
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
@@ -63,7 +42,7 @@ class Studentlecture extends React.Component {
                 title: "Save to Server",
                 onClick: async () => {
                     const doc = docViewer.getDocument();
-                    const xfdfString = await annotManager.exportAnnotations();
+                    const xfdfString = await annotManager.exportAnnotations({links: false});
                     const options = { xfdfString };
                     const data = await doc.getFileData(options);
                     const arr = new Uint8Array(data);
@@ -84,10 +63,10 @@ class Studentlecture extends React.Component {
                             console.error(error);
                         });
                 }
-            });
-        });
-        // you can now call WebViewer APIs here...
-    });
+            })
+        })
+  
+    })
     
     handleOpen = () => {
         this.setState({
@@ -116,18 +95,11 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
-                <Button onClick={() => this.setState({ open: false })} color="primary">
-                    คำถามคำตอบ
-                </Button>
-                <div className="header">React sample</div>
-                <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
+                <div className="webviewer" ref={this.viewerRef} style={{ height: "88vh" }}></div>
             </Container >
         )
     }
 }
-
-
-
 
 // encodeBase64 = (file) => new Promise((resolve, reject) => {
 //     const reader = new FileReader();
@@ -136,8 +108,6 @@ class Studentlecture extends React.Component {
 //     reader.onerror = error => reject(error);
 //     console.log(this.state.base64)
 // });
-
-
 // handleSelectUrl = (pdfpath) => {
 
 //     // tslint:disable-next-line:one-variable-per-declaration

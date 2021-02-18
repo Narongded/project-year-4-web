@@ -25,31 +25,6 @@ class StudentPdf extends React.Component {
             page: 0
         }
     }
-    uploadPdf = async () => {
-        const apiBaseUrl = "http://localhost:3001/admin/upload-pdf";
-        const payload = {
-            "chaptername": this.state.chaptername,
-
-        }
-
-        const formData = new FormData();
-        formData.append('pdfname', this.state.pdfname);
-        formData.append('file', this.state.file);
-        formData.append('role', localStorage.getItem('role'));
-        formData.append('chapterid', this.props.match.params.chapterid);
-        // ...
-        await fetch(apiBaseUrl, {
-            method: 'POST',
-            body: formData
-        }).then((res) => res.json())
-            .then((res) => {
-                this.loadPdf()
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-
     loadPdf = async () => {
         const apiBaseUrl = `http://localhost:3001/user/getdata-lecture/${localStorage.getItem('email')}/${this.props.match.params.chapterid}`;
         await fetch(apiBaseUrl, {
@@ -80,29 +55,6 @@ class StudentPdf extends React.Component {
                 console.error(error);
             });
     }
-
-    handleClickOpen = (dialogType, pdfid) => {
-        this.setState({
-            open: true,
-            dialogType: dialogType,
-            pdfid: pdfid
-        })
-    };
-
-    handleClose = (page, pdfid) => {
-        this.setState({
-            open: false
-        })
-        console.log(pdfid)
-        if (page === 'create') {
-            this.uploadPdf()
-        }
-        if (page === 'delete') {
-            this.deletePdf(pdfid)
-        }
-        this.setState({ fileName: null })
-    };
-
     componentDidMount() {
         this.loadPdf()
 
@@ -111,65 +63,10 @@ class StudentPdf extends React.Component {
         return (
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
-                <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
-                    {this.state.dialogType !== 'delete' ?
-                        <div>
-                            <DialogTitle id="form-dialog-title">ชื่อบทเรียน</DialogTitle>
-                            <DialogContent style={{ width: '250px' }}>
-                                <TextField
-                                    id="outlined-full-width"
-                                    style={{ margin: 8 }}
-                                    placeholder="กรุณากรอกชื่อบทเรียน"
-                                    margin="normal"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    onChange={(event) => { this.setState({ pdfname: event.target.value }) }}
-                                    variant="outlined"
-                                />
-                            </DialogContent>
-                            <DialogContent style={{ width: '250px' }}>
-                                <input
-                                    accept="application/pdf"
-                                    style={{ display: 'none' }}
-                                    id="contained-button-file"
-                                    multiple
-                                    type="file"
-                                    onChange={(event) => this.setState({ file: event.target.files[0], fileName: event.target.files[0].name })}
-                                />
-                                <label htmlFor="contained-button-file">
-                                    <Button variant="contained" color="primary" component="span">
-                                        เลือกเอกสาร
-                                </Button>
-                                    {this.state.fileName ? " : " + this.state.fileName : null}
-                                </label>
-                            </DialogContent>
-                        </div>
-                        :
-                        <DialogTitle id="form-dialog-title">ต้องการลบเอกสารบทเรียน</DialogTitle>
-                    }
-                    <DialogActions>
-                        <Button onClick={() => this.setState({ open: false })} color="primary">
-                            ยกเลิก
-                        </Button>
-                        {this.state.dialogType === 'create' ?
-                            <Button onClick={() => this.handleClose('create')} color="primary">
-                                อัปโหลด
-                        </Button>
-                            :
-                            <Button onClick={() => this.handleClose('delete', this.state.pdfid)} color="primary" autoFocus>
-                                ตกลง
-                        </Button>
-                        }
-
-                    </DialogActions>
-                </Dialog>
-
                 <TableContainer component={Paper}>
-                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={() => this.handleClickOpen('create')}>
+                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} >
                         อัปโหลดเอกสารบทเรียน
                     </Button>
-
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>

@@ -201,7 +201,7 @@ class Managepdf extends React.Component {
                                                 })
                                             }
                                         >
-                                            ดูเลคเชอร์222
+                                            ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
                                     <TableCell>
@@ -210,7 +210,7 @@ class Managepdf extends React.Component {
                                         </Button>
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary" asd
+                                        <Button color="primary" 
                                             onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
                                         >
                                             คัดลอก

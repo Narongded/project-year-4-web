@@ -14,10 +14,6 @@ class Teacherlecturestudent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            open: false,
-            dialogType: null,
-            pdfid: '',
-            pdfname: '',
             loadlecturestudent: [],
             rowperpage: 5,
             page: 0
@@ -49,7 +45,7 @@ class Teacherlecturestudent extends React.Component {
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
                 <TableContainer component={Paper}>
-                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={() => this.handleClickOpen('create')}>
+                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} >
                         อัปโหลดเอกสารบทเรียน
                     </Button>
 

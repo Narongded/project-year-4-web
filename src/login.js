@@ -106,7 +106,6 @@ class Login extends Component {
                 if (res.data.role === 'teacher') this.props.history.push(`/chapter/${res.data.uid}`);
                 else this.props.history.push(`/student-chapter/${res.data.email}`);
               }
-
             }
           })
           .catch((error) => {
