@@ -59,13 +59,16 @@ class Pdfano extends React.Component {
         }).then((res) => res.json())
             .then((res) => {
                 this.setState({ loadpdf: res.data })
-
             })
             .catch((error) => {
                 console.error(error);
             });
 
-        this.showpdf()
+        this.state.loadpdf.length === 0 ? this.props.history.push({
+            pathname: '/login'
+        })
+            : this.showpdf()
+
     }
 
     showpdf = () => WebViewer(
@@ -75,43 +78,86 @@ class Pdfano extends React.Component {
         },
         this.viewerRef.current,
     ).then((instance) => {
-        const { docViewer, annotManager } = instance;
-        var FitMode = instance.FitMode;
-        instance.setFitMode(FitMode.FitWidth);
-        instance.disableElements(['leftPanel', 'leftPanelButton']);
+        const { docViewer, annotManager } = instance
+        const savedata = async (header) => {
+            const doc = docViewer.getDocument()
+            const xfdfString = await annotManager.exportAnnotations({})
+            const options = { xfdfString }
+            const data = await doc.getFileData(options)
+            const arr = new Uint8Array(data)
+            const blob = new Blob([arr], { type: 'application/pdf' })
+            const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf"
+            const formData = new FormData()
+            formData.append('file', blob);
+            formData.append('userid', localStorage.getItem('email'))
+            formData.append('teacherpdf_tpid', this.props.match.params.lectureid)
+            this.handleOpen()
+            await fetch(apiBaseUrl, {
+                method: 'POST',
+                body: formData
+            }).then((res) => res.json())
+                .then((res) => {
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
+        }
+
+        instance.disableElements(['annotationNoteConnectorLine'])
+        const FitMode = instance.FitMode
+        instance.setFitMode(FitMode.FitWidth)
+        instance.disableFeatures(instance.Feature.TextSelection)
+        instance.disableFeatures(instance.Feature.NotesPanel)
+        instance.disableElements([
+            'stickyToolButton', 'annotationCommentButton',
+            'underlineToolGroupButton', 'highlightToolGroupButton',
+            'strikeoutToolGroupButton', 'squigglyToolGroupButton',
+            'stickyToolGroupButton', 'outlinesPanelButton',
+            'toggleNotesButton', 'highlightToolButton'])
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
                 img: 'assets/icons/itkmitl.jpg',
-                title: "save to server",
+                title: "Save to Server",
+                onClick: async () => savedata(header),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
+                title: "Save to Server",
+                onClick: async () => savedata(header),
+                dataElement: 'saveButton'
+            })
+        })
+
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
+                title: "New Page",
                 onClick: async () => {
-                    const doc = docViewer.getDocument();
-                    const xfdfString = await annotManager.exportAnnotations();
-                    const options = { xfdfString };
-                    const data = await doc.getFileData(options);
-                    const arr = new Uint8Array(data);
-                    const blob = new Blob([arr], { type: 'application/pdf' });
-                    const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf";
-                    const formData = new FormData();
-                    formData.append('file', blob);
-                    formData.append('userid', localStorage.getItem('email'));
-                    formData.append('teacherpdf_tpid', this.props.match.params.pdfid);
-                    this.handleOpen();
-                    await fetch(apiBaseUrl, {
-                        method: 'POST',
-                        body: formData
-                    }).then((res) => res.json())
-                        .then((res) => {
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                }
-            });
-        });
-        // you can now call WebViewer APIs here...
-    });
-    
+                    const doc = docViewer.getDocument()
+                    const width = 612;
+                    const height = 792
+                    await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                }, dataElement: 'newButton',
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
+                title: "New Page",
+                onClick: async () => {
+                    const doc = docViewer.getDocument()
+                    const width = 612;
+                    const height = 792
+                    await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                }, dataElement: 'newButton'
+
+            })
+        })
+    })
     handleOpen = () => {
         this.setState({
             open: true
@@ -141,11 +187,7 @@ class Pdfano extends React.Component {
                 </Dialog>
 
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
-                <Button onClick={() => this.setState({ open: false })} color="primary">
-                    ยกเลิก
-                            </Button>
-                <div className="header">React sample</div>
-                <div className="webviewer" ref={this.viewerRef} style={{ height: "100vh" }}></div>
+                <div className="webviewer" ref={this.viewerRef} style={{ height: "88vh" }}></div>
             </Container >
         )
     }

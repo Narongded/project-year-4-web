@@ -27,47 +27,86 @@ class Studentlecture extends React.Component {
         },
         this.viewerRef.current,
     ).then((instance) => {
-        const { docViewer, annotManager } = instance;
-        instance.closeElements([ 'AnnotationCreateSticky', 'AnnotationCreateFreeText' ]);
-        var FitMode = instance.FitMode;
-        instance.setFitMode(FitMode.FitWidth);
-        // instance.closeElements(['leftPanel', 'notesPanel']);
-        // instance.closeElements(['leftPanel', 'notesPanelButton']);
-        // instance.disableElements([ 'notesPanel' ]);
+        const { docViewer, annotManager } = instance
+        const savedata = async (header) => {
+            const doc = docViewer.getDocument()
+            const xfdfString = await annotManager.exportAnnotations({})
+            const options = { xfdfString }
+            const data = await doc.getFileData(options)
+            const arr = new Uint8Array(data)
+            const blob = new Blob([arr], { type: 'application/pdf' })
+            const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf"
+            const formData = new FormData()
+            formData.append('file', blob);
+            formData.append('userid', localStorage.getItem('email'))
+            formData.append('teacherpdf_tpid', this.props.match.params.lectureid)
+            this.handleOpen()
+            await fetch(apiBaseUrl, {
+                method: 'POST',
+                body: formData
+            }).then((res) => res.json())
+                .then((res) => {
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
+        }
 
+        instance.disableElements(['annotationNoteConnectorLine'])
+        const FitMode = instance.FitMode
+        instance.setFitMode(FitMode.FitWidth)
+        instance.disableFeatures(instance.Feature.TextSelection)
+        instance.disableFeatures(instance.Feature.NotesPanel)
+        instance.disableElements([
+            'stickyToolButton', 'annotationCommentButton',
+            'underlineToolGroupButton', 'highlightToolGroupButton',
+            'strikeoutToolGroupButton', 'squigglyToolGroupButton',
+            'stickyToolGroupButton', 'outlinesPanelButton',
+            'toggleNotesButton', 'highlightToolButton'])
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
                 img: 'assets/icons/itkmitl.jpg',
                 title: "Save to Server",
-                onClick: async () => {
-                    const doc = docViewer.getDocument();
-                    const xfdfString = await annotManager.exportAnnotations({links: false});
-                    const options = { xfdfString };
-                    const data = await doc.getFileData(options);
-                    const arr = new Uint8Array(data);
-                    const blob = new Blob([arr], { type: 'application/pdf' });
-                    const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf";
-                    const formData = new FormData();
-                    formData.append('file', blob);
-                    formData.append('userid', localStorage.getItem('email'));
-                    formData.append('teacherpdf_tpid', this.props.match.params.lectureid);
-                    this.handleOpen();
-                    await fetch(apiBaseUrl, {
-                        method: 'POST',
-                        body: formData
-                    }).then((res) => res.json())
-                        .then((res) => {
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                }
+                onClick: async () => savedata(header),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
+                title: "Save to Server",
+                onClick: async () => savedata(header),
+                dataElement: 'saveButton'
             })
         })
-  
+
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
+                title: "New Page",
+                onClick: async () => {
+                    const doc = docViewer.getDocument()
+                    const width = 612;
+                    const height = 792
+                    await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                }, dataElement: 'newButton',
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
+                title: "New Page",
+                onClick: async () => {
+                    const doc = docViewer.getDocument()
+                    const width = 612;
+                    const height = 792
+                    await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                }, dataElement: 'newButton'
+
+            })
+        })
     })
-    
     handleOpen = () => {
         this.setState({
             open: true
@@ -75,7 +114,7 @@ class Studentlecture extends React.Component {
     }
 
     componentDidMount() {
-        this.showpdf()
+        this.props.location.state === undefined ? this.props.history.push({ pathname: '/login' }) : this.showpdf()
     }
     render() {
         return (
