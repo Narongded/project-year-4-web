@@ -1,6 +1,6 @@
 import * as React from 'react';
 import WebViewer from '@pdftron/webviewer'
-import { Button, Grid, Container } from '@material-ui/core';
+import { Button, Grid, Container, TextField } from '@material-ui/core';
 import Slidebar from './components/slideBar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,16 +9,36 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { saveAs } from 'file-saver';
 class Studentlecture extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             open: false,
+            dialogquestionopen: false,
             base64: '',
-            check: null
+            check: null,
+            pagevalue: 1,
+            question: ''
         }
         this.viewerRef = React.createRef();
-
+    }
+    questionTeacher = async () => {
+        this.setState({ dialogquestionopen: false })
+        const apiBaseUrl = `http://localhost:3001/question/addquestion-pdf`;
+        const pdfid = this.props.match.params.lectureid
+        const payload = {
+            'page': this.state.pagevalue,
+            'question': this.state.question,
+            'uid': localStorage.getItem('email'),
+            'pdfid': pdfid
+        }
+        fetch(apiBaseUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then((res) => res.json()).then((res) => console.log('a'))
     }
     showpdf = () => WebViewer(
         {
@@ -84,6 +104,23 @@ class Studentlecture extends React.Component {
             header.push({
                 type: 'actionButton',
                 img: 'assets/icons/itkmitl.jpg',
+                title: "Question teacher",
+                onClick: async () => this.setState({ dialogquestionopen: true }),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
+                title: "Question teacher",
+                onClick: async () => this.setState({ dialogquestionopen: true }),
+                dataElement: 'saveButton'
+            })
+        })
+
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/itkmitl.jpg',
                 title: "New Page",
                 onClick: async () => {
                     const doc = docViewer.getDocument()
@@ -103,7 +140,6 @@ class Studentlecture extends React.Component {
                     const height = 792
                     await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
                 }, dataElement: 'newButton'
-
             })
         })
     })
@@ -133,6 +169,42 @@ class Studentlecture extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+                <Dialog open={this.state.dialogquestionopen} onClose={false} aria-labelledby="form-dialog-title">
+                    <div>
+                        <DialogTitle id="form-dialog-title">ชื่อบทเรียน</DialogTitle>
+                        <DialogContent style={{ width: '250px' }}>
+                            <TextField
+                                size={'small'}
+                                margin="normal"
+                                style={{ width: '80px' }}
+                                value={this.state.pagevalue}
+                                floatingLabelText="หน้า"
+                                onChange={(event) => event.target.value < 1 ?
+                                    this.setState({ pagevalue: 1 }) : this.setState({ pagevalue: event.target.value })}
+                                type="number"
+                                label="หน้า"
+                                variant="outlined"
+                            />
+                            <TextField
+                                autoFocus
+                                margin="normal"
+                                label="คำถาม"
+                                floatingLabelText="คำถาม"
+                                onChange={(event) => { this.setState({ question: event.target.value }) }}
+                                variant="outlined"
+                            />
+                        </DialogContent>
+                    </div>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ dialogquestionopen: false })} color="primary">
+                            ยกเลิก
+                        </Button>
+                        <Button onClick={() => this.questionTeacher()} color="primary" autoFocus>
+                            ตกลง
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
                 <div className="webviewer" ref={this.viewerRef} style={{ height: "88vh" }}></div>
             </Container >

@@ -13,16 +13,24 @@ body {
   margin: 0 0 0 0;
 }
 p {
-  font-size: 1rem;
-  font-family: "Kanit", sans-serif;
+  padding: 1rem;
+  font-family: "Kanit", sans-serif !important;
+}
+th,td {
+  padding: 1rem;
+  font-family: "Kanit", sans-serif !important;
+}
+h6 {
+  padding: 1rem;
+  font-family: "Kanit", sans-serif !important;
 }
 h3 {
   font-size: 1rem;
-  font-family: "Kanit", sans-serif;
+  font-family: "Kanit", sans-serif !important;
 }
 span {
   font-size: 1rem;
-  font-family: "Kanit", sans-serif;
+  font-family: "Kanit", sans-serif !important;
 }
 .MuiInputBase-root {
   font-size: 1rem;
@@ -30,7 +38,7 @@ span {
 }
 fieldset {
   font-size: 1rem;
-  font-family: "Kanit", sans-serif;
+  font-family: "Kanit", sans-serif !important;
 }
 input {
   font-family: "Kanit", sans-serif !important;

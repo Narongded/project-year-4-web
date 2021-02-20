@@ -205,7 +205,12 @@ class Managepdf extends React.Component {
                                         </Button>
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary" >
+                                        <Button color="primary"
+                                         onClick={() => {
+                                            this.props.history.push({
+                                                pathname: `/question/${value.tpid}`
+                                            })
+                                        }}>
                                             ดูคำถาม
                                         </Button>
                                     </TableCell>
