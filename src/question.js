@@ -43,7 +43,7 @@ class Question extends React.Component {
             });
     }
 
-    deletePdf = async (pdfid) => {
+    deleteAnswer = async (pdfid) => {
         const apiBaseUrl = `http://localhost:3001/user/delete-pdf/${pdfid}`;
         await fetch(apiBaseUrl, {
             method: 'DELETE'
@@ -55,6 +55,16 @@ class Question extends React.Component {
                 console.error(error);
             });
     }
+    handleOpen = () => {
+        this.setState({
+            open: true
+        })
+    }
+    createAnswer = () => {
+        this.setState({
+            open: false
+        })
+    }
     componentDidMount() {
         this.loadquestion()
 
@@ -62,18 +72,43 @@ class Question extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
+                <SlideBar prop={this.props} openSlide={true} appBarName='คำถามจากนักศึกษา' />
+
+                <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
+                    <div>
+                        <DialogTitle id="form-dialog-title">คำตอบ</DialogTitle>
+                        <DialogContent style={{ width: '250px' }}>
+                            <TextField
+                                autoFocus
+                                margin="normal"
+                                label="คำตอบ"
+                                floatingLabelText="คำตอบ"
+                                onChange={(event) => { this.setState({ question: event.target.value }) }}
+                                variant="outlined"
+                            />
+                        </DialogContent>
+                    </div>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ open: false })} color="primary">
+                            ยกเลิก
+                        </Button>
+                        <Button onClick={() => this.createAnswer()} color="primary" autoFocus>
+                            ตกลง
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
                 <TableContainer component={Paper}>
                     <Button variant="contained" color="primary" style={{ marginTop: '50px' }} >
-                        อัปโหลดเอกสารบทเรียน
+                        คำถามจากนักศึกษา
                     </Button>
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>รายการเอกสารบทเรียน</TableCell>
-                                <TableCell>ดูเลคเชอร์</TableCell>
-                                <TableCell>ดูคำถามและคำตอบ</TableCell>
-                                <TableCell>คลิปเสียงและวิดีโอ</TableCell>
+                                <TableCell>คำถาม</TableCell>
+                                <TableCell>คำตอบ</TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
                                 <TableCell align="right">ลบ</TableCell>
                             </TableRow>
                         </TableHead>
@@ -86,31 +121,19 @@ class Question extends React.Component {
                                         {value.name}
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary"
-                                            onClick={() => {
-                                                this.props.history.push({
-                                                    pathname: `/student-lecture/${localStorage.getItem('email')}/${value.teacherpdf_tpid}`,
-                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid }
-                                                })
-                                            }}
-                                        >
-                                            ดูเลคเชอร์
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button color="primary" >
-                                            ดูคำถามและคำตอบ
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button color="primary" >
-                                            ดูไฟล์เสียงและวิดีโอ
-                                        </Button>
+                                        คำตอบ 1
                                     </TableCell>
                                     <TableCell align="right">
-                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.spid)}>
+                                        <Button color="primary" onClick={() => this.handleOpen()}>เพิ่มคำตอบ</Button>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Button color="primary" onClick={() => this.handleOpen()}>แก้ไขคำตอบ</Button>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {/* ลบคำคอตบ */}
+                                        <Button color="primary" onClick={() => this.handleOpen('delete', value.aid)}> 
                                             ลบ
-                                            </Button>
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
