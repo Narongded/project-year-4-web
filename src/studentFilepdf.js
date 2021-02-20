@@ -90,7 +90,7 @@ class StudentPdf extends React.Component {
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${localStorage.getItem('email')}/${value.teacherpdf_tpid}`,
-                                                    state: { pdfpath: value.spdfname }
+                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid }
                                                 })
                                             }}
                                         >

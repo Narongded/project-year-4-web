@@ -68,7 +68,14 @@ class Teacherlecturestudent extends React.Component {
                                         {value.pdfname}
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary">
+                                        <Button color="primary"
+                                            onClick={() => {
+                                                this.props.history.push({
+                                                    pathname: `/student-lecture/${value.alluser_uid}/${value.teacherpdf_tpid}`,
+                                                    state: { pdfpath: value.spdfname }
+                                                })
+                                            }}
+                                        >
                                             ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
@@ -78,7 +85,7 @@ class Teacherlecturestudent extends React.Component {
                                         </Button>
                                     </TableCell>
                                     <TableCell>
-                                        <Button color="primary" 
+                                        <Button color="primary"
                                             onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
                                         >
                                             คัดลอก
