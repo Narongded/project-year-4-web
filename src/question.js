@@ -66,7 +66,7 @@ class Question extends React.Component {
             });
     }
 
-    updateQa = async (id,actionType, ) => {
+    updateQa = async (id, actionType,) => {
         const apiBaseUrl = actionType === 'answer'
             ? `http://localhost:3001/answer/update-answer/${id}`
             : `http://localhost:3001/question/update-question/${id}`
@@ -89,10 +89,10 @@ class Question extends React.Component {
             });
     }
 
-    deleteQa = async (id,actionType, ) => {
-        let apiBaseUrl = actionType === 'answer' 
-        ? `http://localhost:3001/answer/delete-answer/${id}` 
-        : `http://localhost:3001/question/delete-question/${id}`
+    deleteQa = async (id, actionType,) => {
+        let apiBaseUrl = actionType === 'answer'
+            ? `http://localhost:3001/answer/delete-answer/${id}`
+            : `http://localhost:3001/question/delete-question/${id}`
         await fetch(apiBaseUrl, {
             method: 'DELETE'
         }).then((res) => res.json())
@@ -112,7 +112,7 @@ class Question extends React.Component {
         })
     }
     handleClose = (dialogType, id, actionType) => {
-     
+
         this.setState({
             open: false
         })
@@ -227,7 +227,7 @@ class Question extends React.Component {
                                             <Button color="primary" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
                                                 ลบคำตอบ
                                             </Button>
-                                            : value.questionname && (value.ques_alluser_uid === localStorage.getItem('email')) ?
+                                            : (value.questionname || value.questionname === '') && (value.ques_alluser_uid === localStorage.getItem('email')) ?
                                                 <Button color="primary" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
                                                     ลบคำถาม
                                             </Button> : null
