@@ -17,7 +17,8 @@ class Question extends React.Component {
             open: false,
             dialogType: null,
             pdfid: '',
-            pdfname: '',
+            id: '',
+            answer: '',
             loadquestion: [],
             file: null,
             fileName: null,
@@ -43,8 +44,51 @@ class Question extends React.Component {
             });
     }
 
-    deleteAnswer = async (pdfid) => {
-        const apiBaseUrl = `http://localhost:3001/user/delete-pdf/${pdfid}`;
+    createAnswer = async () => {
+        const apiBaseUrl = `http://localhost:3001/answer/addanswer-pdf`;
+        const payload = {
+            'answer': this.state.answer,
+            'qid': this.state.id
+        }
+        fetch(apiBaseUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then((res) => res.json())
+        .then((res) => {
+            this.loadquestion()
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
+    updateAnswer = async (aid) => {
+        const apiBaseUrl = `http://localhost:3001/answer/update-answer/${aid}`;
+        const payload = {
+            'answername': this.state.answer
+        }
+        await fetch(apiBaseUrl, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then((res) => res.json())
+            .then((res) => {
+                this.loadquestion()
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    deleteAnswer = async (aid) => {
+        const apiBaseUrl = `http://localhost:3001/answer/delete-answer/${aid}`;
         await fetch(apiBaseUrl, {
             method: 'DELETE'
         }).then((res) => res.json())
@@ -55,15 +99,24 @@ class Question extends React.Component {
                 console.error(error);
             });
     }
-    handleOpen = () => {
+    handleOpen = (dialogType, id) => {
         this.setState({
-            open: true
+            open: true,
+            dialogType: dialogType,
+            id: id
         })
     }
-    createAnswer = () => {
+    handleClose = (dialogType, id) => {
         this.setState({
             open: false
         })
+        if (dialogType === 'create') {
+            this.createAnswer()
+        } else if (dialogType === 'update') {
+            this.updateAnswer(id)
+        } else if (dialogType === 'delete') {
+            this.deleteAnswer(id)
+        }
     }
     componentDidMount() {
         this.loadquestion()
@@ -75,32 +128,49 @@ class Question extends React.Component {
                 <SlideBar prop={this.props} openSlide={true} appBarName='คำถามจากนักศึกษา' />
 
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
-                    <div>
-                        <DialogTitle id="form-dialog-title">คำตอบ</DialogTitle>
-                        <DialogContent style={{ width: '250px' }}>
-                            <TextField
-                                autoFocus
-                                margin="normal"
-                                label="คำตอบ"
-                                floatingLabelText="คำตอบ"
-                                onChange={(event) => { this.setState({ question: event.target.value }) }}
-                                variant="outlined"
-                            />
-                        </DialogContent>
-                    </div>
+                    {this.state.dialogType !== 'delete' ?
+                        <div>
+                            <DialogTitle id="form-dialog-title">คำตอบ</DialogTitle>
+                            <DialogContent style={{ width: '250px' }}>
+                                <TextField
+                                    id="outlined-full-width"
+                                    style={{ margin: 8 }}
+                                    placeholder="กรอกคำตอบ"
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(event) => { this.setState({ answer: event.target.value }) }}
+                                    variant="outlined"
+                                />
+                            </DialogContent>
+                        </div>
+                        :
+                        <DialogTitle id="form-dialog-title">ต้องการลบคำตอบ</DialogTitle>
+                    }
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false })} color="primary">
                             ยกเลิก
-                        </Button>
-                        <Button onClick={() => this.createAnswer()} color="primary" autoFocus>
-                            ตกลง
-                        </Button>
+                            </Button>
+                        {this.state.dialogType === 'create' ?
+                            <Button onClick={() => this.handleClose('create')} color="primary">
+                                สร้าง
+                            </Button>
+                            : this.state.dialogType === 'update' ?
+                                <Button onClick={() => this.handleClose('update', this.state.id)} color="primary">
+                                    แก้ไข
+                            </Button>
+                                :
+                                <Button onClick={() => this.handleClose('delete', this.state.id)} color="primary" autoFocus>
+                                    ตกลง
+                            </Button>
+                        }
                     </DialogActions>
                 </Dialog>
 
                 <TableContainer component={Paper}>
                     <Button variant="contained" color="primary" style={{ marginTop: '50px' }} >
-                        คำถามจากนักศึกษา
+                        เพิ่มคำถาม
                     </Button>
                     <Table aria-label="simple table">
                         <TableHead>
@@ -121,19 +191,31 @@ class Question extends React.Component {
                                         {value.name}
                                     </TableCell>
                                     <TableCell>
-                                        คำตอบ 1
+                                        {value.answername}
+                                    </TableCell>                                   
+                                    <TableCell align="right">
+                                        { value.answername === null ? 
+                                            <Button color="primary" onClick={() => this.handleOpen('create', value.qid)}>
+                                                เพิ่มคำตอบ
+                                            </Button>
+                                        : null
+                                        }
                                     </TableCell>
                                     <TableCell align="right">
-                                        <Button color="primary" onClick={() => this.handleOpen()}>เพิ่มคำตอบ</Button>
+                                        {value.answername || value.answername === '' ?
+                                            <Button color="primary" onClick={() => this.handleOpen('update', value.aid)}> 
+                                                แก้ไขคำตอบ
+                                            </Button>
+                                        : null
+                                        }
                                     </TableCell>
                                     <TableCell align="right">
-                                        <Button color="primary" onClick={() => this.handleOpen()}>แก้ไขคำตอบ</Button>
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {/* ลบคำคอตบ */}
-                                        <Button color="primary" onClick={() => this.handleOpen('delete', value.aid)}> 
-                                            ลบ
-                                        </Button>
+                                        {value.answername ?
+                                            <Button color="primary" onClick={() => this.handleOpen('delete', value.aid)}> 
+                                                ลบ
+                                            </Button>
+                                        : null
+                                        }
                                     </TableCell>
                                 </TableRow>
                             ))}

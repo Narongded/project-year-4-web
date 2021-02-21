@@ -54,9 +54,6 @@ class Teacherlecturestudent extends React.Component {
                             <TableRow>
                                 <TableCell>รายการเอกสารบทเรียน</TableCell>
                                 <TableCell>ดูเลคเชอร์</TableCell>
-                                <TableCell>ดูคำถาม</TableCell>
-                                <TableCell>Link เปิดเอกสารบทเรียน</TableCell>
-                                <TableCell align="right">ลบ</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -78,29 +75,6 @@ class Teacherlecturestudent extends React.Component {
                                         >
                                             ดูเลคเชอร์
                                         </Button>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button color="primary"
-                                            onClick={() => {
-                                                this.props.history.push({
-                                                    pathname: `/question/${value.teacherpdf_tpid}`
-                                                })
-                                            }}>
-                                            ดูคำถาม
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button color="primary"
-                                            onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
-                                        >
-                                            คัดลอก
-                                            </Button>
-
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Button color="primary" >
-                                            ลบ
-                                            </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
