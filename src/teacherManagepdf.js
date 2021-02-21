@@ -37,7 +37,8 @@ class Managepdf extends React.Component {
         formData.append('file', this.state.file);
         formData.append('role', localStorage.getItem('role'));
         formData.append('chapterid', this.props.match.params.chapterid);
-        // ...
+        formData.append('alluser_uid', localStorage.getItem('email'));
+  
         await fetch(apiBaseUrl, {
             method: 'POST',
             body: formData

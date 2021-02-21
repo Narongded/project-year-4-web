@@ -18,10 +18,9 @@ class Question extends React.Component {
             dialogType: null,
             pdfid: '',
             id: '',
-            answer: '',
+            qa: '',
             loadquestion: [],
-            file: null,
-            fileName: null,
+            actionType: '',
             rowperpage: 5,
             page: 0
         }
@@ -44,11 +43,12 @@ class Question extends React.Component {
             });
     }
 
-    createAnswer = async () => {
+    createQa = async () => {
         const apiBaseUrl = `http://localhost:3001/answer/addanswer-pdf`;
         const payload = {
-            'answer': this.state.answer,
-            'qid': this.state.id
+            'answer': this.state.qa,
+            'qid': this.state.id,
+            'alluser_uid': localStorage.getItem('email')
         }
         fetch(apiBaseUrl, {
             method: 'POST',
@@ -58,18 +58,20 @@ class Question extends React.Component {
             },
             body: JSON.stringify(payload)
         }).then((res) => res.json())
-        .then((res) => {
-            this.loadquestion()
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+            .then((res) => {
+                this.loadquestion()
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
-    updateAnswer = async (aid) => {
-        const apiBaseUrl = `http://localhost:3001/answer/update-answer/${aid}`;
+    updateQa = async (id,actionType, ) => {
+        const apiBaseUrl = actionType === 'answer'
+            ? `http://localhost:3001/answer/update-answer/${id}`
+            : `http://localhost:3001/question/update-question/${id}`
         const payload = {
-            'answername': this.state.answer
+            'answername': this.state.qa
         }
         await fetch(apiBaseUrl, {
             method: 'PUT',
@@ -87,8 +89,10 @@ class Question extends React.Component {
             });
     }
 
-    deleteAnswer = async (aid) => {
-        const apiBaseUrl = `http://localhost:3001/answer/delete-answer/${aid}`;
+    deleteQa = async (id,actionType, ) => {
+        let apiBaseUrl = actionType === 'answer' 
+        ? `http://localhost:3001/answer/delete-answer/${id}` 
+        : `http://localhost:3001/question/delete-question/${id}`
         await fetch(apiBaseUrl, {
             method: 'DELETE'
         }).then((res) => res.json())
@@ -99,23 +103,25 @@ class Question extends React.Component {
                 console.error(error);
             });
     }
-    handleOpen = (dialogType, id) => {
+    handleOpen = (dialogType, id, actionType) => {
         this.setState({
             open: true,
             dialogType: dialogType,
-            id: id
+            id: id,
+            actionType: actionType
         })
     }
-    handleClose = (dialogType, id) => {
+    handleClose = (dialogType, id, actionType) => {
+     
         this.setState({
             open: false
         })
         if (dialogType === 'create') {
-            this.createAnswer()
+            this.createQa()
         } else if (dialogType === 'update') {
-            this.updateAnswer(id)
+            this.updateQa(id, actionType)
         } else if (dialogType === 'delete') {
-            this.deleteAnswer(id)
+            this.deleteQa(id, actionType)
         }
     }
     componentDidMount() {
@@ -140,7 +146,9 @@ class Question extends React.Component {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    onChange={(event) => { this.setState({ answer: event.target.value }) }}
+                                    onChange={(event) => {
+                                        this.setState({ qa: event.target.value })
+                                    }}
                                     variant="outlined"
                                 />
                             </DialogContent>
@@ -157,11 +165,11 @@ class Question extends React.Component {
                                 สร้าง
                             </Button>
                             : this.state.dialogType === 'update' ?
-                                <Button onClick={() => this.handleClose('update', this.state.id)} color="primary">
+                                <Button onClick={() => this.handleClose('update', this.state.id, this.state.actionType)} color="primary">
                                     แก้ไข
                             </Button>
                                 :
-                                <Button onClick={() => this.handleClose('delete', this.state.id)} color="primary" autoFocus>
+                                <Button onClick={() => this.handleClose('delete', this.state.id, this.state.actionType)} color="primary" autoFocus>
                                     ตกลง
                             </Button>
                         }
@@ -179,7 +187,7 @@ class Question extends React.Component {
                                 <TableCell>คำตอบ</TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
-                                <TableCell align="right">ลบ</TableCell>
+                                <TableCell align="right"></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -188,33 +196,41 @@ class Question extends React.Component {
                             ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
-                                        {value.name}
+                                        {value.questionname}
                                     </TableCell>
                                     <TableCell>
                                         {value.answername}
-                                    </TableCell>                                   
+                                    </TableCell>
                                     <TableCell align="right">
-                                        { value.answername === null ? 
-                                            <Button color="primary" onClick={() => this.handleOpen('create', value.qid)}>
+                                        {value.answername === null && (value.sownerpdf === localStorage.getItem('email')
+                                            || value.townerpdf === localStorage.getItem('email')) ?
+                                            <Button color="primary" onClick={() => this.handleOpen('create', value.qid, 'answer')}>
                                                 เพิ่มคำตอบ
                                             </Button>
-                                        : null
+                                            : null
                                         }
                                     </TableCell>
                                     <TableCell align="right">
-                                        {value.answername || value.answername === '' ?
-                                            <Button color="primary" onClick={() => this.handleOpen('update', value.aid)}> 
+                                        {(value.answername || value.answername === '') && value.ans_alluser_uid === localStorage.getItem('email') ?
+                                            <Button color="primary" onClick={() => this.handleOpen('update', value.aid, 'answer')}>
                                                 แก้ไขคำตอบ
                                             </Button>
-                                        : null
+                                            : value.ques_alluser_uid === localStorage.getItem('email') ?
+                                                <Button color="primary" onClick={() => this.handleOpen('update', value.qid, 'question')}>
+                                                    แก้ไขคำถาม
+                                                </Button>
+                                                : null
                                         }
                                     </TableCell>
                                     <TableCell align="right">
-                                        {value.answername ?
-                                            <Button color="primary" onClick={() => this.handleOpen('delete', value.aid)}> 
-                                                ลบ
+                                        {value.answername && (value.ans_alluser_uid === localStorage.getItem('email')) ?
+                                            <Button color="primary" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
+                                                ลบคำตอบ
                                             </Button>
-                                        : null
+                                            : value.questionname && (value.ques_alluser_uid === localStorage.getItem('email')) ?
+                                                <Button color="primary" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
+                                                    ลบคำถาม
+                                            </Button> : null
                                         }
                                     </TableCell>
                                 </TableRow>
