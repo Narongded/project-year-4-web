@@ -111,10 +111,14 @@ class Chapter extends React.Component {
         })
         console.log(chapterid)
         if (page === 'create') {
-            this.createChapter()
+            if (this.state.chaptername !== '') {
+                this.createChapter()
+            }
         }
         if (page === 'update') {
-            this.updateChapter(chapterid)
+            if (this.state.chaptername !== '') {
+                this.updateChapter(chapterid)
+            }
         }
         if (page === 'delete') {
             this.deleteChapter(chapterid)

@@ -110,14 +110,14 @@ class Studentlecture extends React.Component {
                 type: 'actionButton',
                 img: 'assets/icons/outline_question_answer_black_18dp.png',
                 title: "Question teacher",
-                onClick: async () => this.setState({ dialogquestionopen: true }),
+                onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
                 img: 'assets/icons/outline_question_answer_black_18dp.png',
                 title: "Question teacher",
-                onClick: async () => this.setState({ dialogquestionopen: true }),
+                onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
                 dataElement: 'saveButton'
             })
         })
@@ -185,9 +185,6 @@ class Studentlecture extends React.Component {
                                 style={{ width: '80px' }}
                                 value={this.state.pagevalue}
                                 floatingLabelText="หน้า"
-                                inputProps={{
-                                    maxLength: this.state.pageCount,
-                                }}
                                 onChange={(event) => event.target.value < 1 ?
                                     this.setState({ pagevalue: 1 }) : event.target.value >= this.state.pageCount ? this.setState({ pagevalue: this.state.pageCount}) 
                                     : this.setState({ pagevalue: event.target.value })}

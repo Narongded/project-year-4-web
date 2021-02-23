@@ -96,7 +96,9 @@ class Managepdf extends React.Component {
         })
         console.log(pdfid)
         if (page === 'create') {
-            this.uploadPdf()
+            if (pdfname !== '') {
+                this.uploadPdf()
+            }
         }
         if (page === 'delete') {
             this.deletePdf(pdfid)
