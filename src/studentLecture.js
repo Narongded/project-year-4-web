@@ -17,7 +17,8 @@ class Studentlecture extends React.Component {
             base64: '',
             check: null,
             pagevalue: 1,
-            question: ''
+            question: '',
+            pageCount: 0
         }
         this.viewerRef = React.createRef();
     }
@@ -86,16 +87,37 @@ class Studentlecture extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
+                img: 'assets/icons/outline_save_black_18dp.png',
                 title: "Save to Server",
                 onClick: async () => savedata(header),
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
+                img: 'assets/icons/outline_save_black_18dp.png',
                 title: "Save to Server",
                 onClick: async () => savedata(header),
+                dataElement: 'saveButton'
+            })
+        })
+
+        docViewer.on('documentLoaded', () => {
+            this.setState({ pageCount: docViewer.getPageCount() })
+        })
+
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/outline_question_answer_black_18dp.png',
+                title: "Question teacher",
+                onClick: async () => this.setState({ dialogquestionopen: true }),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/outline_question_answer_black_18dp.png',
+                title: "Question teacher",
+                onClick: async () => this.setState({ dialogquestionopen: true }),
                 dataElement: 'saveButton'
             })
         })
@@ -103,36 +125,20 @@ class Studentlecture extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
-                title: "Question teacher",
-                onClick: async () => this.setState({ dialogquestionopen: true }),
-                hidden: ['small-mobile']
-            })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
-                title: "Question teacher",
-                onClick: async () => this.setState({ dialogquestionopen: true }),
-                dataElement: 'saveButton'
-            })
-        })
-
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
+                img: 'assets/icons/outline_add_box_black_18dp.png',
                 title: "New Page",
                 onClick: async () => {
                     const doc = docViewer.getDocument()
                     const width = 612;
                     const height = 792
                     await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                    console.log(docViewer.getPageCount())
                 }, dataElement: 'newButton',
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
+                img: 'assets/icons/outline_add_box_black_18dp.png',
                 title: "New Page",
                 onClick: async () => {
                     const doc = docViewer.getDocument()
@@ -179,8 +185,12 @@ class Studentlecture extends React.Component {
                                 style={{ width: '80px' }}
                                 value={this.state.pagevalue}
                                 floatingLabelText="หน้า"
+                                inputProps={{
+                                    maxLength: this.state.pageCount,
+                                }}
                                 onChange={(event) => event.target.value < 1 ?
-                                    this.setState({ pagevalue: 1 }) : this.setState({ pagevalue: event.target.value })}
+                                    this.setState({ pagevalue: 1 }) : event.target.value >= this.state.pageCount ? this.setState({ pagevalue: this.state.pageCount}) 
+                                    : this.setState({ pagevalue: event.target.value })}
                                 type="number"
                                 label="หน้า"
                                 variant="outlined"
@@ -199,7 +209,8 @@ class Studentlecture extends React.Component {
                         <Button onClick={() => this.setState({ dialogquestionopen: false })} color="primary">
                             ยกเลิก
                         </Button>
-                        <Button onClick={() => this.questionTeacher()} color="primary" autoFocus>
+                        <Button onClick={this.state.question === '' ? () => this.setState({ dialogquestionopen: false }) 
+                        : () => this.questionTeacher()} color="primary" autoFocus>
                             ตกลง
                         </Button>
                     </DialogActions>
