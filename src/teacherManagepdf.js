@@ -8,6 +8,11 @@ import {
     DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
     TableHead, TableRow, Paper
 } from '@material-ui/core';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
+import LinkOutlinedIcon from '@material-ui/icons/LinkOutlined';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+
 import Container from '@material-ui/core/Container';
 
 class Managepdf extends React.Component {
@@ -38,7 +43,7 @@ class Managepdf extends React.Component {
         formData.append('role', localStorage.getItem('role'));
         formData.append('chapterid', this.props.match.params.chapterid);
         formData.append('alluser_uid', localStorage.getItem('email'));
-  
+
         await fetch(apiBaseUrl, {
             method: 'POST',
             body: formData
@@ -169,20 +174,20 @@ class Managepdf extends React.Component {
 
                     </DialogActions>
                 </Dialog>
-
-                <TableContainer component={Paper}>
-                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={() => this.handleClickOpen('create')}>
-                        อัปโหลดเอกสารบทเรียน
+                <Button variant="contained" color="primary" style={{ marginBottom: '10px' }}  onClick={() => this.handleClickOpen('create')}>
+                    อัปโหลดเอกสารบทเรียน
                     </Button>
+                <TableContainer component={Paper}>
+
 
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>รายการเอกสารบทเรียน</TableCell>
-                                <TableCell>ดูเลคเชอร์</TableCell>
-                                <TableCell>ดูคำถาม</TableCell>
-                                <TableCell>Link เปิดเอกสารบทเรียน</TableCell>
-                                <TableCell align="right">ลบ</TableCell>
+                                <TableCell align="center">ดูเลคเชอร์</TableCell>
+                                <TableCell align="center">ดูคำถาม</TableCell>
+                                <TableCell align="center">Link เปิดเอกสารบทเรียน</TableCell>
+                                <TableCell align="center">ลบ</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -190,10 +195,11 @@ class Managepdf extends React.Component {
                                 : this.state.loadPdf
                             ).map((value, index) => (
                                 <TableRow key={index}>
-                                    <TableCell>
+                                    <TableCell >
                                         {value.pdfname}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell align="center">
+
                                         <Button color="primary"
                                             onClick={() =>
                                                 this.props.history.push({
@@ -202,30 +208,31 @@ class Managepdf extends React.Component {
                                                 })
                                             }
                                         >
+                                            <VisibilityOutlinedIcon color="action" /> &nbsp;
                                             ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell align="center">
                                         <Button color="primary"
-                                         onClick={() => {
-                                            this.props.history.push({
-                                                pathname: `/question/${value.tpid}`
-                                            })
-                                        }}>
-                                            ดูคำถาม
+                                            onClick={() => {
+                                                this.props.history.push({
+                                                    pathname: `/question/${value.tpid}`
+                                                })
+                                            }}>
+                                            <HelpOutlineOutlinedIcon color="action" /> &nbsp; ดูคำถาม
                                         </Button>
                                     </TableCell>
-                                    <TableCell>
-                                        <Button color="primary" 
+                                    <TableCell align="center">
+                                        <Button color="primary"
                                             onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
                                         >
-                                            คัดลอก
+                                            <LinkOutlinedIcon color="action" /> &nbsp;คัดลอก
                                             </Button>
 
-                                    </TableCell>
-                                    <TableCell align="right">
+                                    </TableCell >
+                                    <TableCell align="center">
                                         <Button color="primary" onClick={() => this.handleClickOpen('delete', value.tpid)}>
-                                            ลบ
+                                            <DeleteOutlinedIcon color="action" /> &nbsp;ลบ
                                             </Button>
                                     </TableCell>
                                 </TableRow>

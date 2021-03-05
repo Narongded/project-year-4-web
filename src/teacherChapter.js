@@ -7,7 +7,9 @@ import {
     DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
     TableHead, TableRow, Paper
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import Container from '@material-ui/core/Container';
 
 class Chapter extends React.Component {
@@ -168,18 +170,18 @@ class Chapter extends React.Component {
                         }
                     </DialogActions>
                 </Dialog>
-
-                <TableContainer component={Paper} >
-                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} onClick={() => this.handleClickOpen('create')}>
-                        สร้างวิชา
+                <Button variant="contained" color="primary" style={{ marginBottom: '10px' }}  onClick={() => this.handleClickOpen('create')}>
+                    สร้างวิชา
                         </Button>
+                <TableContainer component={Paper} >
+
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>รายการวิชาบทเรียน</TableCell>
-                                <TableCell align="right">จัดการไฟล์บทเรียน</TableCell>
-                                <TableCell align="right">แก้ไขบทเรียน</TableCell>
-                                <TableCell align="right">ลบ</TableCell>
+                                <TableCell align="center">จัดการไฟล์บทเรียน</TableCell>
+                                <TableCell align="center">แก้ไขบทเรียน</TableCell>
+                                <TableCell align="center">ลบ</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -190,19 +192,20 @@ class Chapter extends React.Component {
                                     <TableCell component="th" scope="row">
                                         {value.name}
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell align="center">
+
                                         <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.cid)}>
-                                            จัดการไฟล์
+                                            <InsertDriveFileOutlinedIcon color="action" /> &nbsp; จัดการไฟล์
                                         </Button>
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell align="center">
                                         <Button color="primary" onClick={() => this.handleClickOpen('update', value.cid)}>
-                                            แก้ไข
+                                            <EditOutlinedIcon color="action" /> &nbsp; แก้ไข
                                             </Button>
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell align="center">
                                         <Button color="primary" onClick={() => this.handleClickOpen('delete', value.cid)}>
-                                            ลบ
+                                            <DeleteOutlinedIcon color="action" /> &nbsp; ลบ
                                             </Button>
                                     </TableCell>
                                 </TableRow>
