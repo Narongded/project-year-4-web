@@ -117,9 +117,13 @@ class Question extends React.Component {
             open: false
         })
         if (dialogType === 'create') {
-            this.createQa()
+            if (this.state.qa !== '') {
+                this.createQa()
+            }
         } else if (dialogType === 'update') {
-            this.updateQa(id, actionType)
+            if (this.state.qa !== '') {
+                this.updateQa(id, actionType)
+            }
         } else if (dialogType === 'delete') {
             this.deleteQa(id, actionType)
         }
