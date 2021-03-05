@@ -9,7 +9,7 @@ import {
     TableHead, TableRow, Paper
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 class Teacherlecturestudent extends React.Component {
     constructor(props) {
         super(props)
@@ -77,6 +77,7 @@ class Teacherlecturestudent extends React.Component {
                                                 })
                                             }}
                                         >
+                                            <VisibilityOutlinedIcon color="action" /> &nbsp;
                                             ดูเลคเชอร์
                                         </Button>
                                     </TableCell>

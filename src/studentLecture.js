@@ -87,14 +87,14 @@ class Studentlecture extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/outline_save_black_18dp.png',
+                img: 'assets/icons/outline_save_black_48dp.png',
                 title: "Save to Server",
                 onClick: async () => savedata(header),
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/outline_save_black_18dp.png',
+                img: 'assets/icons/outline_save_black_48dp.png',
                 title: "Save to Server",
                 onClick: async () => savedata(header),
                 dataElement: 'saveButton'
@@ -108,14 +108,14 @@ class Studentlecture extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/outline_question_answer_black_18dp.png',
+                img: 'assets/icons/outline_question_answer_black_48dp.png',
                 title: "Question teacher",
                 onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/outline_question_answer_black_18dp.png',
+                img: 'assets/icons/outline_question_answer_black_48dp.png',
                 title: "Question teacher",
                 onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
                 dataElement: 'saveButton'
@@ -125,7 +125,7 @@ class Studentlecture extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/outline_add_box_black_18dp.png',
+                img: 'assets/icons/outline_add_box_black_48dp.png',
                 title: "New Page",
                 onClick: async () => {
                     const doc = docViewer.getDocument()
@@ -138,7 +138,7 @@ class Studentlecture extends React.Component {
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/outline_add_box_black_18dp.png',
+                img: 'assets/icons/outline_add_box_black_48dp.png',
                 title: "New Page",
                 onClick: async () => {
                     const doc = docViewer.getDocument()

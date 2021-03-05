@@ -10,7 +10,9 @@ import {
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 class Question extends React.Component {
     constructor(props) {
         super(props)
@@ -247,6 +249,7 @@ class Question extends React.Component {
                                         {value.answername === null && (value.sownerpdf === localStorage.getItem('email')
                                             || value.townerpdf === localStorage.getItem('email')) ?
                                             <Button color="primary" onClick={() => this.handleOpen('create', value.qid, 'answer')}>
+                                                <AddOutlinedIcon color="action" /> &nbsp;
                                                 เพิ่มคำตอบ
                                             </Button>
                                             : null
@@ -255,10 +258,12 @@ class Question extends React.Component {
                                     <TableCell align="right">
                                         {(value.answername || value.answername === '') && value.ans_alluser_uid === localStorage.getItem('email') ?
                                             <Button color="primary" onClick={() => this.handleOpen('update', value.aid, 'answer')}>
+                                                <EditOutlinedIcon color="action" /> &nbsp;
                                                 แก้ไขคำตอบ
                                             </Button>
                                             : value.ques_alluser_uid === localStorage.getItem('email') ?
                                                 <Button color="primary" onClick={() => this.handleOpen('update', value.qid, 'question')}>
+                                                    <EditOutlinedIcon color="action" /> &nbsp;
                                                     แก้ไขคำถาม
                                                 </Button>
                                                 : null
@@ -267,10 +272,12 @@ class Question extends React.Component {
                                     <TableCell align="right">
                                         {value.answername && (value.ans_alluser_uid === localStorage.getItem('email')) ?
                                             <Button color="primary" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
+                                                <DeleteOutlinedIcon color="action" /> &nbsp;
                                                 ลบคำตอบ
                                             </Button>
                                             : (value.questionname || value.questionname === '') && (value.ques_alluser_uid === localStorage.getItem('email')) ?
                                                 <Button color="primary" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
+                                                    <DeleteOutlinedIcon color="action" /> &nbsp;
                                                     ลบคำถาม
                                             </Button> : null
                                         }
