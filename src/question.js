@@ -9,6 +9,7 @@ import {
     TableHead, TableRow, Paper
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 class Question extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class Question extends React.Component {
             pdfid: '',
             id: '',
             qa: '',
+            filter: '',
             loadquestion: [],
             actionType: '',
             rowperpage: 5,
@@ -180,10 +182,40 @@ class Question extends React.Component {
                     </DialogActions>
                 </Dialog>
 
-                <TableContainer component={Paper}>
-                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} >
-                        เพิ่มคำถาม
-                    </Button>
+                <TableContainer component={Paper} style={{ paddingTop: '10px', marginTop: '50px', marginBottom: '10px' }}>
+                    {localStorage.getItem('role') === 'teacher' ?
+                        <Autocomplete
+                            id="combo-box-demo"
+                            options={this.state.loadquestion}
+                            getOptionLabel={(option) => option.answername ? option.answername : ''}
+                            getOptionSelected={(option, value) => {
+                                if (value === "") {
+                                    return true;
+                                } else if (value === option) {
+                                    return true;
+                                }
+                            }}
+                            onInputChange={(e, selectedObject) => {
+                                if (selectedObject !== null)
+                                    this.setState({ filter: selectedObject })
+                            }}
+                            style={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="ค้นหา" variant="outlined" />}
+                        />
+                    :
+                        <Autocomplete
+                            id="combo-box-demo"
+                            options={this.state.loadquestion}
+                            getOptionLabel={(option) => option.questionname}
+                            onInputChange={(e, selectedObject) => {
+                                if (selectedObject !== null)
+                                    this.setState({ filter: selectedObject })
+                            }}
+                            style={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="ค้นหา" variant="outlined" />}
+                        />
+                    }
+                    
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -195,8 +227,14 @@ class Question extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {(this.state.rowperpage > 0 ? this.state.loadquestion.slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
-                                : this.state.loadquestion
+                            {(this.state.rowperpage > 0 && this.state.filter ?
+                                this.state.loadquestion.filter(item => item.questionname.toLowerCase().includes(this.state.filter) || (item.answername ? item.answername.toLowerCase().includes(this.state.filter) : '')).slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
+                            : this.state.rowperpage > 0 && this.state.filter === '' ?
+                                this.state.loadquestion.slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
+                            : this.state.filter ?
+                                this.state.loadquestion.filter(item => item.questionname.toLowerCase().includes(this.state.filter) || (item.answername ? item.answername.toLowerCase().includes(this.state.filter) : ''))
+                            :
+                                this.state.loadquestion
                             ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell>

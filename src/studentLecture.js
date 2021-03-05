@@ -132,7 +132,7 @@ class Studentlecture extends React.Component {
                     const width = 612;
                     const height = 792
                     await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
-                    console.log(docViewer.getPageCount())
+                    this.setState({ pageCount: docViewer.getPageCount() })
                 }, dataElement: 'newButton',
                 hidden: ['small-mobile']
             })
@@ -145,6 +145,7 @@ class Studentlecture extends React.Component {
                     const width = 612;
                     const height = 792
                     await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                    this.setState({ pageCount: docViewer.getPageCount() })
                 }, dataElement: 'newButton'
             })
         })
