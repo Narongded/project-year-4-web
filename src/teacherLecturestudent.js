@@ -44,16 +44,20 @@ class Teacherlecturestudent extends React.Component {
         return (
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
+                <Button variant="contained" color="primary" style={{ marginBottom: '10px' }} >
+                    อัปโหลดเอกสารบทเรียน
+                             </Button>
                 <TableContainer component={Paper}>
-                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} >
-                        อัปโหลดเอกสารบทเรียน
-                    </Button>
-
+                    <div style={{ marginTop: '8px', textAlign: 'right' }}>
+                        <Button variant="contained" color="primary"  >
+                            อัปโหลดเอกสารบทเรียน
+                            </Button>
+                    </div>
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>รายการเอกสารบทเรียน</TableCell>
-                                <TableCell>ดูเลคเชอร์</TableCell>
+                                <TableCell align='center'>ดูเลคเชอร์</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -62,9 +66,9 @@ class Teacherlecturestudent extends React.Component {
                             ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
-                                        {value.pdfname}
+                                        {value.alluser_uid}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell align='center'>
                                         <Button color="primary"
                                             onClick={() => {
                                                 this.props.history.push({

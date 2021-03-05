@@ -23,14 +23,14 @@ class Login extends Component {
       dialog: false,
       mes: '',
     }
-   
+
   }
   handleAuthenicate = () => {
     try {
       if (localStorage.getItem('role') === 'teacher') this.props.history.push(`/chapter/${localStorage.getItem('uid')}`);
       else if (localStorage.getItem('role') === 'student') this.props.history.push(`/student-chapter/${localStorage.getItem('email')}`);
     } catch (error) {
-      
+
     }
   }
   handleClick = async (event) => {
@@ -120,7 +120,7 @@ class Login extends Component {
   render() {
     return (
       <div className="main">
-        <Card className='card'>
+        <Card className='card' style={{ backgroundColor: '#fbfbfb' }}>
           <MuiThemeProvider >
             <div style={{ textAlign: 'center' }}>
               <div className='cardlogin' >
@@ -150,7 +150,7 @@ class Login extends Component {
                 {this.state.status === false ? [<br />, <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >อีเมลหรือรหัสผ่านไม่ถูกต้อง</InputLabel>] : null}
               </div>
               <br />
-              <Button classes={{ root: 'Button' }} onClick={(event) => this.handleClick(event)}>ส่ง</Button>
+              <Button classes={{ root: 'Button' }} onClick={(event) => this.handleClick(event)}>เข้าสู่ระบบ</Button>
               <br />
               <br />
             </div>
