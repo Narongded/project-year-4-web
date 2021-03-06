@@ -251,11 +251,6 @@ class Question extends React.Component {
                                                 <AddOutlinedIcon color="action" /> &nbsp;
                                                 เพิ่มคำตอบ
                                             </Button>
-                                            : value.questionname === null && (value.sownerpdf === localStorage.getItem('email')) ?
-                                                <Button color="primary" onClick={() => this.handleOpen('create', value.qid, 'question')}>
-                                                    <AddOutlinedIcon color="action" /> &nbsp;
-                                                    เพิ่มคำถาม
-                                                </Button>
                                             : null
                                         }
                                     </TableCell>
