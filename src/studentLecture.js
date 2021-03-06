@@ -104,6 +104,9 @@ class Studentlecture extends React.Component {
         docViewer.on('documentLoaded', () => {
             this.setState({ pageCount: docViewer.getPageCount() })
         })
+        docViewer.on('pageNumberUpdated', () => {
+            this.setState({ pageCount: docViewer.getPageCount() })
+        })
 
         instance.setHeaderItems(header => {
             header.push({

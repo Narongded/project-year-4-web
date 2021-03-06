@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
+import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 
 class Studentchapter extends React.Component {
     constructor(props) {
@@ -66,6 +67,7 @@ class Studentchapter extends React.Component {
                                     </TableCell>
                                     <TableCell align="right">
                                         <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.cid)}>
+                                            <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                             จัดการไฟล์
                                         </Button>
                                     </TableCell>

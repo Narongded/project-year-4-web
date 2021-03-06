@@ -246,12 +246,16 @@ class Question extends React.Component {
                                         {value.answername}
                                     </TableCell>
                                     <TableCell align="right">
-                                        {value.answername === null && (value.sownerpdf === localStorage.getItem('email')
-                                            || value.townerpdf === localStorage.getItem('email')) ?
+                                        {value.answername === null && (value.townerpdf === localStorage.getItem('email')) ?
                                             <Button color="primary" onClick={() => this.handleOpen('create', value.qid, 'answer')}>
                                                 <AddOutlinedIcon color="action" /> &nbsp;
                                                 เพิ่มคำตอบ
                                             </Button>
+                                            : value.questionname === null && (value.sownerpdf === localStorage.getItem('email')) ?
+                                                <Button color="primary" onClick={() => this.handleOpen('create', value.qid, 'question')}>
+                                                    <AddOutlinedIcon color="action" /> &nbsp;
+                                                    เพิ่มคำถาม
+                                                </Button>
                                             : null
                                         }
                                     </TableCell>
