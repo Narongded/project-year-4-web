@@ -11,6 +11,7 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Menu from '@material-ui/core/Menu';
+import './slidebar.css';
 class Slidebar extends React.Component {
   constructor(props) {
     super(props)
@@ -73,7 +74,7 @@ class Slidebar extends React.Component {
             </Typography>
 
             <div>
-              <span>{localStorage.getItem('firstname')} {localStorage.getItem('lastname')}</span>
+              <span id="name">{localStorage.getItem('firstname')} {localStorage.getItem('lastname')}</span>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"

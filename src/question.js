@@ -6,8 +6,9 @@ import {
     AppBar, IconButton, Toolbar, Button, Grid,
     TextField, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
-    TableHead, TableRow, Paper
+    TableHead, TableRow, Paper, InputAdornment, TableSortLabel
 } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 import Container from '@material-ui/core/Container';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
@@ -26,7 +27,9 @@ class Question extends React.Component {
             loadquestion: [],
             actionType: '',
             rowperpage: 5,
-            page: 0
+            page: 0,
+            orderBy: 'asc',
+            order: -1
         }
     }
     loadquestion = async () => {
@@ -132,6 +135,12 @@ class Question extends React.Component {
             this.deleteQa(id, actionType)
         }
     }
+    handleOrderBy = () => {
+        let orderby = this.state.orderBy === 'asc' ? 'desc' : 'asc'
+        this.setState({ orderBy: orderby })
+        this.setState({ order: orderby === 'desc' ? 1 : -1 })
+
+    }
     componentDidMount() {
         this.loadquestion()
 
@@ -184,44 +193,38 @@ class Question extends React.Component {
                     </DialogActions>
                 </Dialog>
 
-                <TableContainer component={Paper} style={{ paddingTop: '10px', marginTop: '50px', marginBottom: '10px' }}>
-                    {localStorage.getItem('role') === 'teacher' ?
-                        <Autocomplete
-                            id="combo-box-demo"
-                            options={this.state.loadquestion}
-                            getOptionLabel={(option) => option.answername ? option.answername : ''}
-                            getOptionSelected={(option, value) => {
-                                if (value === "") {
-                                    return true;
-                                } else if (value === option) {
-                                    return true;
-                                }
+                <TableContainer component={Paper} style={{ marginTop: '50px', marginBottom: '10px' }}>
+                    <Grid item lg={12} style={{ textAlign: 'right' }}>
+                        <TextField
+                            autoFocus
+                            size={'small'}
+                            margin="normal"
+                            label="ค้นหารหัสนักศึกษา"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                ),
                             }}
-                            onInputChange={(e, selectedObject) => {
-                                if (selectedObject !== null)
-                                    this.setState({ filter: selectedObject })
-                            }}
-                            style={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="ค้นหา" variant="outlined" />}
+                            onChange={(e) => this.setState({ filter: e.target.value })}
+                            floatingLabelText="Email"
+                            variant="outlined"
                         />
-                    :
-                        <Autocomplete
-                            id="combo-box-demo"
-                            options={this.state.loadquestion}
-                            getOptionLabel={(option) => option.questionname}
-                            onInputChange={(e, selectedObject) => {
-                                if (selectedObject !== null)
-                                    this.setState({ filter: selectedObject })
-                            }}
-                            style={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="ค้นหา" variant="outlined" />}
-                        />
-                    }
-                    
+                    </Grid>
+
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>คำถาม</TableCell>
+                                <TableCell>หน้า</TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                        active={true}
+                                        direction={this.state.orderBy}
+                                        onClick={() => this.handleOrderBy()}
+                                    >
+                                        คำถาม  </TableSortLabel>
+                                </TableCell>
                                 <TableCell>คำตอบ</TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
@@ -229,16 +232,21 @@ class Question extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {(this.state.rowperpage > 0 && this.state.filter ?
-                                this.state.loadquestion.filter(item => item.questionname.toLowerCase().includes(this.state.filter) || (item.answername ? item.answername.toLowerCase().includes(this.state.filter) : '')).slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
-                            : this.state.rowperpage > 0 && this.state.filter === '' ?
-                                this.state.loadquestion.slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
-                            : this.state.filter ?
-                                this.state.loadquestion.filter(item => item.questionname.toLowerCase().includes(this.state.filter) || (item.answername ? item.answername.toLowerCase().includes(this.state.filter) : ''))
-                            :
-                                this.state.loadquestion
+                            { }
+                            {(this.state.rowperpage > 0 ?
+                                this.state.loadquestion.filter(data => data.ques_alluser_uid.toLowerCase().includes(this.state.filter))
+                                    .sort(() => this.state.order)
+                                    .slice(this.state.page * this.state.rowperpage,
+                                        this.state.page * this.state.rowperpage + this.state.rowperpage)
+                                : this.state.loadquestion
                             ).map((value, index) => (
                                 <TableRow key={index}>
+                                    <TableCell style={{ paddingLeft: '0px' }}>
+                                        <Button color="primary" style={{ paddingLeft: '0px' }} >
+                                            {value.page}
+                                        </Button>
+
+                                    </TableCell>
                                     <TableCell>
                                         {value.questionname}
                                     </TableCell>

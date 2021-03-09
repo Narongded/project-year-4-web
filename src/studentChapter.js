@@ -50,8 +50,8 @@ class Studentchapter extends React.Component {
         return (
             <Container maxWidth="lg">
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
-                <TableContainer component={Paper} >
-                    <Table aria-label="simple table" style={{ marginTop: '80px' }}>
+                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
+                    <Table aria-label="simple table" >
                         <TableHead>
                             <TableRow>
                                 <TableCell>รายการวิชา</TableCell>
