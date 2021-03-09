@@ -21,11 +21,11 @@ class Studentchapter extends React.Component {
         }
     }
     handleRedirect = async (page, chapterid) => {
-        if (page === 'managepdf') this.props.history.push(`/student-pdf/${localStorage.getItem('email')}/${chapterid}`);
+        if (page === 'managepdf') this.props.history.push(`/student-pdf/${this.props.match.params.userid}/${chapterid}`);
     }
 
     loadChapter = async () => {
-        const apiBaseUrl = `http://localhost:3001/user/getchapter/${localStorage.getItem('email')}`;
+        const apiBaseUrl = `http://localhost:3001/user/getchapter/${this.props.match.params.userid}`;
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {

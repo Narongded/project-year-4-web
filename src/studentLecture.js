@@ -30,7 +30,8 @@ class Studentlecture extends React.Component {
             'page': this.state.pagevalue,
             'question': this.state.question,
             'uid': localStorage.getItem('email'),
-            'pdfid': pdfid
+            'pdfid': pdfid,
+            'studentpdfpath' : this.props.location.state.pdfpath
         }
         fetch(apiBaseUrl, {
             method: 'POST',
@@ -72,7 +73,7 @@ class Studentlecture extends React.Component {
                     console.error(error)
                 });
         }
-
+       
         instance.disableElements(['annotationNoteConnectorLine'])
         const FitMode = instance.FitMode
         instance.setFitMode(FitMode.FitWidth)
@@ -103,6 +104,7 @@ class Studentlecture extends React.Component {
 
         docViewer.on('documentLoaded', () => {
             this.setState({ pageCount: docViewer.getPageCount() })
+            if(this.props.location.state.page) docViewer.setCurrentPage(this.props.location.state.page)
         })
         docViewer.on('pageNumberUpdated', () => {
             this.setState({ pageCount: docViewer.getPageCount() })

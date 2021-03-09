@@ -242,7 +242,13 @@ class Question extends React.Component {
                             ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell style={{ paddingLeft: '0px' }}>
-                                        <Button color="primary" style={{ paddingLeft: '0px' }} >
+                                        <Button color="primary" style={{ paddingLeft: '0px' }} onClick={() => {
+                                            this.props.history.push({
+                                                pathname: `/student-lecture/${value.ques_alluser_uid}/${value.teacherpdfid}`,
+                                                state: { pdfpath: value.studentpdf_sid, userid: value.ques_alluser_uid ,page : value.page}
+                                            })
+                                        }
+                                        }>
                                             {value.page}
                                         </Button>
 
@@ -311,7 +317,7 @@ class Question extends React.Component {
                         </TableFooter>
                     </Table>
                 </TableContainer>
-            </Container>
+            </Container >
         )
     }
 }
