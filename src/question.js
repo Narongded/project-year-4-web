@@ -193,7 +193,7 @@ class Question extends React.Component {
                     </DialogActions>
                 </Dialog>
 
-                <TableContainer component={Paper} style={{ marginTop: '50px', marginBottom: '10px' }}>
+                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
                     <Grid item lg={12} style={{ textAlign: 'right' }}>
                         <TextField
                             autoFocus

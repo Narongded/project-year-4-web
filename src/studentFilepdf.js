@@ -26,7 +26,7 @@ class StudentPdf extends React.Component {
         }
     }
     loadPdf = async () => {
-        const apiBaseUrl = `http://localhost:3001/user/getdata-lecture/${localStorage.getItem('email')}/${this.props.match.params.chapterid}`;
+        const apiBaseUrl = `http://localhost:3001/user/getdata-lecture/${this.props.match.params.userid}/${this.props.match.params.chapterid}`;
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
@@ -63,10 +63,8 @@ class StudentPdf extends React.Component {
         return (
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
-                <TableContainer component={Paper}>
-                    <Button variant="contained" color="primary" style={{ marginTop: '50px' }} >
-                        อัปโหลดเอกสารบทเรียน
-                    </Button>
+                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
+            
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
