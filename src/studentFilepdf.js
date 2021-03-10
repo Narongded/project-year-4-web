@@ -9,7 +9,9 @@ import {
     TableHead, TableRow, Paper
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
+import VideoLibraryOutlinedIcon from '@material-ui/icons/VideoLibraryOutlined';
 class StudentPdf extends React.Component {
     constructor(props) {
         super(props)
@@ -72,7 +74,6 @@ class StudentPdf extends React.Component {
                                 <TableCell>ดูเลคเชอร์</TableCell>
                                 <TableCell>ดูคำถามและคำตอบ</TableCell>
                                 <TableCell>คลิปเสียงและวิดีโอ</TableCell>
-                                <TableCell align="right">ลบ</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -92,6 +93,7 @@ class StudentPdf extends React.Component {
                                                 })
                                             }}
                                         >
+                                            <VisibilityOutlinedIcon color="action" /> &nbsp;
                                             ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
@@ -102,18 +104,15 @@ class StudentPdf extends React.Component {
                                                     pathname: `/question/${value.tpid}`
                                                 })
                                             }}>
-                                            ดูคำถามและคำตอบ
+                                                <HelpOutlineOutlinedIcon color="action" /> &nbsp;
+                                                ดูคำถามและคำตอบ
                                         </Button>
                                     </TableCell>
                                     <TableCell>
                                         <Button color="primary" >
+                                            <VideoLibraryOutlinedIcon color="action" /> &nbsp;
                                             ดูไฟล์เสียงและวิดีโอ
                                         </Button>
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.spid)}>
-                                            ลบ
-                                            </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

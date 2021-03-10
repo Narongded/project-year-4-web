@@ -117,14 +117,14 @@ class Pdfano extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
+                img: 'assets/icons/outline_save_black_48dp.png',
                 title: "Save to Server",
                 onClick: async () => savedata(header),
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
+                img: 'assets/icons/outline_save_black_48dp.png',
                 title: "Save to Server",
                 onClick: async () => savedata(header),
                 dataElement: 'saveButton'
@@ -134,27 +134,45 @@ class Pdfano extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
+                img: 'assets/icons/outline_question_answer_black_48dp.png',
+                title: "Question teacher",
+                onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/outline_question_answer_black_48dp.png',
+                title: "Question teacher",
+                onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
+                dataElement: 'saveButton'
+            })
+        })
+
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/outline_add_box_black_48dp.png',
                 title: "New Page",
                 onClick: async () => {
                     const doc = docViewer.getDocument()
                     const width = 612;
                     const height = 792
                     await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                    this.setState({ pageCount: docViewer.getPageCount() })
                 }, dataElement: 'newButton',
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/itkmitl.jpg',
+                img: 'assets/icons/outline_add_box_black_48dp.png',
                 title: "New Page",
                 onClick: async () => {
                     const doc = docViewer.getDocument()
                     const width = 612;
                     const height = 792
                     await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                    this.setState({ pageCount: docViewer.getPageCount() })
                 }, dataElement: 'newButton'
-
             })
         })
     })
