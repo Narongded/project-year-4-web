@@ -126,7 +126,6 @@ class Managepdf extends React.Component {
                             <DialogContent style={{ width: '250px' }}>
                                 <TextField
                                     id="outlined-full-width"
-                                    style={{ margin: 8 }}
                                     placeholder="กรุณากรอกชื่อบทเรียน"
                                     margin="normal"
                                     InputLabelProps={{
@@ -185,11 +184,11 @@ class Managepdf extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>รายการเอกสารบทเรียน</TableCell>
-                                <TableCell align="center">ดูเลคเชอร์</TableCell>
-                                <TableCell align="center">ดูคำถาม</TableCell>
-                                <TableCell align="center">Link เปิดเอกสารบทเรียน</TableCell>
-                                <TableCell align="center">ลบ</TableCell>
+                                <TableCell><b>รายการเอกสารบทเรียน</b></TableCell>
+                                <TableCell align="center"><b>ดูเลคเชอร์</b></TableCell>
+                                <TableCell align="center"><b>ดูคำถาม</b></TableCell>
+                                <TableCell align="center"><b>Link เปิดเอกสารบทเรียน</b></TableCell>
+                                <TableCell align="center"><b>ลบ</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

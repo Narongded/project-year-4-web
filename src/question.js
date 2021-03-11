@@ -216,16 +216,16 @@ class Question extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>หน้า</TableCell>
+                                <TableCell><b>หน้า</b></TableCell>
                                 <TableCell>
                                     <TableSortLabel
                                         active={true}
                                         direction={this.state.orderBy}
                                         onClick={() => this.handleOrderBy()}
                                     >
-                                        คำถาม  </TableSortLabel>
+                                       <b> คำถาม  </b></TableSortLabel>
                                 </TableCell>
-                                <TableCell>คำตอบ</TableCell>
+                                <TableCell><b>คำตอบ</b></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell align="right"></TableCell>

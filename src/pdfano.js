@@ -134,23 +134,6 @@ class Pdfano extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/outline_question_answer_black_48dp.png',
-                title: "Question teacher",
-                onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
-                hidden: ['small-mobile']
-            })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/outline_question_answer_black_48dp.png',
-                title: "Question teacher",
-                onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
-                dataElement: 'saveButton'
-            })
-        })
-
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
                 img: 'assets/icons/outline_add_box_black_48dp.png',
                 title: "New Page",
                 onClick: async () => {

@@ -141,7 +141,6 @@ class Chapter extends React.Component {
                             <DialogContent style={{ width: '250px' }}>
                                 <TextField
                                     id="outlined-full-width"
-                                    style={{ margin: 8 }}
                                     placeholder="กรุณากรอกชื่อบทเรียน"
                                     margin="normal"
                                     InputLabelProps={{
@@ -182,10 +181,10 @@ class Chapter extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>รายการวิชาบทเรียน</TableCell>
-                                <TableCell align="center">จัดการไฟล์บทเรียน</TableCell>
-                                <TableCell align="center">แก้ไขบทเรียน</TableCell>
-                                <TableCell align="center">ลบ</TableCell>
+                                <TableCell><b>รายการวิชาบทเรียน</b></TableCell>
+                                <TableCell align="center"><b>จัดการไฟล์บทเรียน</b></TableCell>
+                                <TableCell align="center"><b>แก้ไขบทเรียน</b></TableCell>
+                                <TableCell align="center"><b>ลบ</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

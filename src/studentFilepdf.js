@@ -70,10 +70,10 @@ class StudentPdf extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>รายการเอกสารบทเรียน</TableCell>
-                                <TableCell>ดูเลคเชอร์</TableCell>
-                                <TableCell>ดูคำถามและคำตอบ</TableCell>
-                                <TableCell>คลิปเสียงและวิดีโอ</TableCell>
+                                <TableCell><b>รายการเอกสารบทเรียน</b></TableCell>
+                                <TableCell align="center"><b>ดูเลคเชอร์</b></TableCell>
+                                <TableCell align="center"><b>ดูคำถามและคำตอบ</b></TableCell>
+                                <TableCell align="center"><b>คลิปเสียงและวิดีโอ</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -84,12 +84,12 @@ class StudentPdf extends React.Component {
                                     <TableCell>
                                         {value.pdfname}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell align="center">
                                         <Button color="primary"
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${this.props.match.params.userid}/${value.teacherpdf_tpid}`,
-                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid }
+                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid ,pdfid: value.sid }
                                                 })
                                             }}
                                         >
@@ -97,7 +97,7 @@ class StudentPdf extends React.Component {
                                             ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell align="center">
                                         <Button color="primary" 
                                             onClick={() => {
                                                 this.props.history.push({
@@ -108,7 +108,7 @@ class StudentPdf extends React.Component {
                                                 ดูคำถามและคำตอบ
                                         </Button>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell align="center">
                                         <Button color="primary" >
                                             <VideoLibraryOutlinedIcon color="action" /> &nbsp;
                                             ดูไฟล์เสียงและวิดีโอ

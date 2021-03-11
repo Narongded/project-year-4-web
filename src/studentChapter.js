@@ -54,9 +54,9 @@ class Studentchapter extends React.Component {
                     <Table aria-label="simple table" >
                         <TableHead>
                             <TableRow>
-                                <TableCell>รายการวิชา</TableCell>
-                                <TableCell align="right">จัดการไฟล์เลคเชอร์</TableCell>
-                                <TableCell align="right">ลบ</TableCell>
+                                <TableCell> <b> รายการวิชา </b></TableCell>
+                                <TableCell align="center"><b> จัดการไฟล์เลคเชอร์</b></TableCell>
+                                <TableCell align="center"><b> ลบ</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -65,13 +65,13 @@ class Studentchapter extends React.Component {
                                     <TableCell component="th" scope="row">
                                         {value.name}
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell align="center">
                                         <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.cid)}>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                             จัดการไฟล์
                                         </Button>
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell align="center">
                                         <Button color="primary" onClick={() => this.handleClickOpen('delete', value.sid)}>
                                             ลบ
                                             </Button>

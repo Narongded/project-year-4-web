@@ -12,9 +12,13 @@ class Studentlecture extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            statusopen:false,
             open: false,
+            typeFile: null,
             dialogquestionopen: false,
             base64: '',
+            file: null,
+            filename: null,
             check: null,
             pagevalue: 1,
             question: '',
@@ -31,7 +35,7 @@ class Studentlecture extends React.Component {
             'question': this.state.question,
             'uid': localStorage.getItem('email'),
             'pdfid': pdfid,
-            'studentpdfpath' : this.props.location.state.pdfpath
+            'studentpdfpath': this.props.location.state.pdfpath
         }
         fetch(apiBaseUrl, {
             method: 'POST',
@@ -42,6 +46,7 @@ class Studentlecture extends React.Component {
             body: JSON.stringify(payload)
         }).then((res) => res.json()).then((res) => console.log('a'))
     }
+
     showpdf = () => WebViewer(
         {
             path: '/lib',
@@ -73,7 +78,7 @@ class Studentlecture extends React.Component {
                     console.error(error)
                 });
         }
-       
+
         instance.disableElements(['annotationNoteConnectorLine'])
         const FitMode = instance.FitMode
         instance.setFitMode(FitMode.FitWidth)
@@ -101,10 +106,41 @@ class Studentlecture extends React.Component {
                 dataElement: 'saveButton'
             })
         })
-
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/outline_save_black_48dp.png',
+                title: "Upload Video",
+                onClick: async () => this.setState({ open: true, typeFile: "Video" }),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/outline_save_black_48dp.png',
+                title: "Upload Video",
+                onClick: async () => this.setState({ open: true, typeFile: "Video" }),
+                dataElement: 'saveVideo'
+            })
+        })
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/outline_save_black_48dp.png',
+                title: "Upload Audio",
+                onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/outline_save_black_48dp.png',
+                title: "Upload Audio",
+                onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
+                dataElement: 'saveAudio'
+            })
+        })
         docViewer.on('documentLoaded', () => {
             this.setState({ pageCount: docViewer.getPageCount() })
-            if(this.props.location.state.page) docViewer.setCurrentPage(this.props.location.state.page)
+            if (this.props.location.state.page) docViewer.setCurrentPage(this.props.location.state.page)
         })
         docViewer.on('pageNumberUpdated', () => {
             this.setState({ pageCount: docViewer.getPageCount() })
@@ -123,7 +159,7 @@ class Studentlecture extends React.Component {
                 img: 'assets/icons/outline_question_answer_black_48dp.png',
                 title: "Question teacher",
                 onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
-                dataElement: 'saveButton'
+                dataElement: 'Question'
             })
         })
 
@@ -157,10 +193,26 @@ class Studentlecture extends React.Component {
     })
     handleOpen = () => {
         this.setState({
-            open: true
+            statusopen: true
         })
     }
-
+    handleUploadFile = async () => {
+        const apiBaseUrl = "http://localhost:3001/user/upload-file/" + this.props.location.state.pdfid
+        const formData = new FormData()
+        formData.append('file', this.state.file);
+        formData.append('type', this.state.typeFile)
+        this.handleOpen()
+        await fetch(apiBaseUrl, {
+            method: 'POST',
+            body: formData
+        }).then((res) => res.json())
+            .then((res) => {
+                this.setState({ open: false, file: null, filename: null })
+            })
+            .catch((error) => {
+                console.error(error)
+            });
+    }
     componentDidMount() {
         this.props.location.state === undefined ? this.props.history.push({ pathname: '/login' }) : this.showpdf()
     }
@@ -169,14 +221,14 @@ class Studentlecture extends React.Component {
 
             <Container maxWidth='lg' style={{ marginTop: '50px' }}>
                 <Dialog
-                    open={this.state.open}
+                    open={this.state.statusopen}
                     onClose={false}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title">{"บันทึกแล้ว"}</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => this.setState({ open: false })} color="primary">
+                        <Button onClick={() => this.setState({ statusopen: false })} color="primary">
                             ปิด
                         </Button>
                     </DialogActions>
@@ -214,6 +266,40 @@ class Studentlecture extends React.Component {
                         </Button>
                         <Button onClick={this.state.question === '' ? () => this.setState({ dialogquestionopen: false }) 
                         : () => this.questionTeacher()} color="primary" autoFocus>
+                            ตกลง
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
+
+                    <div>
+                        <DialogTitle id="form-dialog-title">{this.state.typeFile}</DialogTitle>
+                        <DialogContent style={{ width: '250px' }}>
+                            <input
+                                style={{ display: 'none' }}
+                                id="contained-button-file"
+                                multiple
+                                type="file"
+                                onChange={(event) =>
+                                    event.target.files[0] === undefined ?
+                                        this.setState({ file: null, filename: null })
+                                        :
+                                        this.setState({ file: event.target.files[0], filename: event.target.files[0].name })}
+                            />
+                            <label htmlFor="contained-button-file">
+                                <Button variant="contained" color="primary" component="span">
+                                    เลือกไฟล์
+                                </Button>
+                                {this.state.filename ? " : " + this.state.filename : null}
+                            </label>
+                        </DialogContent>
+                    </div>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ open: false, file: null, filename: null })} color="primary">
+                            ยกเลิก
+                        </Button>
+
+                        <Button onClick={() => this.handleUploadFile()} color="primary" autoFocus>
                             ตกลง
                         </Button>
                     </DialogActions>

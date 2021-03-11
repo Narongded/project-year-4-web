@@ -44,20 +44,14 @@ class Teacherlecturestudent extends React.Component {
         return (
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
-                <Button variant="contained" color="primary" style={{ marginBottom: '10px' }} >
-                    อัปโหลดเอกสารบทเรียน
-                             </Button>
-                <TableContainer component={Paper}>
-                    <div style={{ marginTop: '8px', textAlign: 'right' }}>
-                        <Button variant="contained" color="primary"  >
-                            อัปโหลดเอกสารบทเรียน
-                            </Button>
-                    </div>
+      
+                <TableContainer component={Paper}  style={{ marginTop: '100px' }}>
+     
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>รายการเอกสารบทเรียน</TableCell>
-                                <TableCell align='center'>ดูเลคเชอร์</TableCell>
+                                <TableCell><b>รายการเอกสารบทเรียน</b></TableCell>
+                                <TableCell align='center'><b>ดูเลคเชอร์</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
