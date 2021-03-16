@@ -1,0 +1,12 @@
+.toolsGroup {
+  flex-direction: column;
+  display: flex;
+  position: fixed;
+  top: 73%;
+  bottom: auto;
+  right: 0px;
+}
+.MuiFab-primary {
+  margin-bottom: 3px !important;
+  margin-right: 2px !important;
+}
