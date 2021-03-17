@@ -109,14 +109,14 @@ class Studentlecture extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/outline_save_black_48dp.png',
+                img: 'assets/icons/outline_ondemand_video_black_48dp.png',
                 title: "Upload Video",
                 onClick: async () => this.setState({ open: true, typeFile: "Video" }),
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/outline_save_black_48dp.png',
+                img: 'assets/icons/outline_ondemand_video_black_48dp.png',
                 title: "Upload Video",
                 onClick: async () => this.setState({ open: true, typeFile: "Video" }),
                 dataElement: 'saveVideo'
@@ -125,14 +125,14 @@ class Studentlecture extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
-                img: 'assets/icons/outline_save_black_48dp.png',
+                img: 'assets/icons/outline_record_voice_over_black_48dp.png',
                 title: "Upload Audio",
                 onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
                 hidden: ['small-mobile']
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
-                img: 'assets/icons/outline_save_black_48dp.png',
+                img: 'assets/icons/outline_record_voice_over_black_48dp.png',
                 title: "Upload Audio",
                 onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
                 dataElement: 'saveAudio'
