@@ -44,9 +44,9 @@ class Teacherlecturestudent extends React.Component {
         return (
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
-      
-                <TableContainer component={Paper}  style={{ marginTop: '100px' }}>
-     
+
+                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
+
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -67,7 +67,7 @@ class Teacherlecturestudent extends React.Component {
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${value.alluser_uid}/${value.teacherpdf_tpid}`,
-                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid }
+                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid, pdfid: value.sid }
                                                 })
                                             }}
                                         >

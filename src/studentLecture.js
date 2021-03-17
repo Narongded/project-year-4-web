@@ -1,30 +1,84 @@
 import * as React from 'react';
 import WebViewer from '@pdftron/webviewer'
-import { Button, Grid, Container, TextField } from '@material-ui/core';
+import { Button, Grid, Container, TextField, Fab } from '@material-ui/core';
 import Slidebar from './components/slideBar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { Rnd } from "react-rnd";
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
+import ReactPlayer from 'react-player'
+import './studentLecture.css'
 import { saveAs } from 'file-saver';
 class Studentlecture extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            statusopen:false,
+            statusopen: false,
             open: false,
+            openfile: false,
+            openfiletype: "",
             typeFile: null,
             dialogquestionopen: false,
             base64: '',
             file: null,
             filename: null,
+            filevideo: null,
+            play: false,
+            fileaudio: null,
             check: null,
             pagevalue: 1,
             question: '',
             pageCount: 0
         }
         this.viewerRef = React.createRef();
+    }
+
+    loadfile = async () => {
+        const apiBaseUrl = `http://localhost:3001/user/getdatafile-pdf/${this.props.location.state.pdfid}`;
+        await fetch(apiBaseUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+
+        }).then((res) => res.json())
+            .then((res) => {
+                if (res.data[0].file !== null) {
+                    if (res.data[0].file.replaceAll("[", "").replaceAll("]", "").split("|")[0].split(",")[1] === "Video") {
+                        this.setState({
+                            filevideo: "http://localhost:3001/static/file/" +
+                                res.data[0].file.replaceAll("[", "").replaceAll("]", "").split("|")[0].split(",")[0]
+                        })
+                        if (res.data[0].file.replaceAll("[", "").replaceAll("]", "").split("|")[1].split(",")[1] === "Audio") {
+                            this.setState({
+                                fileaudio: "http://localhost:3001/static/file/" +
+                                    res.data[0].file.replaceAll("[", "").replaceAll("]", "").split("|")[1].split(",")[0]
+                            })
+                        }
+                    }
+                    else if (res.data[0].file.replaceAll("[", "").replaceAll("]", "").split("|")[0].split(",")[1] === "Audio") {
+                        this.setState({
+                            fileaudio: "http://localhost:3001/static/file/" +
+                                res.data[0].file.replaceAll("[", "").replaceAll("]", "").split("|")[0].split(",")[0]
+                        })
+                        if (res.data[0].file.replaceAll("[", "").replaceAll("]", "").split("|")[1].split(",")[1] === "Video") {
+                            this.setState({
+                                filevideo: "http://localhost:3001/static/file/" +
+                                    res.data[0].file.replaceAll("[", "").replaceAll("]", "").split("|")[1].split(",")[0]
+                            })
+                        }
+                    }
+                }
+
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
     questionTeacher = async () => {
         this.setState({ dialogquestionopen: false })
@@ -215,6 +269,7 @@ class Studentlecture extends React.Component {
     }
     componentDidMount() {
         this.props.location.state === undefined ? this.props.history.push({ pathname: '/login' }) : this.showpdf()
+        this.loadfile()
     }
     render() {
         return (
@@ -244,8 +299,8 @@ class Studentlecture extends React.Component {
                                 value={this.state.pagevalue}
                                 floatingLabelText="หน้า"
                                 onChange={(event) => event.target.value < 1 ?
-                                    this.setState({ pagevalue: 1 }) : event.target.value >= this.state.pageCount ? this.setState({ pagevalue: this.state.pageCount}) 
-                                    : this.setState({ pagevalue: event.target.value })}
+                                    this.setState({ pagevalue: 1 }) : event.target.value >= this.state.pageCount ? this.setState({ pagevalue: this.state.pageCount })
+                                        : this.setState({ pagevalue: event.target.value })}
                                 type="number"
                                 label="หน้า"
                                 variant="outlined"
@@ -264,8 +319,8 @@ class Studentlecture extends React.Component {
                         <Button onClick={() => this.setState({ dialogquestionopen: false })} color="primary">
                             ยกเลิก
                         </Button>
-                        <Button onClick={this.state.question === '' ? () => this.setState({ dialogquestionopen: false }) 
-                        : () => this.questionTeacher()} color="primary" autoFocus>
+                        <Button onClick={this.state.question === '' ? () => this.setState({ dialogquestionopen: false })
+                            : () => this.questionTeacher()} color="primary" autoFocus>
                             ตกลง
                         </Button>
                     </DialogActions>
@@ -279,6 +334,7 @@ class Studentlecture extends React.Component {
                                 style={{ display: 'none' }}
                                 id="contained-button-file"
                                 multiple
+                                accept={this.state.typeFile !== null ? `${this.state.typeFile.toLowerCase()}/*` : null}
                                 type="file"
                                 onChange={(event) =>
                                     event.target.files[0] === undefined ?
@@ -306,7 +362,60 @@ class Studentlecture extends React.Component {
                 </Dialog>
 
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
-                <div className="webviewer" ref={this.viewerRef} style={{ height: "88vh" }}></div>
+                { this.state.openfile &&
+
+                    <Rnd
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            height: "max-content",
+                            border: "solid 20px #ffffff00",
+                            background: "rgb(240 240 240 / 0%)",
+                        }}
+                        default={{
+                            x: 0,
+                            y: 0,
+                            width: 320
+                        }}
+                    >
+                        <Button style={{ display: "    display: inline-block" }}>
+                            <AddIcon color="primary" />
+                        </Button>
+
+                        <ReactPlayer
+                            playing={this.state.play}
+                            loop={false}
+                            style={{ display: "contents" }}
+                            onError={(e) => console.log(e)}
+                            url={this.state.openfiletype === "Video" ?
+                                this.state.filevideo
+                                : this.state.fileaudio}
+                            controls={true} />
+                    </Rnd>
+
+                }
+                <div className="toolsGroup">
+                    {console.log(this.state.filevideo)}
+                    <Fab color="primary" aria-label="add"
+                        onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Video" })}
+                        disabled={this.state.filevideo !== null ? false : true}
+                    >
+                        <AddIcon />
+                    </Fab>
+                    <Fab color="primary" aria-label="add"
+                        onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Audio" })}
+                        disabled={this.state.fileaudio !== null ? false : true}>
+                        <AddIcon />
+                    </Fab>
+                    <Fab color="primary" aria-label="add"
+                        onClick={() => this.setState({ openfile: false, play: false, filevideo: '', fileaudio: '' })}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </div>
+                <div className="webviewer" ref={this.viewerRef} style={{ height: "85vh" }}></div>
             </Container >
         )
     }
