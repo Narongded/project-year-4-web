@@ -1,6 +1,9 @@
 import * as React from 'react';
 import WebViewer from '@pdftron/webviewer'
-import { Button, Grid, Container, TextField, Fab } from '@material-ui/core';
+import {
+    Button, Grid, Container, TextField, Fab,
+    Popper, MenuList, MenuItem, Paper, Grow, ClickAwayListener
+} from '@material-ui/core';
 import Slidebar from './components/slideBar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -32,9 +35,11 @@ class Studentlecture extends React.Component {
             check: null,
             pagevalue: 1,
             question: '',
+            popupvideo: false,
             pageCount: 0
         }
         this.viewerRef = React.createRef();
+        this.popupvideoref = React.createRef();
     }
 
     loadfile = async () => {
@@ -250,6 +255,14 @@ class Studentlecture extends React.Component {
             statusopen: true
         })
     }
+
+    handleClose = (event) => {
+        if (this.popupvideoref.current && this.popupvideoref.current.contains(event.target)) {
+            return;
+        }
+        console.log(this.state.popupvideo)
+        this.setState({ popupvideo: false })
+    };
     handleUploadFile = async () => {
         const apiBaseUrl = "http://localhost:3001/user/upload-file/" + this.props.location.state.pdfid
         const formData = new FormData()
@@ -377,13 +390,10 @@ class Studentlecture extends React.Component {
                         default={{
                             x: 0,
                             y: 0,
-                            width: 320
+                            width: 320,
+                            height : 300,
                         }}
                     >
-                        <Button style={{ display: "    display: inline-block" }}>
-                            <AddIcon color="primary" />
-                        </Button>
-
                         <ReactPlayer
                             playing={this.state.play}
                             loop={false}
@@ -398,12 +408,39 @@ class Studentlecture extends React.Component {
                 }
                 <div className="toolsGroup">
                     {console.log(this.state.filevideo)}
-                    <Fab color="primary" aria-label="add"
-                        onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Video" })}
+                    <Fab color="primary" aria-label="add" ref={this.popupvideoref}
+                        id={'123'}
+                        onClick={() => this.setState({ popupvideo: true })}
                         disabled={this.state.filevideo !== null ? false : true}
                     >
                         <AddIcon />
                     </Fab>
+
+                    <Popper open={this.state.popupvideo} anchorEl={this.popupvideoref.current}
+                        placement={'left-start'}
+                        role={undefined} transition disablePortal>
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{
+                                    transformOrigin: 'right',
+                                }}
+                            >
+                                <Paper>
+                                    <ClickAwayListener onClickAway={this.handleClose}>
+                                        <MenuList autoFocusItem={true} id="menu-list-grow" >
+                                            <MenuItem
+                                                onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Video" })}>
+                                                Profile</MenuItem>
+                                            <MenuItem>My account</MenuItem>
+                                            <MenuItem >Logout</MenuItem>
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
+
                     <Fab color="primary" aria-label="add"
                         onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Audio" })}
                         disabled={this.state.fileaudio !== null ? false : true}>
