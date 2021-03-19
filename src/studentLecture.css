@@ -10,3 +10,11 @@
   margin-bottom: 3px !important;
   margin-right: 2px !important;
 }
+
+#qa .MuiPaper-root.MuiTableContainer-root.MuiPaper-elevation1.MuiPaper-rounded {
+  margin-top: 0px !important;
+}
+
+#qa .mainslideBar {
+  display: none;
+}

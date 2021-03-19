@@ -33,7 +33,9 @@ class Question extends React.Component {
         }
     }
     loadquestion = async () => {
-        const apiBaseUrl = `http://localhost:3001/question/getquestion-pdf/${this.props.match.params.pdfid}`;
+        const apiBaseUrl = this.props.lectureid
+        ? `http://localhost:3001/question/getquestion-pdf/${this.props.lectureid}`
+        : `http://localhost:3001/question/getquestion-pdf/${this.props.match.params.pdfid}`
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
@@ -241,8 +243,9 @@ class Question extends React.Component {
                                 : this.state.loadquestion
                             ).map((value, index) => (
                                 <TableRow key={index}>
-                                    <TableCell style={{ paddingLeft: '0px' }}>
-                                        <Button color="primary" style={{ paddingLeft: '0px' }} onClick={() => {
+                                    <TableCell>
+                                        {!this.props.userid
+                                        ? <Button color="primary" style={{ paddingLeft: '0px' }} onClick={() => {
                                             this.props.history.push({
                                                 pathname: `/student-lecture/${value.ques_alluser_uid}/${value.teacherpdfid}`,
                                                 state: { pdfpath: value.studentpdf_sid, userid: value.ques_alluser_uid ,page : value.page}
@@ -251,7 +254,10 @@ class Question extends React.Component {
                                         }>
                                             {value.page}
                                         </Button>
-
+                                        : <React.Fragment>
+                                            {value.page}
+                                        </React.Fragment>
+                                        }
                                     </TableCell>
                                     <TableCell>
                                         {value.questionname}

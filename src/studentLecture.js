@@ -13,6 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ReactPlayer from 'react-player'
 import './studentLecture.css'
 import { saveAs } from 'file-saver';
+import Question from './question.js'
 class Studentlecture extends React.Component {
     constructor(props) {
         super(props);
@@ -23,6 +24,9 @@ class Studentlecture extends React.Component {
             openfiletype: "",
             typeFile: null,
             dialogquestionopen: false,
+            dialogQA: false,
+            loadquestion: [],
+            filter: '',
             base64: '',
             file: null,
             filename: null,
@@ -245,10 +249,16 @@ class Studentlecture extends React.Component {
             })
         })
     })
-    handleOpen = () => {
-        this.setState({
-            statusopen: true
-        })
+    handleOpen = (type) => {
+        if (type === 'QA') {
+            this.setState({
+                dialogQA: true
+            })
+        } else {
+            this.setState({
+                statusopen: true
+            })
+        }
     }
     handleUploadFile = async () => {
         const apiBaseUrl = "http://localhost:3001/user/upload-file/" + this.props.location.state.pdfid
@@ -324,6 +334,9 @@ class Studentlecture extends React.Component {
                             ตกลง
                         </Button>
                     </DialogActions>
+                </Dialog>
+                <Dialog id={'qa'} open={this.state.dialogQA} maxWidth="lg" fullWidth="true" onClose={() => this.setState({ dialogQA: false })} aria-labelledby="form-dialog-title">
+                    <Question prop={this.props} lectureid={this.props.match.params.lectureid} userid={localStorage.getItem('email')} />
                 </Dialog>
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
 
@@ -411,6 +424,11 @@ class Studentlecture extends React.Component {
                     </Fab>
                     <Fab color="primary" aria-label="add"
                         onClick={() => this.setState({ openfile: false, play: false, filevideo: '', fileaudio: '' })}
+                    >
+                        <AddIcon />
+                    </Fab>
+                    <Fab color="secondary" aria-label="add"
+                        onClick={() => this.handleOpen('QA')}
                     >
                         <AddIcon />
                     </Fab>
