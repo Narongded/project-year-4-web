@@ -86,7 +86,9 @@ input {
 .button-label {
   color: rgba(238, 14, 14, 0.322);
 }
-
+li{
+  font-family: "Kanit", sans-serif !important;
+}
 @media (max-width: 1024px) {
   .card {
     width: 100%;

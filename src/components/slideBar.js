@@ -5,11 +5,18 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Grid, MenuItem, Select, InputLabel, Button, Card, TextField } from '@material-ui/core';
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
+import {
+  Grid, MenuItem, Select, InputLabel, ListItem,
+  List, ListItemIcon, ListItemText, Button, Card, TextField, Divider,Avatar
+} from '@material-ui/core';
+
 import Drawer from '@material-ui/core/Drawer';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import MailIcon from '@material-ui/icons/Mail';
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import Menu from '@material-ui/core/Menu';
 import './slidebar.css';
 class Slidebar extends React.Component {
@@ -65,9 +72,9 @@ class Slidebar extends React.Component {
         <AppBar position="fixed" style={{ backgroundColor: '#e65100' }}>
           <Toolbar>
             {this.props.openSlide &&
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ openDrawer: true })} >
-              <MenuIcon />
-            </IconButton>
+              <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ openDrawer: true })} >
+                <MenuIcon />
+              </IconButton>
             }
             <Typography variant="h6" style={{ flexGrow: 1 }}>
               {this.props.appBarName}
@@ -80,11 +87,10 @@ class Slidebar extends React.Component {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="inherit"
-                onClick={this.handleMenu}
               >
                 <AccountCircle />
               </IconButton>
-              <Menu
+              {/* <Menu
                 id="menu-appbar"
                 anchorEl={this.state.AnchorEl}
                 anchorOrigin={{
@@ -100,30 +106,47 @@ class Slidebar extends React.Component {
                 onClose={() => this.setState({ AnchorEl: null })}
               >
                 <MenuItem onClick={this.handleRedirec}>Logout</MenuItem>
-              </Menu>
+              </Menu> */}
             </div>
 
           </Toolbar>
         </AppBar>
         {this.props.openSlide &&
-        <Drawer
-          variant="temporary"
-          anchor="left"
-          open={this.state.openDrawer}
-          onClick={() => this.setState({ openDrawer: false })}
-          style={{ width: '250px' }}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        >
-          <div style={{ width: '250px' }}>
-            <Button onClick={() => alert('asd')}>asdas</Button>
-            <p>asdsad</p>
-            <p>asdsad</p><p>asdsad</p>
-            <p>asdsad</p><p>asdsad</p>
-            <p>asdsad</p>
-          </div>
-        </Drawer>
+          <Drawer
+            variant="temporary"
+            anchor="left"
+            open={this.state.openDrawer}
+            onClose={() => this.setState({ openDrawer: false })}
+            style={{ width: '250px' }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            <div style={{ width: '250px' }}>
+              <p></p>
+              <Divider />
+              <List>
+                <ListItem button key={"หน้าหลัก"} onClick={() => {
+                  this.props.prop.history.push({
+                    pathname: '/login'
+                  })
+                }} >
+                  <ListItemIcon><HomeOutlinedIcon /></ListItemIcon>
+                  <ListItemText primary={"หน้าหลัก"} />
+                </ListItem>
+                <ListItem button key={"ค้นหาเลคเชอร์เพื่อน"} >
+                  <ListItemIcon><SearchOutlinedIcon /></ListItemIcon>
+                  <ListItemText primary={"ค้นหาเลคเชอร์เพื่อน"} />
+                </ListItem>
+                <Divider />
+                <br/>
+                <ListItem button key={"ออกจากระบบ"} onClick={this.handleRedirec} >
+               
+                  <ListItemText primary={"ออกจากระบบ"} />
+                </ListItem>
+              </List>
+            </div>
+          </Drawer>
         }
       </div>
     )

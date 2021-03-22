@@ -2,7 +2,7 @@ import * as React from 'react';
 import WebViewer from '@pdftron/webviewer'
 import {
     Button, Grid, Container, TextField, Fab,
-    Popper, MenuList, MenuItem, Paper, Grow, ClickAwayListener
+    Popper, MenuList, MenuItem, Paper, Grow, ClickAwayListener, ListItemIcon
 } from '@material-ui/core';
 import Slidebar from './components/slideBar';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PlayArrowOutlinedIcon from '@material-ui/icons/PlayArrowOutlined';
 import { Rnd } from "react-rnd";
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
@@ -40,10 +41,12 @@ class Studentlecture extends React.Component {
             pagevalue: 1,
             question: '',
             popupvideo: false,
+            popupaudio: false,
             pageCount: 0
         }
         this.viewerRef = React.createRef();
         this.popupvideoref = React.createRef();
+        this.popupaudioref = React.createRef();
     }
 
     loadfile = async () => {
@@ -266,12 +269,15 @@ class Studentlecture extends React.Component {
         }
     }
 
-    handleClose = (event) => {
-        if (this.popupvideoref.current && this.popupvideoref.current.contains(event.target)) {
+    handleClose = (event, type) => {
+        if (type === "video" && this.popupvideoref.current && this.popupvideoref.current.contains(event.target)) {
             return;
         }
-        console.log(this.state.popupvideo)
-        this.setState({ popupvideo: false })
+        else if (type === "audio" && this.popupaudioref.current && this.popupaudioref.current.contains(event.target)) {
+            return;
+        }
+        if (type === "video") this.setState({ popupvideo: false })
+        else if (type === "audio") this.setState({ popupaudio: false })
     };
     handleUploadFile = async () => {
         const apiBaseUrl = "http://localhost:3001/user/upload-file/" + this.props.location.state.pdfid
@@ -291,6 +297,7 @@ class Studentlecture extends React.Component {
             });
     }
     componentDidMount() {
+        // setInterval(() => console.log("asd"), 1000)
         this.props.location.state === undefined ? this.props.history.push({ pathname: '/login' }) : this.showpdf()
         this.loadfile()
     }
@@ -404,7 +411,7 @@ class Studentlecture extends React.Component {
                             x: 0,
                             y: 0,
                             width: 320,
-                            height : 300,
+                            height: 300,
                         }}
                     >
                         <ReactPlayer
@@ -420,7 +427,6 @@ class Studentlecture extends React.Component {
 
                 }
                 <div className="toolsGroup">
-                    {console.log(this.state.filevideo)}
                     <Fab color="primary" aria-label="add" ref={this.popupvideoref}
                         id={'123'}
                         onClick={() => this.setState({ popupvideo: true })}
@@ -428,7 +434,6 @@ class Studentlecture extends React.Component {
                     >
                         <AddIcon />
                     </Fab>
-
                     <Popper open={this.state.popupvideo} anchorEl={this.popupvideoref.current}
                         placement={'left-start'}
                         role={undefined} transition disablePortal>
@@ -440,13 +445,17 @@ class Studentlecture extends React.Component {
                                 }}
                             >
                                 <Paper>
-                                    <ClickAwayListener onClickAway={this.handleClose}>
+                                    <ClickAwayListener onClickAway={(e) => this.handleClose(e, "video")}>
                                         <MenuList autoFocusItem={true} id="menu-list-grow" >
                                             <MenuItem
                                                 onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Video" })}>
-                                                Profile</MenuItem>
-                                            <MenuItem>My account</MenuItem>
-                                            <MenuItem >Logout</MenuItem>
+                                                <ListItemIcon>
+                                                    <PlayArrowOutlinedIcon fontSize="small" />
+                                                </ListItemIcon>
+                                                เล่นวีดีโอ</MenuItem>
+                                            <MenuItem
+                                                onClick={() => this.setState({ openfile: false, play: false })}>ปิดวีดีโอ</MenuItem>
+                                            <MenuItem >ลบวีดีโอ</MenuItem>
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>
@@ -454,16 +463,38 @@ class Studentlecture extends React.Component {
                         )}
                     </Popper>
 
-                    <Fab color="primary" aria-label="add"
-                        onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Audio" })}
+                    <Fab color="primary" aria-label="add" ref={this.popupaudioref}
+                        onClick={() => this.setState({ popupaudio: true })}
                         disabled={this.state.fileaudio !== null ? false : true}>
                         <AddIcon />
                     </Fab>
-                    <Fab color="primary" aria-label="add"
-                        onClick={() => this.setState({ openfile: false, play: false, filevideo: '', fileaudio: '' })}
-                    >
-                        <AddIcon />
-                    </Fab>
+                    <Popper open={this.state.popupaudio} anchorEl={this.popupaudioref.current}
+                        placement={'left-start'}
+                        role={undefined} transition disablePortal>
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{
+                                    transformOrigin: 'right',
+                                }}
+                            >
+                                <Paper>
+                                    <ClickAwayListener onClickAway={(e) => this.handleClose(e, "audio")}>
+                                        <MenuList autoFocusItem={true} id="menu-list-grow" >
+                                            <MenuItem
+                                                onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Audio" })}>
+                                                <ListItemIcon>
+                                                    <PlayArrowOutlinedIcon fontSize="small" />
+                                                </ListItemIcon>
+                                                เล่นคลิปเสียง</MenuItem>
+                                            <MenuItem  onClick={() => this.setState({ openfile: false, play: false })}>ปิดคลิปเสียง</MenuItem>
+                                            <MenuItem >ลบคลิปเสียง</MenuItem>
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
                     <Fab color="secondary" aria-label="add"
                         onClick={() => this.handleOpen('QA')}
                     >
