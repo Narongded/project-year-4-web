@@ -11,17 +11,20 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 
-class Studentchapter extends React.Component {
+class Search extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            search: '',
             loadchapter: [],
             rowperpage: 5,
             page: 0
         }
     }
-    handleRedirect = async (page, chapterid) => {
-        if (page === 'managepdf') this.props.history.push(`/student-pdf/${this.props.match.params.userid}/${chapterid}`);
+    handleRedirect = async (page, tpid) => {
+        if (page === 'searchpdf') this.props.history.push({
+            pathname: `/lecture-student/${tpid}`
+        })
     }
 
     loadChapter = async () => {
@@ -49,13 +52,13 @@ class Studentchapter extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <Slidebar prop={this.props} appBarName='Subjects' openSlide={true} />
+                <Slidebar prop={this.props} appBarName='Search Lecture Notes' openSlide={true} />
                 <TableContainer component={Paper} style={{ marginTop: '100px' }}>
                     <Table aria-label="simple table" >
                         <TableHead>
                             <TableRow>
                                 <TableCell> <b> Subjects </b></TableCell>
-                                <TableCell align="center"><b> Manage Lecture Notes </b></TableCell>
+                                <TableCell align="center"><b>Lecture Notes</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -65,9 +68,9 @@ class Studentchapter extends React.Component {
                                         {value.name}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.cid)}>
+                                        <Button color="primary" onClick={() => this.handleRedirect('searchpdf', value.teacherpdf_tpid)}>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
-                                            Manage
+                                            All Lecture Notes
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -81,5 +84,5 @@ class Studentchapter extends React.Component {
     }
 }
 
-export default Studentchapter
+export default Search
 

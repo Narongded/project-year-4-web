@@ -150,46 +150,73 @@ class Question extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName='คำถามจากนักศึกษา' />
+                <SlideBar prop={this.props} openSlide={true} appBarName='Q&A' />
 
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
-                            <DialogTitle id="form-dialog-title">คำตอบ</DialogTitle>
-                            <DialogContent style={{ width: '250px' }}>
-                                <TextField
-                                    id="outlined-full-width"
-                                    style={{ margin: 8 }}
-                                    placeholder="กรอกคำตอบ"
-                                    margin="normal"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    onChange={(event) => {
-                                        this.setState({ qa: event.target.value })
-                                    }}
-                                    variant="outlined"
-                                />
-                            </DialogContent>
+                            {localStorage.getItem('role') === 'teacher'?
+                            <React.Fragment>
+                                <DialogTitle id="form-dialog-title">Answer</DialogTitle>
+                                <DialogContent style={{ width: '250px' }}>
+                                    <TextField
+                                        id="outlined-full-width"
+                                        style={{ margin: 8 }}
+                                        placeholder="Answer is..."
+                                        margin="normal"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={(event) => {
+                                            this.setState({ qa: event.target.value })
+                                        }}
+                                        variant="outlined"
+                                    />
+                                </DialogContent>
+                            </React.Fragment>
+                            : <React.Fragment>
+                            <DialogTitle id="form-dialog-title">Question</DialogTitle>
+                                <DialogContent style={{ width: '250px' }}>
+                                    <TextField
+                                        id="outlined-full-width"
+                                        style={{ margin: 8 }}
+                                        placeholder="Question is..."
+                                        margin="normal"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={(event) => {
+                                            this.setState({ qa: event.target.value })
+                                        }}
+                                        variant="outlined"
+                                    />
+                                </DialogContent>
+                            </React.Fragment>
+                            }
                         </div>
                         :
-                        <DialogTitle id="form-dialog-title">ต้องการลบคำตอบ</DialogTitle>
+                        <div>
+                        {localStorage.getItem('role') === 'teacher'
+                        ? <DialogTitle id="form-dialog-title">Remove this Answer?</DialogTitle>
+                        : <DialogTitle id="form-dialog-title">Remove this Question?</DialogTitle>
+                        }
+                        </div>
                     }
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false })} color="primary">
-                            ยกเลิก
+                            Cancel
                             </Button>
                         {this.state.dialogType === 'create' ?
                             <Button onClick={() => this.handleClose('create')} color="primary">
-                                สร้าง
+                                Create
                             </Button>
                             : this.state.dialogType === 'update' ?
                                 <Button onClick={() => this.handleClose('update', this.state.id, this.state.actionType)} color="primary">
-                                    แก้ไข
+                                    Change
                             </Button>
                                 :
                                 <Button onClick={() => this.handleClose('delete', this.state.id, this.state.actionType)} color="primary" autoFocus>
-                                    ตกลง
+                                    Remove
                             </Button>
                         }
                     </DialogActions>
@@ -201,7 +228,7 @@ class Question extends React.Component {
                             autoFocus
                             size={'small'}
                             margin="normal"
-                            label="ค้นหารหัสนักศึกษา"
+                            label="Search by Student ID"
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -218,16 +245,16 @@ class Question extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>หน้า</b></TableCell>
+                                <TableCell><b>Page</b></TableCell>
                                 <TableCell>
                                     <TableSortLabel
                                         active={true}
                                         direction={this.state.orderBy}
                                         onClick={() => this.handleOrderBy()}
                                     >
-                                       <b> คำถาม  </b></TableSortLabel>
+                                       <b> Question  </b></TableSortLabel>
                                 </TableCell>
-                                <TableCell><b>คำตอบ</b></TableCell>
+                                <TableCell><b>Answer</b></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell align="right"></TableCell>
@@ -269,7 +296,7 @@ class Question extends React.Component {
                                         {value.answername === null && (value.townerpdf === localStorage.getItem('email')) ?
                                             <Button color="primary" onClick={() => this.handleOpen('create', value.qid, 'answer')}>
                                                 <AddOutlinedIcon color="action" /> &nbsp;
-                                                เพิ่มคำตอบ
+                                                Add Answer
                                             </Button>
                                             : null
                                         }
@@ -278,12 +305,12 @@ class Question extends React.Component {
                                         {(value.answername || value.answername === '') && value.ans_alluser_uid === localStorage.getItem('email') ?
                                             <Button color="primary" onClick={() => this.handleOpen('update', value.aid, 'answer')}>
                                                 <EditOutlinedIcon color="action" /> &nbsp;
-                                                แก้ไขคำตอบ
+                                                Change Answer
                                             </Button>
                                             : value.ques_alluser_uid === localStorage.getItem('email') ?
                                                 <Button color="primary" onClick={() => this.handleOpen('update', value.qid, 'question')}>
                                                     <EditOutlinedIcon color="action" /> &nbsp;
-                                                    แก้ไขคำถาม
+                                                    Change Question
                                                 </Button>
                                                 : null
                                         }
@@ -292,12 +319,12 @@ class Question extends React.Component {
                                         {value.answername && (value.ans_alluser_uid === localStorage.getItem('email')) ?
                                             <Button color="primary" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
                                                 <DeleteOutlinedIcon color="action" /> &nbsp;
-                                                ลบคำตอบ
+                                                Remove Answer
                                             </Button>
                                             : (value.questionname || value.questionname === '') && (value.ques_alluser_uid === localStorage.getItem('email')) ?
                                                 <Button color="primary" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
                                                     <DeleteOutlinedIcon color="action" /> &nbsp;
-                                                    ลบคำถาม
+                                                    Remove Question
                                             </Button> : null
                                         }
                                     </TableCell>

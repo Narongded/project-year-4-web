@@ -9,6 +9,7 @@ import StudentPdf from './studentFilepdf'
 import Studentlecture from './studentLecture'
 import Question from './question'
 import Teacherlecturestudent from './teacherLecturestudent'
+import Search from './search'
 class Routes extends Component {
   constructor(props) {
     super(props)
@@ -26,6 +27,7 @@ class Routes extends Component {
           <Redirect to='/login' />
         </Route>
         <Route path="/login" component={Login} />
+        <Route path="/search/:userid" component={Search} />
         <Route path="/student/:pdfid" component={Pdfano} />
         <Route path="/chapter/:userid" component={Chapter} />
         <Route path="/managepdf/:chapterid" component={Managepdf} />

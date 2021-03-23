@@ -9,6 +9,7 @@ import {
     TableHead, TableRow, Paper
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import VideoLibraryOutlinedIcon from '@material-ui/icons/VideoLibraryOutlined';
@@ -21,6 +22,7 @@ class StudentPdf extends React.Component {
             pdfid: '',
             pdfname: '',
             loadPdf: [],
+            sid: '',
             file: null,
             fileName: null,
             rowperpage: 5,
@@ -44,6 +46,10 @@ class StudentPdf extends React.Component {
                 console.error(error);
             });
     }
+    handleDelete = (sid) => {
+        this.deletePdf(sid)
+        this.setState({ confirmDialog: false })
+    }
 
     deletePdf = async (pdfid) => {
         const apiBaseUrl = `http://localhost:3001/user/delete-pdf/${pdfid}`;
@@ -64,16 +70,35 @@ class StudentPdf extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
+                <SlideBar prop={this.props} openSlide={true} appBarName={'All '+this.props.match.params.userid+' Lecture Notes'} />
+                <Dialog
+                    open={this.state.confirmDialog}
+                    onClose={false}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Remove This Lecture Notes?"}</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ confirmDialog: false })} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={() => this.handleDelete(this.state.sid)} color="primary">
+                            Remove
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <TableContainer component={Paper} style={{ marginTop: '100px' }}>
             
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>รายการเอกสารบทเรียน</b></TableCell>
-                                <TableCell align="center"><b>ดูเลคเชอร์</b></TableCell>
-                                <TableCell align="center"><b>ดูคำถามและคำตอบ</b></TableCell>
-                                <TableCell align="center"><b>คลิปเสียงและวิดีโอ</b></TableCell>
+                                <TableCell><b>List of Lecture Notes</b></TableCell>
+                                <TableCell align="center"><b>Lecture Notes</b></TableCell>
+                                <TableCell align="center"><b>Q&A</b></TableCell>
+                                <TableCell align="center"><b>Audios and Videos</b></TableCell>
+                                {localStorage.getItem('email') === this.props.match.params.userid
+                                ? <TableCell align="center"><b>Remove</b></TableCell>
+                                : null}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -89,12 +114,11 @@ class StudentPdf extends React.Component {
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${this.props.match.params.userid}/${value.teacherpdf_tpid}`,
-                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid ,pdfid: value.sid }
+                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid ,pdfid: value.sid, pdfname: value.pdfname }
                                                 })
                                             }}
                                         >
                                             <VisibilityOutlinedIcon color="action" /> &nbsp;
-                                            ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
@@ -105,15 +129,20 @@ class StudentPdf extends React.Component {
                                                 })
                                             }}>
                                                 <HelpOutlineOutlinedIcon color="action" /> &nbsp;
-                                                ดูคำถามและคำตอบ
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
                                         <Button color="primary" >
                                             <VideoLibraryOutlinedIcon color="action" /> &nbsp;
-                                            ดูไฟล์เสียงและวิดีโอ
                                         </Button>
                                     </TableCell>
+                                    {localStorage.getItem('email') === this.props.match.params.userid
+                                    ? <TableCell align="center">
+                                        <Button color="primary" onClick={() => this.setState({ sid: value.sid, confirmDialog: true })}>
+                                            <DeleteOutlineIcon color="action" /> &nbsp;
+                                        </Button>
+                                    </TableCell>
+                                    : null}
                                 </TableRow>
                             ))}
                         </TableBody>

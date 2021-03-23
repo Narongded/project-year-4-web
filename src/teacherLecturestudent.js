@@ -6,15 +6,17 @@ import {
     AppBar, IconButton, Toolbar, Button, Grid,
     TextField, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
-    TableHead, TableRow, Paper
+    TableHead, TableRow, Paper, InputAdornment
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
+import SearchIcon from '@material-ui/icons/Search';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 class Teacherlecturestudent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             loadlecturestudent: [],
+            filter: '',
             rowperpage: 5,
             page: 0
         }
@@ -36,6 +38,9 @@ class Teacherlecturestudent extends React.Component {
                 console.error(error);
             });
     }
+    searchChapter = async () => {
+
+    }
     componentDidMount() {
         this.loadLectureStudent()
 
@@ -43,19 +48,40 @@ class Teacherlecturestudent extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
+                <SlideBar prop={this.props} openSlide={true} appBarName='All Lecture Notes' />
 
                 <TableContainer component={Paper} style={{ marginTop: '100px' }}>
-
+                <Grid item lg={12} style={{ textAlign: 'right' }}>
+                        <TextField
+                            autoFocus
+                            size={'small'}
+                            margin="normal"
+                            label="Search by Student ID"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            onChange={(e) => this.setState({ filter: e.target.value })}
+                            floatingLabelText="Email"
+                            variant="outlined"
+                        />
+                    </Grid>
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>รายการเอกสารบทเรียน</b></TableCell>
-                                <TableCell align='center'><b>ดูเลคเชอร์</b></TableCell>
+                                <TableCell><b>Author</b></TableCell>
+                                <TableCell align='center'><b>Lecture Notes</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {(this.state.rowperpage > 0 ? this.state.loadlecturestudent.slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
+                            {(this.state.rowperpage > 0 ?
+                                this.state.loadlecturestudent.filter(data => data.alluser_uid.toLowerCase().includes(this.state.filter))
+                                .sort(() => this.state.order)
+                                .slice(this.state.page * this.state.rowperpage,
+                                    this.state.page * this.state.rowperpage + this.state.rowperpage)
                                 : this.state.loadlecturestudent
                             ).map((value, index) => (
                                 <TableRow key={index}>
@@ -72,7 +98,6 @@ class Teacherlecturestudent extends React.Component {
                                             }}
                                         >
                                             <VisibilityOutlinedIcon color="action" /> &nbsp;
-                                            ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
                                 </TableRow>

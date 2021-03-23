@@ -311,35 +311,35 @@ class Studentlecture extends React.Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"บันทึกแล้ว"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Saved"}</DialogTitle>
                     <DialogActions>
                         <Button onClick={() => this.setState({ statusopen: false })} color="primary">
-                            ปิด
+                            Close
                         </Button>
                     </DialogActions>
                 </Dialog>
                 <Dialog open={this.state.dialogquestionopen} onClose={false} aria-labelledby="form-dialog-title">
                     <div>
-                        <DialogTitle id="form-dialog-title">ชื่อบทเรียน</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Question to Teacher</DialogTitle>
                         <DialogContent style={{ width: '250px' }}>
                             <TextField
                                 size={'small'}
                                 margin="normal"
                                 style={{ width: '80px' }}
                                 value={this.state.pagevalue}
-                                floatingLabelText="หน้า"
+                                floatingLabelText="Page"
                                 onChange={(event) => event.target.value < 1 ?
                                     this.setState({ pagevalue: 1 }) : event.target.value >= this.state.pageCount ? this.setState({ pagevalue: this.state.pageCount })
                                         : this.setState({ pagevalue: event.target.value })}
                                 type="number"
-                                label="หน้า"
+                                label="Page"
                                 variant="outlined"
                             />
                             <TextField
                                 autoFocus
                                 margin="normal"
-                                label="คำถาม"
-                                floatingLabelText="คำถาม"
+                                label="Question"
+                                floatingLabelText="Question"
                                 onChange={(event) => { this.setState({ question: event.target.value }) }}
                                 variant="outlined"
                             />
@@ -347,11 +347,11 @@ class Studentlecture extends React.Component {
                     </div>
                     <DialogActions>
                         <Button onClick={() => this.setState({ dialogquestionopen: false })} color="primary">
-                            ยกเลิก
+                            Cancel
                         </Button>
                         <Button onClick={this.state.question === '' ? () => this.setState({ dialogquestionopen: false })
                             : () => this.questionTeacher()} color="primary" autoFocus>
-                            ตกลง
+                            Yes Yes Yes!!!
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -377,7 +377,7 @@ class Studentlecture extends React.Component {
                             />
                             <label htmlFor="contained-button-file">
                                 <Button variant="contained" color="primary" component="span">
-                                    เลือกไฟล์
+                                    Choose File
                                 </Button>
                                 {this.state.filename ? " : " + this.state.filename : null}
                             </label>
@@ -385,16 +385,16 @@ class Studentlecture extends React.Component {
                     </div>
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false, file: null, filename: null })} color="primary">
-                            ยกเลิก
+                            Cancel
                         </Button>
 
                         <Button onClick={() => this.handleUploadFile()} color="primary" autoFocus>
-                            ตกลง
+                            Upload
                         </Button>
                     </DialogActions>
                 </Dialog>
 
-                <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
+                <Slidebar prop={this.props} appBarName={this.props.location.state.pdfname} openSlide={true} />
                 { this.state.openfile &&
 
                     <Rnd

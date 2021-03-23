@@ -134,9 +134,12 @@ class Slidebar extends React.Component {
                   <ListItemIcon><HomeOutlinedIcon /></ListItemIcon>
                   <ListItemText primary={"หน้าหลัก"} />
                 </ListItem>
-                <ListItem button key={"ค้นหาเลคเชอร์เพื่อน"} >
+                <ListItem button key={"ค้นหาเลคเชอร์เพื่อน"} onClick={() => 
+                    this.props.prop.history.push({
+                      pathname: `/search/${localStorage.getItem('email')}`
+                    })}>
                   <ListItemIcon><SearchOutlinedIcon /></ListItemIcon>
-                  <ListItemText primary={"ค้นหาเลคเชอร์เพื่อน"} />
+                  <ListItemText primary={"Search Lecture Notes"}  />
                 </ListItem>
                 <Divider />
                 <br/>
