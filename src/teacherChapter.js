@@ -132,7 +132,7 @@ class Chapter extends React.Component {
 
     render() {
         return (
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" style={{ display: 'flex', flexDirection: 'column' }}>
                 <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
@@ -173,7 +173,7 @@ class Chapter extends React.Component {
                         }
                     </DialogActions>
                 </Dialog>
-                <Button variant="contained" color="primary" style={{ marginBottom: '10px' }}  onClick={() => this.handleClickOpen('create')}>
+                <Button variant="contained" color="primary" style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
                     สร้างวิชา
                         </Button>
                 <TableContainer component={Paper} >
@@ -238,7 +238,15 @@ class Chapter extends React.Component {
                         </TableFooter>
                     </Table>
                 </TableContainer>
-            </Container>
+
+                <div class="footer" style={{
+                    position: "fixed", left: "0", bottom: "0",
+                    width: "100%", height: "7%", backgroundColor: "red"
+                }}>
+                    <p>Footer</p>
+                </div>
+            </Container >
+
         )
     }
 }

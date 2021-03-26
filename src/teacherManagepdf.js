@@ -117,7 +117,7 @@ class Managepdf extends React.Component {
     }
     render() {
         return (
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" style={{ display: 'flex', flexDirection: 'column' }}>
                 <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
@@ -175,7 +175,7 @@ class Managepdf extends React.Component {
 
                     </DialogActions>
                 </Dialog>
-                <Button variant="contained" color="primary" style={{ marginBottom: '10px' }}  onClick={() => this.handleClickOpen('create')}>
+                <Button variant="contained" color="primary" style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
                     อัปโหลดเอกสารบทเรียน
                     </Button>
                 <TableContainer component={Paper}>

@@ -4,7 +4,7 @@ import Slidebar from './components/slideBar';
 import {
     AppBar, IconButton, Toolbar, Button, Grid,
     TextField, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, TableContainer, Table, TableBody, TableCell,
+    DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
     TableHead, TableRow, Paper
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -17,7 +17,8 @@ class Studentchapter extends React.Component {
         this.state = {
             loadchapter: [],
             rowperpage: 5,
-            page: 0
+            page: 0,
+
         }
     }
     handleRedirect = async (page, chapterid) => {
@@ -59,20 +60,39 @@ class Studentchapter extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.loadchapter.map((value, index) => (
+                            {(this.state.rowperpage > 0 ? this.state.loadchapter.slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
+                                : this.state.loadchapter
+                            ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell component="th" scope="row">
                                         {value.name}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.cid)}>
+                                        <Button color="primary" variant="outlined" onClick={() => this.handleRedirect('managepdf', value.cid)}>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
-                                            Manage
+                                            <b> Manage</b>
                                         </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                    colSpan={5}
+                                    count={this.state.loadchapter.length}
+                                    rowsPerPage={this.state.rowperpage}
+                                    page={this.state.page}
+                                    SelectProps={{
+                                        inputProps: { 'aria-label': 'rows per page' },
+                                        native: true,
+                                    }}
+                                    onChangePage={(event, newPage) => this.setState({ page: newPage })}
+                                    onChangeRowsPerPage={(event) => this.setState({ rowperpage: parseInt(event.target.value, 10) })}
+                                />
+                            </TableRow>
+                        </TableFooter>
                     </Table>
                 </TableContainer>
             </Container>
