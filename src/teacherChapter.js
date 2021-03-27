@@ -30,7 +30,8 @@ class Chapter extends React.Component {
         const apiBaseUrl = "http://localhost:3001/admin/create-chapter";
         const payload = {
             "chaptername": this.state.chaptername,
-            "uid": localStorage.getItem('uid')
+            "uid": localStorage.getItem('uid'),
+            "teacher":  localStorage.getItem('firstname') + " " + localStorage.getItem('lastname')
         }
         await fetch(apiBaseUrl, {
             method: 'POST',

@@ -291,6 +291,7 @@ class Studentlecture extends React.Component {
         }).then((res) => res.json())
             .then((res) => {
                 this.setState({ open: false, file: null, filename: null })
+                this.loadfile()
             })
             .catch((error) => {
                 console.error(error)

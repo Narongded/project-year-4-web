@@ -56,6 +56,7 @@ class Studentchapter extends React.Component {
                         <TableHead>
                             <TableRow>
                                 <TableCell> <b> Subjects </b></TableCell>
+                                <TableCell> <b> Teacher </b></TableCell>
                                 <TableCell align="center"><b> Manage Lecture Notes </b></TableCell>
                             </TableRow>
                         </TableHead>
@@ -66,6 +67,9 @@ class Studentchapter extends React.Component {
                                 <TableRow key={index}>
                                     <TableCell component="th" scope="row">
                                         {value.name}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {value.teacher}
                                     </TableCell>
                                     <TableCell align="center">
                                         <Button color="primary" variant="outlined" onClick={() => this.handleRedirect('managepdf', value.cid)}>
