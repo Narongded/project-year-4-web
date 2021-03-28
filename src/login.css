@@ -8,41 +8,42 @@
 @import "../node_modules/@syncfusion/ej2-react-pdfviewer/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-notifications/styles/material.css";
 @import url("https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500&display=swap');
 body {
   margin: 0 0 0 0;
   background-color: #fbfbfb;
 }
 p {
   padding: 1rem;
-  font-family: "Kanit", sans-serif !important;
+  font-family: 'Prompt', sans-serif !important;
 }
-th,td {
+th,
+td {
   padding: 1rem;
-  font-family: "Kanit", sans-serif !important;
+  font-family: 'Prompt', sans-serif !important;
 }
 h6 {
   padding: 1rem;
-  font-family: "Kanit", sans-serif !important;
+  font-family: 'Prompt', sans-serif !important;
 }
 h3 {
   font-size: 1rem;
-  font-family: "Kanit", sans-serif !important;
+  font-family: 'Prompt', sans-serif !important;
 }
 span {
   font-size: 1rem;
-  font-family: "Kanit", sans-serif !important;
+  font-family: 'Prompt', sans-serif !important;
 }
 .MuiInputBase-root {
   font-size: 1rem;
-  font-family: "Kanit", sans-serif !important;
+  font-family: 'Prompt', sans-serif !important;
 }
 fieldset {
   font-size: 1rem;
-  font-family: "Kanit", sans-serif !important;
+  font-family: 'Prompt', sans-serif !important;
 }
 input {
-  font-family: "Kanit", sans-serif !important;
+  font-family: 'Prompt', sans-serif  !important;
 }
 .main {
   display: flex;
@@ -86,8 +87,8 @@ input {
 .button-label {
   color: rgba(238, 14, 14, 0.322);
 }
-li{
-  font-family: "Kanit", sans-serif !important;
+li {
+  font-family: 'Prompt', sans-serif !important;
 }
 @media (max-width: 1024px) {
   .card {

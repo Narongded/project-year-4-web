@@ -174,7 +174,7 @@ class Chapter extends React.Component {
                         }
                     </DialogActions>
                 </Dialog>
-                <Button variant="contained" color="primary" style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
+                <Button variant="outlined" color="primary"style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
                     สร้างวิชา
                         </Button>
                 <TableContainer component={Paper} >

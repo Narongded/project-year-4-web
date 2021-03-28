@@ -55,8 +55,8 @@ class Studentchapter extends React.Component {
                     <Table aria-label="simple table" >
                         <TableHead>
                             <TableRow>
-                                <TableCell> <b> Subjects </b></TableCell>
-                                <TableCell> <b> Teacher </b></TableCell>
+                                <TableCell> Subjects </TableCell>
+                                <TableCell> Teacher </TableCell>
                                 <TableCell align="center"><b> Manage Lecture Notes </b></TableCell>
                             </TableRow>
                         </TableHead>
@@ -74,7 +74,7 @@ class Studentchapter extends React.Component {
                                     <TableCell align="center">
                                         <Button color="primary" variant="outlined" onClick={() => this.handleRedirect('managepdf', value.cid)}>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
-                                            <b> Manage</b>
+                                            Manage
                                         </Button>
                                     </TableCell>
                                 </TableRow>

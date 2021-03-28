@@ -246,6 +246,7 @@ class Question extends React.Component {
                         <TableHead>
                             <TableRow>
                                 <TableCell><b>Page</b></TableCell>
+                                <tableCell><b></b> </tableCell>
                                 <TableCell>
                                     <TableSortLabel
                                         active={true}
@@ -254,6 +255,7 @@ class Question extends React.Component {
                                     >
                                        <b> Question  </b></TableSortLabel>
                                 </TableCell>
+                                
                                 <TableCell><b>Answer</b></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
@@ -285,6 +287,9 @@ class Question extends React.Component {
                                             {value.page}
                                         </React.Fragment>
                                         }
+                                    </TableCell>
+                                    <TableCell>
+                                        {value.ques_alluser_uid}
                                     </TableCell>
                                     <TableCell>
                                         {value.questionname}

@@ -42,7 +42,8 @@ class Studentlecture extends React.Component {
             question: '',
             popupvideo: false,
             popupaudio: false,
-            pageCount: 0
+            pageCount: 0,
+            time: 0
         }
         this.viewerRef = React.createRef();
         this.popupvideoref = React.createRef();
@@ -280,6 +281,7 @@ class Studentlecture extends React.Component {
         else if (type === "audio") this.setState({ popupaudio: false })
     };
     handleUploadFile = async () => {
+
         const apiBaseUrl = "http://localhost:3001/user/upload-file/" + this.props.location.state.pdfid
         const formData = new FormData()
         formData.append('file', this.state.file);
@@ -297,10 +299,36 @@ class Studentlecture extends React.Component {
                 console.error(error)
             });
     }
+    handlePoint = () => {
+        const apiBaseUrl = "http://localhost:3001/user/point/" + this.props.location.state.pdfid
+        const playload = {
+            "point": this.state.time
+        }
+        fetch(apiBaseUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(playload)
+        }).then((res) => res.json())
+            .then((res) => {
+            })
+            .catch((error) => {
+            });
+    }
     componentDidMount() {
         // setInterval(() => console.log("asd"), 1000)
         this.props.location.state === undefined ? this.props.history.push({ pathname: '/login' }) : this.showpdf()
         this.loadfile()
+        this.interval = setInterval(() => {
+            const time = this.state.time + 1
+            this.setState({ time: time })
+        }, 1000)
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval)
+        this.handlePoint()
     }
     render() {
         return (
@@ -488,7 +516,7 @@ class Studentlecture extends React.Component {
                                                     <PlayArrowOutlinedIcon fontSize="small" />
                                                 </ListItemIcon>
                                                 เล่นคลิปเสียง</MenuItem>
-                                            <MenuItem  onClick={() => this.setState({ openfile: false, play: false })}>ปิดคลิปเสียง</MenuItem>
+                                            <MenuItem onClick={() => this.setState({ openfile: false, play: false })}>ปิดคลิปเสียง</MenuItem>
                                             <MenuItem >ลบคลิปเสียง</MenuItem>
                                         </MenuList>
                                     </ClickAwayListener>
