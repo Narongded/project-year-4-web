@@ -21,9 +21,10 @@ class Search extends React.Component {
             page: 0
         }
     }
-    handleRedirect = async (page, tpid) => {
+    handleRedirect = async (page, cid, userid) => {
         if (page === 'searchpdf') this.props.history.push({
-            pathname: `/lecture-student/${tpid}`
+            pathname: `/managepdf/${cid}`,
+            state: { userid: userid }
         })
     }
 
@@ -68,7 +69,7 @@ class Search extends React.Component {
                                         {value.name}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary" onClick={() => this.handleRedirect('searchpdf', value.teacherpdf_tpid)}>
+                                        <Button color="primary" onClick={() => this.handleRedirect('searchpdf', value.cid, value.teacher)}>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                             All Lecture Notes
                                         </Button>

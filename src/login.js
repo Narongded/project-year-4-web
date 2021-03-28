@@ -38,13 +38,13 @@ class Login extends Component {
     if (this.state.type) {
       if (this.state.first_name === '' || this.state.last_name === '' || this.state.email === ''
         || this.state.password === '' || this.state.role === '') {
-        this.setState({ dialog: true, mes: 'กรุณากรอกข้อมูลให้ครบถ้วน' })
+        this.setState({ dialog: true, mes: 'Please Enter All The Blank, กรุณากรอกข้อมูลให้ครบถ้วน' })
       } else if (this.state.role === 'นักศึกษา') {
         if (this.state.studentnumber === '') {
-          this.setState({ dialog: true, mes: 'กรุณากรอกรหัสนักศึกษา' })
+          this.setState({ dialog: true, mes: 'Please Enter Student ID, กรุณากรอกรหัสนักศึกษา' })
         }
       } else if (this.state.checkpassword === false) {
-        this.setState({ dialog: true, mes: 'รหัสผ่านไม่ตรงกัน' })
+        this.setState({ dialog: true, mes: 'Wrong Password, รหัสผ่านไม่ถูกต้อง' })
       }
       else {
         const apiBaseUrl = "http://localhost:3001/regis";
@@ -74,7 +74,7 @@ class Login extends Component {
     }
     else {
       if (this.state.email === '' || this.state.password === '') {
-        this.setState({ dialog: true, mes: 'กรุณากรอกข้อมูลให้ครบถ้วน' })
+        this.setState({ dialog: true, mes: 'Please Enter All The Blank, กรุณากรอกข้อมูลให้ครบถ้วน' })
       } else {
         const apiBaseUrl = "http://localhost:3001/login";
         const payload = {
@@ -124,12 +124,12 @@ class Login extends Component {
           <MuiThemeProvider >
             <div style={{ textAlign: 'center' }}>
               <div className='cardlogin' >
-                <h3>ลงชื่อเข้าสู่ระบบ</h3>
+                <h3>Login Page</h3>
                 <TextField
                   autoFocus
                   size={'small'}
                   margin="normal"
-                  label="อีเมล"
+                  label="Email"
                   type="email"
                   floatingLabelText="Email"
                   onChange={(event, newValue) => this.setState({ email: event.target.value })}
@@ -140,17 +140,17 @@ class Login extends Component {
                   autoFocus
                   size={'small'}
                   margin="normal"
-                  label="รหัสผ่าน"
+                  label="Password"
                   type="password"
                   floatingLabelText="Password"
                   onChange={(event, newValue) => this.setState({ password: event.target.value })}
                   variant="outlined"
                 />
                 <br />
-                {this.state.status === false ? [<br />, <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >อีเมลหรือรหัสผ่านไม่ถูกต้อง</InputLabel>] : null}
+                {this.state.status === false ? [<br />, <InputLabel htmlFor="age-native-simple" style={{ color: 'red' }} >Wrong Email or Password</InputLabel>] : null}
               </div>
               <br />
-              <Button classes={{ root: 'Button' }} onClick={(event) => this.handleClick(event)}>เข้าสู่ระบบ</Button>
+              <Button classes={{ root: 'Button' }} onClick={(event) => this.handleClick(event)}>Login</Button>
               <br />
               <br />
             </div>

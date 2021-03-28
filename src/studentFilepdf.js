@@ -12,7 +12,6 @@ import Container from '@material-ui/core/Container';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
-import VideoLibraryOutlinedIcon from '@material-ui/icons/VideoLibraryOutlined';
 class StudentPdf extends React.Component {
     constructor(props) {
         super(props)
@@ -95,7 +94,6 @@ class StudentPdf extends React.Component {
                                 <TableCell><b>List of Lecture Notes</b></TableCell>
                                 <TableCell align="center"><b>Lecture Notes</b></TableCell>
                                 <TableCell align="center"><b>Q&A</b></TableCell>
-                                <TableCell align="center"><b>Audios and Videos</b></TableCell>
                                 {localStorage.getItem('email') === this.props.match.params.userid
                                 ? <TableCell align="center"><b>Remove</b></TableCell>
                                 : null}
@@ -129,11 +127,6 @@ class StudentPdf extends React.Component {
                                                 })
                                             }}>
                                                 <HelpOutlineOutlinedIcon color="action" /> &nbsp;
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Button color="primary" >
-                                            <VideoLibraryOutlinedIcon color="action" /> &nbsp;
                                         </Button>
                                     </TableCell>
                                     {localStorage.getItem('email') === this.props.match.params.userid

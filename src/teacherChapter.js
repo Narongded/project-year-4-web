@@ -106,7 +106,10 @@ class Chapter extends React.Component {
         })
     };
     handleRedirect = async (page, chapterid) => {
-        if (page === 'managepdf') this.props.history.push(`/managepdf/${chapterid}`);
+        if (page === 'managepdf') this.props.history.push({
+            pathname: `/managepdf/${chapterid}`,
+            state: { userid: localStorage.getItem('email') }
+        })
     }
     handleClose = (page, chapterid) => {
         this.setState({
@@ -134,15 +137,15 @@ class Chapter extends React.Component {
     render() {
         return (
             <Container maxWidth="lg" style={{ display: 'flex', flexDirection: 'column' }}>
-                <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
+                <Slidebar prop={this.props} appBarName='Subjects' openSlide={true} />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
-                            <DialogTitle id="form-dialog-title">บทเรียน</DialogTitle>
+                            <DialogTitle id="form-dialog-title">Subjects</DialogTitle>
                             <DialogContent style={{ width: '250px' }}>
                                 <TextField
                                     id="outlined-full-width"
-                                    placeholder="กรุณากรอกชื่อบทเรียน"
+                                    placeholder="Please Enter Subjects Name"
                                     margin="normal"
                                     InputLabelProps={{
                                         shrink: true,
@@ -153,23 +156,23 @@ class Chapter extends React.Component {
                             </DialogContent>
                         </div>
                         :
-                        <DialogTitle id="form-dialog-title">ต้องการลบบทเรียน</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Remove This Subjects</DialogTitle>
                     }
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false })} color="primary">
-                            ยกเลิก
+                            Cancel
                             </Button>
                         {this.state.dialogType === 'create' ?
                             <Button onClick={() => this.handleClose('create')} color="primary">
-                                สร้าง
+                                Create
                             </Button>
                             : this.state.dialogType === 'update' ?
                                 <Button onClick={() => this.handleClose('update', this.state.chapterid)} color="primary">
-                                    แก้ไข
+                                    Change
                             </Button>
                                 :
                                 <Button onClick={() => this.handleClose('delete', this.state.chapterid)} color="primary" autoFocus>
-                                    ตกลง
+                                    Remove
                             </Button>
                         }
                     </DialogActions>
@@ -182,10 +185,10 @@ class Chapter extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>รายการวิชาบทเรียน</b></TableCell>
-                                <TableCell align="center"><b>จัดการไฟล์บทเรียน</b></TableCell>
-                                <TableCell align="center"><b>แก้ไขบทเรียน</b></TableCell>
-                                <TableCell align="center"><b>ลบ</b></TableCell>
+                                <TableCell><b>List of Subjects</b></TableCell>
+                                <TableCell align="center"><b>Manage PDF</b></TableCell>
+                                <TableCell align="center"><b>Change Subject Name</b></TableCell>
+                                <TableCell align="center"><b>Remove</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -199,17 +202,17 @@ class Chapter extends React.Component {
                                     <TableCell align="center">
 
                                         <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.cid)}>
-                                            <InsertDriveFileOutlinedIcon color="action" /> &nbsp; จัดการไฟล์
+                                            <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
                                         <Button color="primary" onClick={() => this.handleClickOpen('update', value.cid)}>
-                                            <EditOutlinedIcon color="action" /> &nbsp; แก้ไข
+                                            <EditOutlinedIcon color="action" /> &nbsp;
                                             </Button>
                                     </TableCell>
                                     <TableCell align="center">
                                         <Button color="primary" onClick={() => this.handleClickOpen('delete', value.cid)}>
-                                            <DeleteOutlinedIcon color="action" /> &nbsp; ลบ
+                                            <DeleteOutlinedIcon color="action" /> &nbsp;
                                             </Button>
                                     </TableCell>
                                 </TableRow>

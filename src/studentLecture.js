@@ -29,6 +29,7 @@ class Studentlecture extends React.Component {
             typeFile: null,
             dialogquestionopen: false,
             dialogQA: false,
+            dialogUpload: false,
             loadquestion: [],
             filter: '',
             base64: '',
@@ -176,6 +177,22 @@ class Studentlecture extends React.Component {
         instance.setHeaderItems(header => {
             header.push({
                 type: 'actionButton',
+                img: 'assets/icons/baseline_upload_black_48dp.png',
+                title: "Upload Lecture Note",
+                onClick: async () => this.setState({ dialogUpload: true }),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/baseline_upload_black_48dp.png',
+                title: "Upload Lecture Note",
+                onClick: async () => this.setState({ dialogUpload: true }),
+                dataElement: 'saveButton'
+            })
+        })
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
                 img: 'assets/icons/outline_ondemand_video_black_48dp.png',
                 title: "Upload Video",
                 onClick: async () => this.setState({ open: true, typeFile: "Video" }),
@@ -299,22 +316,22 @@ class Studentlecture extends React.Component {
                 console.error(error)
             });
     }
-    handlePoint = () => {
-        const apiBaseUrl = "http://localhost:3001/user/point/" + this.props.location.state.pdfid
-        const playload = {
-            "point": this.state.time
-        }
-        fetch(apiBaseUrl, {
+    uploadPdf = async () => {
+        const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf"
+        const formData = new FormData()
+        formData.append('file', this.state.file);
+        formData.append('userid', localStorage.getItem('email'))
+        formData.append('teacherpdf_tpid', this.props.match.params.lectureid)
+        await fetch(apiBaseUrl, {
             method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(playload)
+            body: formData
         }).then((res) => res.json())
             .then((res) => {
+                this.setState({ dialogUpload: false, file: null, filename: null })
+                window.location.reload()
             })
             .catch((error) => {
+                console.error(error)
             });
     }
     componentDidMount() {
@@ -380,7 +397,7 @@ class Studentlecture extends React.Component {
                         </Button>
                         <Button onClick={this.state.question === '' ? () => this.setState({ dialogquestionopen: false })
                             : () => this.questionTeacher()} color="primary" autoFocus>
-                            Yes Yes Yes!!!
+                            Submit
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -418,6 +435,37 @@ class Studentlecture extends React.Component {
                         </Button>
 
                         <Button onClick={() => this.handleUploadFile()} color="primary" autoFocus>
+                            Upload
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog open={this.state.dialogUpload} onClose={false} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Upload Your Own Lecture Note</DialogTitle>
+                    <DialogContent style={{ width: '250px' }}>
+                        <input
+                            accept="application/pdf"
+                            style={{ display: 'none' }}
+                            id="contained-button-file"
+                            multiple
+                            type="file"
+                            onChange={(event) =>
+                                event.target.files[0] === undefined ?
+                                    this.setState({ file: null, fileName: null })
+                                    :
+                                    this.setState({ file: event.target.files[0], fileName: event.target.files[0].name })}
+                        />
+                        <label htmlFor="contained-button-file">
+                            <Button variant="contained" color="primary" component="span">
+                                Choose File
+                            </Button>
+                            {this.state.fileName ? " : " + this.state.fileName : null}
+                        </label>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ dialogUpload: false })} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={() => this.uploadPdf()} color="primary">
                             Upload
                         </Button>
                     </DialogActions>

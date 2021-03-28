@@ -93,7 +93,7 @@ class Teacherlecturestudent extends React.Component {
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${value.alluser_uid}/${value.teacherpdf_tpid}`,
-                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid, pdfid: value.sid }
+                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid, pdfid: value.sid, pdfname: value.pdfname }
                                                 })
                                             }}
                                         >

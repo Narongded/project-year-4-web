@@ -126,15 +126,15 @@ class Slidebar extends React.Component {
               <p></p>
               <Divider />
               <List>
-                <ListItem button key={"หน้าหลัก"} onClick={() => {
+                <ListItem button key={"Home"} onClick={() => {
                   this.props.prop.history.push({
                     pathname: '/login'
                   })
                 }} >
                   <ListItemIcon><HomeOutlinedIcon /></ListItemIcon>
-                  <ListItemText primary={"หน้าหลัก"} />
+                  <ListItemText primary={"Home"} />
                 </ListItem>
-                <ListItem button key={"ค้นหาเลคเชอร์เพื่อน"} onClick={() => 
+                <ListItem button key={"Search Lecture Notes"} onClick={() => 
                     this.props.prop.history.push({
                       pathname: `/search/${localStorage.getItem('email')}`
                     })}>
@@ -143,9 +143,9 @@ class Slidebar extends React.Component {
                 </ListItem>
                 <Divider />
                 <br/>
-                <ListItem button key={"ออกจากระบบ"} onClick={this.handleRedirec} >
+                <ListItem button key={"Logout"} onClick={this.handleRedirec} >
                
-                  <ListItemText primary={"ออกจากระบบ"} />
+                  <ListItemText primary={"Logout"} />
                 </ListItem>
               </List>
             </div>
