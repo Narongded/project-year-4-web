@@ -175,7 +175,7 @@ class Managepdf extends React.Component {
 
                     </DialogActions>
                 </Dialog>
-                {localStorage.getItem('email') === this.props.location.state.userid ?
+                {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.userid ?
                     <Button variant="contained" color="primary" style={{ width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
                         Upload PDF
                     </Button>
@@ -189,7 +189,7 @@ class Managepdf extends React.Component {
                                 <TableCell><b>List of PDFs</b></TableCell>
                                 <TableCell align="center"><b>Student Lecture Notes</b></TableCell>
                                 <TableCell align="center"><b>Q&A</b></TableCell>
-                                {localStorage.getItem('email') === this.props.location.state.userid ?
+                                {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.userid ?
                                     <React.Fragment>
                                         <TableCell align="center"><b>Link to PDF</b></TableCell>
                                         <TableCell align="center"><b>Remove</b></TableCell>
@@ -228,7 +228,7 @@ class Managepdf extends React.Component {
                                             <HelpOutlineOutlinedIcon color="action" /> &nbsp;
                                         </Button>
                                     </TableCell>
-                                    {localStorage.getItem('email') === this.props.location.state.userid ?
+                                    {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.userid ?
                                         <React.Fragment>
                                             <TableCell align="center">
                                                 <Button color="primary"

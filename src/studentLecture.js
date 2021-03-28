@@ -430,7 +430,7 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Dialog open={this.state.dialogUpload} onClose={false} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Upload Your Own Lecture Note</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Upload Your Lecture Note</DialogTitle>
                     <DialogContent style={{ width: '250px' }}>
                         <input
                             accept="application/pdf"
