@@ -122,11 +122,11 @@ class Managepdf extends React.Component {
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
-                            <DialogTitle id="form-dialog-title">ชื่อบทเรียน</DialogTitle>
+                            <DialogTitle id="form-dialog-title">PDF Name</DialogTitle>
                             <DialogContent style={{ width: '250px' }}>
                                 <TextField
                                     id="outlined-full-width"
-                                    placeholder="กรุณากรอกชื่อบทเรียน"
+                                    placeholder="Enter PDF Name"
                                     margin="normal"
                                     InputLabelProps={{
                                         shrink: true,
@@ -150,45 +150,51 @@ class Managepdf extends React.Component {
                                 />
                                 <label htmlFor="contained-button-file">
                                     <Button variant="contained" color="primary" component="span">
-                                        เลือกเอกสาร
+                                        Choose File
                                 </Button>
                                     {this.state.fileName ? " : " + this.state.fileName : null}
                                 </label>
                             </DialogContent>
                         </div>
                         :
-                        <DialogTitle id="form-dialog-title">ต้องการลบเอกสารบทเรียน</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Remove PDF File</DialogTitle>
                     }
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false })} color="primary">
-                            ยกเลิก
+                            Cancel
                         </Button>
                         {this.state.dialogType === 'create' ?
                             <Button onClick={() => this.handleClose('create')} color="primary">
-                                อัปโหลด
+                                Upload
                         </Button>
                             :
                             <Button onClick={() => this.handleClose('delete', this.state.pdfid)} color="primary" autoFocus>
-                                ตกลง
+                                Remove
                         </Button>
                         }
 
                     </DialogActions>
                 </Dialog>
-                <Button variant="contained" color="primary" style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
-                    อัปโหลดเอกสารบทเรียน
+                {localStorage.getItem('email') === this.props.location.state.userid ?
+                    <Button variant="contained" color="primary" style={{ width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
+                        Upload PDF
                     </Button>
-                <TableContainer component={Paper}>
+                : null}
+                <TableContainer component={Paper} style={{ marginTop: '20px' }}>
 
 
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>รายการเอกสารบทเรียน</b></TableCell>
-                                <TableCell align="center"><b>ดูเลคเชอร์</b></TableCell>
-                                <TableCell align="center"><b>ดูคำถาม</b></TableCell>
-                                <TableCell align="center"><b>Link เปิดเอกสารบทเรียน</b></TableCell>
-                                <TableCell align="center"><b>ลบ</b></TableCell>
+                                <TableCell><b>List of PDFs</b></TableCell>
+                                <TableCell align="center"><b>Student Lecture Notes</b></TableCell>
+                                <TableCell align="center"><b>Q&A</b></TableCell>
+                                {localStorage.getItem('email') === this.props.location.state.userid ?
+                                    <React.Fragment>
+                                        <TableCell align="center"><b>Link to PDF</b></TableCell>
+                                        <TableCell align="center"><b>Remove</b></TableCell>
+                                    </React.Fragment>
+                                : null}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -210,7 +216,6 @@ class Managepdf extends React.Component {
                                             }
                                         >
                                             <VisibilityOutlinedIcon color="action" /> &nbsp;
-                                            ดูเลคเชอร์
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
@@ -220,22 +225,26 @@ class Managepdf extends React.Component {
                                                     pathname: `/question/${value.tpid}`
                                                 })
                                             }}>
-                                            <HelpOutlineOutlinedIcon color="action" /> &nbsp; ดูคำถาม
+                                            <HelpOutlineOutlinedIcon color="action" /> &nbsp;
                                         </Button>
                                     </TableCell>
-                                    <TableCell align="center">
-                                        <Button color="primary"
-                                            onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
-                                        >
-                                            <LinkOutlinedIcon color="action" /> &nbsp;คัดลอก
-                                            </Button>
+                                    {localStorage.getItem('email') === this.props.location.state.userid ?
+                                        <React.Fragment>
+                                            <TableCell align="center">
+                                                <Button color="primary"
+                                                    onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
+                                                >
+                                                    <LinkOutlinedIcon color="action" /> &nbsp;
+                                                    </Button>
 
-                                    </TableCell >
-                                    <TableCell align="center">
-                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.tpid)}>
-                                            <DeleteOutlinedIcon color="action" /> &nbsp;ลบ
-                                            </Button>
-                                    </TableCell>
+                                            </TableCell >
+                                            <TableCell align="center">
+                                                <Button color="primary" onClick={() => this.handleClickOpen('delete', value.tpid)}>
+                                                    <DeleteOutlinedIcon color="action" /> &nbsp;
+                                                    </Button>
+                                            </TableCell>
+                                        </React.Fragment>
+                                    : null}
                                 </TableRow>
                             ))}
                         </TableBody>

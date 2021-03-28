@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Redirect } from "react-router-dom";
 import Slidebar from './components/slideBar';
+import Footer from './components/footer';
 import {
     AppBar, IconButton, Toolbar, Button, Grid,
     TextField, Dialog, DialogActions, DialogContent,
@@ -49,6 +50,7 @@ class Studentchapter extends React.Component {
 
     render() {
         return (
+            <React.Fragment>
             <Container maxWidth="lg">
                 <Slidebar prop={this.props} appBarName='Subjects' openSlide={true} />
                 <TableContainer component={Paper} style={{ marginTop: '100px' }}>
@@ -100,7 +102,8 @@ class Studentchapter extends React.Component {
                     </Table>
                 </TableContainer>
             </Container>
-
+            <Footer prop={this.props} />
+        </React.Fragment>
         )
     }
 }
