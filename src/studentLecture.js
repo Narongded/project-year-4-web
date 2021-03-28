@@ -316,6 +316,23 @@ class Studentlecture extends React.Component {
                 console.error(error)
             });
     }
+    handlePoint = () => {
+        const apiBaseUrl = "http://localhost:3001/user/point/" + this.props.location.state.pdfid
+        const playload = {
+            "point": this.state.time
+        }
+        fetch(apiBaseUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(playload)
+        }).then((res) => res.json())
+            .then((res) => {
+            })
+            .catch((error) => { })
+    }
     uploadPdf = async () => {
         const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf"
         const formData = new FormData()
@@ -440,7 +457,7 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Dialog open={this.state.dialogUpload} onClose={false} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Upload Your Lecture Note</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Upload Your Own Lecture Note</DialogTitle>
                     <DialogContent style={{ width: '250px' }}>
                         <input
                             accept="application/pdf"

@@ -1,0 +1,30 @@
+.Button-table.MuiButton-root {
+  color: #e75107;
+  font-size: 10px;
+  align-items: center;
+  border-radius: 12px;
+
+  background: white;
+  box-shadow: 1px 3px 10px rgb(0 0 0 / 17%);
+}
+.MuiTableCell-head {
+    color: #6a6a6ade  !important;
+}
+.Button-table svg {
+    color: #e75107 ;
+}
+
+.Button-table > * {
+    color: #e75107 !important;
+}
+.Button-table.MuiButton-root:hover {
+    text-decoration: none;
+    background-color: #e75107;
+}
+.Button-table.MuiButton-root:hover > * {
+    color: #ffffff !important;
+}
+
+.Button-table.MuiButton-root:hover svg {
+    color: #ffffff !important;
+}

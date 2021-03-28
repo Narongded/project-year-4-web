@@ -29,13 +29,15 @@ class Question extends React.Component {
             rowperpage: 5,
             page: 0,
             orderBy: 'asc',
-            order: -1
+            order: -1,
+            typeOrder: "page"
+
         }
     }
     loadquestion = async () => {
         const apiBaseUrl = this.props.lectureid
-        ? `http://localhost:3001/question/getquestion-pdf/${this.props.lectureid}`
-        : `http://localhost:3001/question/getquestion-pdf/${this.props.match.params.pdfid}`
+            ? `http://localhost:3001/question/getquestion-pdf/${this.props.lectureid}`
+            : `http://localhost:3001/question/getquestion-pdf/${this.props.match.params.pdfid}`
         await fetch(apiBaseUrl, {
             method: 'GET',
             headers: {
@@ -151,55 +153,54 @@ class Question extends React.Component {
         return (
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='Q&A' />
-
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
-                            {localStorage.getItem('role') === 'teacher'?
-                            <React.Fragment>
-                                <DialogTitle id="form-dialog-title">Answer</DialogTitle>
-                                <DialogContent style={{ width: '250px' }}>
-                                    <TextField
-                                        id="outlined-full-width"
-                                        style={{ margin: 8 }}
-                                        placeholder="Answer is..."
-                                        margin="normal"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={(event) => {
-                                            this.setState({ qa: event.target.value })
-                                        }}
-                                        variant="outlined"
-                                    />
-                                </DialogContent>
-                            </React.Fragment>
-                            : <React.Fragment>
-                            <DialogTitle id="form-dialog-title">Question</DialogTitle>
-                                <DialogContent style={{ width: '250px' }}>
-                                    <TextField
-                                        id="outlined-full-width"
-                                        style={{ margin: 8 }}
-                                        placeholder="Question is..."
-                                        margin="normal"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={(event) => {
-                                            this.setState({ qa: event.target.value })
-                                        }}
-                                        variant="outlined"
-                                    />
-                                </DialogContent>
-                            </React.Fragment>
+                            {localStorage.getItem('role') === 'teacher' ?
+                                <React.Fragment>
+                                    <DialogTitle id="form-dialog-title">Answer</DialogTitle>
+                                    <DialogContent style={{ width: '250px' }}>
+                                        <TextField
+                                            id="outlined-full-width"
+                                            style={{ margin: 8 }}
+                                            placeholder="Answer is..."
+                                            margin="normal"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            onChange={(event) => {
+                                                this.setState({ qa: event.target.value })
+                                            }}
+                                            variant="outlined"
+                                        />
+                                    </DialogContent>
+                                </React.Fragment>
+                                : <React.Fragment>
+                                    <DialogTitle id="form-dialog-title">Question</DialogTitle>
+                                    <DialogContent style={{ width: '250px' }}>
+                                        <TextField
+                                            id="outlined-full-width"
+                                            style={{ margin: 8 }}
+                                            placeholder="Question is..."
+                                            margin="normal"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            onChange={(event) => {
+                                                this.setState({ qa: event.target.value })
+                                            }}
+                                            variant="outlined"
+                                        />
+                                    </DialogContent>
+                                </React.Fragment>
                             }
                         </div>
                         :
                         <div>
-                        {localStorage.getItem('role') === 'teacher'
-                        ? <DialogTitle id="form-dialog-title">Remove this Answer?</DialogTitle>
-                        : <DialogTitle id="form-dialog-title">Remove this Question?</DialogTitle>
-                        }
+                            {localStorage.getItem('role') === 'teacher'
+                                ? <DialogTitle id="form-dialog-title">Remove this Answer?</DialogTitle>
+                                : <DialogTitle id="form-dialog-title">Remove this Question?</DialogTitle>
+                            }
                         </div>
                     }
                     <DialogActions>
@@ -245,17 +246,30 @@ class Question extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>Page</b></TableCell>
-                                <tableCell><b></b> </tableCell>
                                 <TableCell>
                                     <TableSortLabel
-                                        active={true}
+                                        active={this.state.typeOrder === "page" ? true : false}
                                         direction={this.state.orderBy}
-                                        onClick={() => this.handleOrderBy()}
+                                        onClick={() => {
+                                            this.handleOrderBy()
+                                            this.setState({ typeOrder: "page" })
+                                        }}
+                                    ><b>Page</b></TableSortLabel></TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                        active={this.state.typeOrder === "StudentID" ? true : false}
+                                        direction={this.state.orderBy}
+                                        onClick={() => {
+                                            this.handleOrderBy()
+                                            this.setState({ typeOrder: "StudentID" })
+                                        }}
                                     >
-                                       <b> Question  </b></TableSortLabel>
+                                        <b>Student ID</b> </TableSortLabel></TableCell>
+                                <TableCell>
+
+                                    <b> Question  </b>
                                 </TableCell>
-                                
+
                                 <TableCell><b>Answer</b></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
@@ -263,7 +277,6 @@ class Question extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            { }
                             {(this.state.rowperpage > 0 ?
                                 this.state.loadquestion.filter(data => data.ques_alluser_uid.toLowerCase().includes(this.state.filter))
                                     .sort(() => this.state.order)
@@ -274,18 +287,18 @@ class Question extends React.Component {
                                 <TableRow key={index}>
                                     <TableCell>
                                         {!this.props.userid
-                                        ? <Button color="primary" style={{ paddingLeft: '0px' }} onClick={() => {
-                                            this.props.history.push({
-                                                pathname: `/student-lecture/${value.ques_alluser_uid}/${value.teacherpdfid}`,
-                                                state: { pdfpath: value.studentpdf_sid, userid: value.ques_alluser_uid ,page : value.page}
-                                            })
-                                        }
-                                        }>
-                                            {value.page}
-                                        </Button>
-                                        : <React.Fragment>
-                                            {value.page}
-                                        </React.Fragment>
+                                            ? <Button color="primary" style={{ paddingLeft: '0px' }} onClick={() => {
+                                                this.props.history.push({
+                                                    pathname: `/student-lecture/${value.ques_alluser_uid}/${value.teacherpdfid}`,
+                                                    state: { pdfpath: value.studentpdf_sid, userid: value.ques_alluser_uid, page: value.page }
+                                                })
+                                            }
+                                            }>
+                                                {value.page}
+                                            </Button>
+                                            : <React.Fragment>
+                                                {value.page}
+                                            </React.Fragment>
                                         }
                                     </TableCell>
                                     <TableCell>
@@ -308,12 +321,12 @@ class Question extends React.Component {
                                     </TableCell>
                                     <TableCell align="right">
                                         {(value.answername || value.answername === '') && value.ans_alluser_uid === localStorage.getItem('email') ?
-                                            <Button color="primary" onClick={() => this.handleOpen('update', value.aid, 'answer')}>
+                                           <Button className="Button-table" onClick={() => this.handleOpen('update', value.aid, 'answer')}>
                                                 <EditOutlinedIcon color="action" /> &nbsp;
                                                 Change Answer
                                             </Button>
                                             : value.ques_alluser_uid === localStorage.getItem('email') ?
-                                                <Button color="primary" onClick={() => this.handleOpen('update', value.qid, 'question')}>
+                                            <Button className="Button-table" onClick={() => this.handleOpen('update', value.qid, 'question')}>
                                                     <EditOutlinedIcon color="action" /> &nbsp;
                                                     Change Question
                                                 </Button>
@@ -322,12 +335,12 @@ class Question extends React.Component {
                                     </TableCell>
                                     <TableCell align="right">
                                         {value.answername && (value.ans_alluser_uid === localStorage.getItem('email')) ?
-                                            <Button color="primary" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
+                                             <Button className="Button-table" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
                                                 <DeleteOutlinedIcon color="action" /> &nbsp;
                                                 Remove Answer
                                             </Button>
                                             : (value.questionname || value.questionname === '') && (value.ques_alluser_uid === localStorage.getItem('email')) ?
-                                                <Button color="primary" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
+                                            <Button className="Button-table" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
                                                     <DeleteOutlinedIcon color="action" /> &nbsp;
                                                     Remove Question
                                             </Button> : null

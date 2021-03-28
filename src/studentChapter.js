@@ -11,7 +11,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-
+import './studentChapter.css'
 class Studentchapter extends React.Component {
     constructor(props) {
         super(props)
@@ -51,59 +51,59 @@ class Studentchapter extends React.Component {
     render() {
         return (
             <React.Fragment>
-            <Container maxWidth="lg">
-                <Slidebar prop={this.props} appBarName='Subjects' openSlide={true} />
-                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
-                    <Table aria-label="simple table" >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell> Subjects </TableCell>
-                                <TableCell> Teacher </TableCell>
-                                <TableCell align="center"><b> Manage Lecture Notes </b></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {(this.state.rowperpage > 0 ? this.state.loadchapter.slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
-                                : this.state.loadchapter
-                            ).map((value, index) => (
-                                <TableRow key={index}>
-                                    <TableCell component="th" scope="row">
-                                        {value.name}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row">
-                                        {value.teacher}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Button color="primary" variant="outlined" onClick={() => this.handleRedirect('managepdf', value.cid)}>
-                                            <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
-                                            Manage
-                                        </Button>
-                                    </TableCell>
+                <Container maxWidth="lg">
+                    <Slidebar prop={this.props} appBarName='Subjects' openSlide={true} />
+                    <TableContainer component={Paper} style={{ marginTop: '100px', borderRadius: '10px', background: 'white' }}>
+                        <Table aria-label="simple table" >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell> <b>Subjects </b></TableCell>
+                                    <TableCell> <b>Teacher</b> </TableCell>
+                                    <TableCell align="center"><b> Manage Lecture Notes</b> </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                        <TableFooter>
-                            <TableRow>
-                                <TablePagination
-                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                    colSpan={5}
-                                    count={this.state.loadchapter.length}
-                                    rowsPerPage={this.state.rowperpage}
-                                    page={this.state.page}
-                                    SelectProps={{
-                                        inputProps: { 'aria-label': 'rows per page' },
-                                        native: true,
-                                    }}
-                                    onChangePage={(event, newPage) => this.setState({ page: newPage })}
-                                    onChangeRowsPerPage={(event) => this.setState({ rowperpage: parseInt(event.target.value, 10) })}
-                                />
-                            </TableRow>
-                        </TableFooter>
-                    </Table>
-                </TableContainer>
-            </Container>
-            <Footer prop={this.props} />
-        </React.Fragment>
+                            </TableHead>
+                            <TableBody>
+                                {(this.state.rowperpage > 0 ? this.state.loadchapter.slice(this.state.page * this.state.rowperpage, this.state.page * this.state.rowperpage + this.state.rowperpage)
+                                    : this.state.loadchapter
+                                ).map((value, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell component="th" scope="row">
+                                            {value.name}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {value.teacher}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Button className="Button-table"
+                                                onClick={() => this.handleRedirect('managepdf', value.cid)}>
+                                                <InsertDriveFileOutlinedIcon color="action" /> &nbsp;Manage
+                                        </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                    <TablePagination
+                                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                        colSpan={5}
+                                        count={this.state.loadchapter.length}
+                                        rowsPerPage={this.state.rowperpage}
+                                        page={this.state.page}
+                                        SelectProps={{
+                                            inputProps: { 'aria-label': 'rows per page' },
+                                            native: true,
+                                        }}
+                                        onChangePage={(event, newPage) => this.setState({ page: newPage })}
+                                        onChangeRowsPerPage={(event) => this.setState({ rowperpage: parseInt(event.target.value, 10) })}
+                                    />
+                                </TableRow>
+                            </TableFooter>
+                        </Table>
+                    </TableContainer>
+                </Container>
+                <Footer prop={this.props} />
+            </React.Fragment>
         )
     }
 }

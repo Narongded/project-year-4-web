@@ -180,7 +180,7 @@ class Managepdf extends React.Component {
                         Upload PDF
                     </Button>
                 : null}
-                <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+                <TableContainer component={Paper} style={{ marginTop: '20px', borderRadius: '10px', background: 'white' }}> 
 
 
                     <Table aria-label="simple table">
@@ -207,7 +207,7 @@ class Managepdf extends React.Component {
                                     </TableCell>
                                     <TableCell align="center">
 
-                                        <Button color="primary"
+                                    <Button className="Button-table"
                                             onClick={() =>
                                                 this.props.history.push({
                                                     pathname: `/lecture-student/${value.tpid}`,
@@ -219,7 +219,7 @@ class Managepdf extends React.Component {
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary"
+                                    <Button className="Button-table"
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/question/${value.tpid}`
@@ -231,7 +231,7 @@ class Managepdf extends React.Component {
                                     {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.userid ?
                                         <React.Fragment>
                                             <TableCell align="center">
-                                                <Button color="primary"
+                                            <Button className="Button-table"
                                                     onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
                                                 >
                                                     <LinkOutlinedIcon color="action" /> &nbsp;
@@ -239,7 +239,7 @@ class Managepdf extends React.Component {
 
                                             </TableCell >
                                             <TableCell align="center">
-                                                <Button color="primary" onClick={() => this.handleClickOpen('delete', value.tpid)}>
+                                            <Button className="Button-table" onClick={() => this.handleClickOpen('delete', value.tpid)}>
                                                     <DeleteOutlinedIcon color="action" /> &nbsp;
                                                     </Button>
                                             </TableCell>

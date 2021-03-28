@@ -50,7 +50,7 @@ class Teacherlecturestudent extends React.Component {
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='All Lecture Notes' />
 
-                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
+                <TableContainer component={Paper} style={{ marginTop: '100px' , borderRadius: '10px', background: 'white' }}>
                 <Grid item lg={12} style={{ textAlign: 'right' }}>
                         <TextField
                             autoFocus
@@ -89,7 +89,7 @@ class Teacherlecturestudent extends React.Component {
                                         {value.alluser_uid}
                                     </TableCell>
                                     <TableCell align='center'>
-                                        <Button color="primary"
+                                    <Button className="Button-table"
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${value.alluser_uid}/${value.teacherpdf_tpid}`,

@@ -8,7 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import {
   Grid, MenuItem, Select, InputLabel, ListItem,
-  List, ListItemIcon, ListItemText, Button, Card, TextField, Divider,Avatar
+  List, ListItemIcon, ListItemText, Button, Card, TextField, Divider, Avatar
 } from '@material-ui/core';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -69,18 +69,21 @@ class Slidebar extends React.Component {
 
     return (
       <div className='mainslideBar' style={{ marginBottom: '80px' }} >
-        <AppBar position="fixed" style={{ backgroundColor: '#e65100' }}>
+        <AppBar position="fixed" style={{ backgroundColor: '#ffffff' }}>
           <Toolbar>
             {this.props.openSlide &&
-              <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => this.setState({ openDrawer: true })} >
+              <IconButton edge="start" style={{ color: '#8d8d8d' }} aria-label="menu" onClick={() => this.setState({ openDrawer: true })} >
                 <MenuIcon />
               </IconButton>
             }
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <Typography variant="h6" style={{ flexGrow: 1, color: '#e75107' }}>
               {this.props.appBarName}
             </Typography>
 
-            <div>
+            <div style={{
+              paddingLeft: '2%', background: 'linear-gradient(0deg, rgba(242,75,123,1) 0%, rgba(231,81,7,1) 47%)',
+              borderRadius: '10px', boxShadow: '2px 2px 12px rgb(0 0 0 / 18%)'
+            }}>
               <span id="name">{localStorage.getItem('firstname')} {localStorage.getItem('lastname')}</span>
               <IconButton
                 aria-label="account of current user"
@@ -111,7 +114,8 @@ class Slidebar extends React.Component {
 
           </Toolbar>
         </AppBar>
-        {this.props.openSlide &&
+        {
+          this.props.openSlide &&
           <Drawer
             variant="temporary"
             anchor="left"
@@ -134,24 +138,24 @@ class Slidebar extends React.Component {
                   <ListItemIcon><HomeOutlinedIcon /></ListItemIcon>
                   <ListItemText primary={"Home"} />
                 </ListItem>
-                <ListItem button key={"Search Lecture Notes"} onClick={() => 
-                    this.props.prop.history.push({
-                      pathname: `/search/${localStorage.getItem('email')}`
-                    })}>
+                <ListItem button key={"Search Lecture Notes"} onClick={() =>
+                  this.props.prop.history.push({
+                    pathname: `/search/${localStorage.getItem('email')}`
+                  })}>
                   <ListItemIcon><SearchOutlinedIcon /></ListItemIcon>
-                  <ListItemText primary={"Search Lecture Notes"}  />
+                  <ListItemText primary={"Search Lecture Notes"} />
                 </ListItem>
                 <Divider />
-                <br/>
+                <br />
                 <ListItem button key={"Logout"} onClick={this.handleRedirec} >
-               
+
                   <ListItemText primary={"Logout"} />
                 </ListItem>
               </List>
             </div>
           </Drawer>
         }
-      </div>
+      </div >
     )
   }
 }

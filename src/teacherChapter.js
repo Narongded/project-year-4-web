@@ -31,7 +31,7 @@ class Chapter extends React.Component {
         const payload = {
             "chaptername": this.state.chaptername,
             "uid": localStorage.getItem('uid'),
-            "teacher":  localStorage.getItem('firstname') + " " + localStorage.getItem('lastname')
+            "teacher": localStorage.getItem('firstname') + " " + localStorage.getItem('lastname')
         }
         await fetch(apiBaseUrl, {
             method: 'POST',
@@ -171,10 +171,10 @@ class Chapter extends React.Component {
                         }
                     </DialogActions>
                 </Dialog>
-                <Button variant="outlined" color="primary"style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
+                <Button variant="outlined" color="primary" style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
                     สร้างวิชา
                         </Button>
-                <TableContainer component={Paper} >
+                <TableContainer component={Paper} style={{ borderRadius: '10px', background: 'white' }}>
 
                     <Table aria-label="simple table">
                         <TableHead>
@@ -195,7 +195,7 @@ class Chapter extends React.Component {
                                     </TableCell>
                                     <TableCell align="center">
 
-                                        <Button color="primary" onClick={() =>
+                                        <Button className="Button-table" onClick={() =>
                                             this.props.history.push({
                                                 pathname: `/managepdf/${value.cid}`,
                                                 state: { userid: value.teacher }
@@ -205,12 +205,12 @@ class Chapter extends React.Component {
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary" onClick={() => this.handleClickOpen('update', value.cid)}>
+                                    <Button className="Button-table" onClick={() => this.handleClickOpen('update', value.cid)}>
                                             <EditOutlinedIcon color="action" /> &nbsp;
                                             </Button>
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary" onClick={() => this.handleClickOpen('delete', value.cid)}>
+                                    <Button className="Button-table" onClick={() => this.handleClickOpen('delete', value.cid)}>
                                             <DeleteOutlinedIcon color="action" /> &nbsp;
                                             </Button>
                                     </TableCell>

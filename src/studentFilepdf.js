@@ -6,7 +6,7 @@ import {
     AppBar, IconButton, Toolbar, Button, Grid,
     TextField, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
-    TableHead, TableRow, Paper
+    TableHead, TableRow, Paper, Fab
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -69,7 +69,7 @@ class StudentPdf extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName={'All '+this.props.match.params.userid+' Lecture Notes'} />
+                <SlideBar prop={this.props} openSlide={true} appBarName={'All ' + this.props.match.params.userid + ' Lecture Notes'} />
                 <Dialog
                     open={this.state.confirmDialog}
                     onClose={false}
@@ -86,8 +86,8 @@ class StudentPdf extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
-            
+                <TableContainer component={Paper}  style={{ marginTop: '100px', borderRadius: '10px', background: 'white' }}>
+
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -95,8 +95,8 @@ class StudentPdf extends React.Component {
                                 <TableCell align="center"><b>Lecture Notes</b></TableCell>
                                 <TableCell align="center"><b>Q&A</b></TableCell>
                                 {localStorage.getItem('email') === this.props.match.params.userid
-                                ? <TableCell align="center"><b>Remove</b></TableCell>
-                                : null}
+                                    ? <TableCell align="center"><b>Remove</b></TableCell>
+                                    : null}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -108,11 +108,11 @@ class StudentPdf extends React.Component {
                                         {value.pdfname}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary"
+                                        <Button className="Button-table"
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${this.props.match.params.userid}/${value.teacherpdf_tpid}`,
-                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid ,pdfid: value.sid, pdfname: value.pdfname }
+                                                    state: { pdfpath: value.spdfname, userid: value.alluser_uid, pdfid: value.sid, pdfname: value.pdfname }
                                                 })
                                             }}
                                         >
@@ -120,22 +120,20 @@ class StudentPdf extends React.Component {
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary" 
+                                        <Button className="Button-table"
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/question/${value.tpid}`
                                                 })
                                             }}>
-                                                <HelpOutlineOutlinedIcon color="action" /> &nbsp;
+                                            <HelpOutlineOutlinedIcon color="action" /> &nbsp;
                                         </Button>
                                     </TableCell>
                                     {localStorage.getItem('email') === this.props.match.params.userid
-                                    ? <TableCell align="center">
-                                        <Button color="primary" onClick={() => this.setState({ sid: value.sid, confirmDialog: true })}>
-                                            <DeleteOutlineIcon color="action" /> &nbsp;
-                                        </Button>
-                                    </TableCell>
-                                    : null}
+                                        ? <TableCell align="center">
+                                            <Button className="Button-table"> <DeleteOutlineIcon color="action" /> </Button>
+                                        </TableCell>
+                                        : null}
                                 </TableRow>
                             ))}
                         </TableBody>

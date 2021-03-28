@@ -69,7 +69,7 @@ class Search extends React.Component {
                                         {value.name}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Button color="primary" onClick={() => this.handleRedirect('searchpdf', value.cid, value.teacher)}>
+                                    <Button className="Button-table" onClick={() => this.handleRedirect('searchpdf', value.cid, value.teacher)}>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                             All Lecture Notes
                                         </Button>
