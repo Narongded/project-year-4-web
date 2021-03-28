@@ -105,12 +105,6 @@ class Chapter extends React.Component {
             chapterid: chapterid
         })
     };
-    handleRedirect = async (page, chapterid) => {
-        if (page === 'managepdf') this.props.history.push({
-            pathname: `/managepdf/${chapterid}`,
-            state: { userid: localStorage.getItem('email') }
-        })
-    }
     handleClose = (page, chapterid) => {
         this.setState({
             open: false
@@ -201,7 +195,12 @@ class Chapter extends React.Component {
                                     </TableCell>
                                     <TableCell align="center">
 
-                                        <Button color="primary" onClick={() => this.handleRedirect('managepdf', value.cid)}>
+                                        <Button color="primary" onClick={() =>
+                                            this.props.history.push({
+                                                pathname: `/managepdf/${value.cid}`,
+                                                state: { userid: value.teacher }
+                                            })
+                                        }>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                         </Button>
                                     </TableCell>
