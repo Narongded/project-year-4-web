@@ -118,7 +118,7 @@ class Managepdf extends React.Component {
     render() {
         return (
             <Container maxWidth="lg" style={{ display: 'flex', flexDirection: 'column' }}>
-                <SlideBar prop={this.props} openSlide={true} appBarName='เอกสารบทเรียน' />
+                <SlideBar prop={this.props} openSlide={true} appBarName={this.props.location.state.chapter+' Lesson Documents'} />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
@@ -175,7 +175,7 @@ class Managepdf extends React.Component {
 
                     </DialogActions>
                 </Dialog>
-                {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.userid ?
+                {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.name ?
                     <Button variant="contained" color="primary" style={{ width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
                         Upload PDF
                     </Button>
@@ -189,7 +189,7 @@ class Managepdf extends React.Component {
                                 <TableCell><b>List of PDFs</b></TableCell>
                                 <TableCell align="center"><b>Student Lecture Notes</b></TableCell>
                                 <TableCell align="center"><b>Q&A</b></TableCell>
-                                {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.userid ?
+                                {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.name ?
                                     <React.Fragment>
                                         <TableCell align="center"><b>Link to PDF</b></TableCell>
                                         <TableCell align="center"><b>Remove</b></TableCell>
@@ -228,7 +228,7 @@ class Managepdf extends React.Component {
                                             <HelpOutlineOutlinedIcon color="action" /> &nbsp;
                                         </Button>
                                     </TableCell>
-                                    {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.userid ?
+                                    {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.name ?
                                         <React.Fragment>
                                             <TableCell align="center">
                                             <Button className="Button-table"

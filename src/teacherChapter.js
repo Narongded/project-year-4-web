@@ -198,7 +198,7 @@ class Chapter extends React.Component {
                                         <Button className="Button-table" onClick={() =>
                                             this.props.history.push({
                                                 pathname: `/managepdf/${value.cid}`,
-                                                state: { userid: value.teacher }
+                                                state: { name: value.teacher, chapter: value.name }
                                             })
                                         }>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
