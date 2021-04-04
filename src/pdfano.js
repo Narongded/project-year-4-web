@@ -131,33 +131,6 @@ class Pdfano extends React.Component {
             })
         })
 
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
-                img: 'assets/icons/outline_add_box_black_48dp.png',
-                title: "New Page",
-                onClick: async () => {
-                    const doc = docViewer.getDocument()
-                    const width = 612;
-                    const height = 792
-                    await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
-                    this.setState({ pageCount: docViewer.getPageCount() })
-                }, dataElement: 'newButton',
-                hidden: ['small-mobile']
-            })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/outline_add_box_black_48dp.png',
-                title: "New Page",
-                onClick: async () => {
-                    const doc = docViewer.getDocument()
-                    const width = 612;
-                    const height = 792
-                    await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
-                    this.setState({ pageCount: docViewer.getPageCount() })
-                }, dataElement: 'newButton'
-            })
-        })
     })
     handleOpen = () => {
         this.setState({
@@ -179,15 +152,15 @@ class Pdfano extends React.Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"บันทึกแล้ว"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Saved"}</DialogTitle>
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false })} color="primary">
-                            ปิด
+                            Close
                         </Button>
                     </DialogActions>
                 </Dialog>
 
-                <Slidebar prop={this.props} appBarName='วิชา' openSlide={true} />
+                <Slidebar prop={this.props} appBarName="Click 'Save to Server' to Save This File to Your Account" openSlide={true} />
                 <div className="webviewer" ref={this.viewerRef} style={{ height: "88vh" }}></div>
             </Container >
         )
