@@ -21,6 +21,7 @@ class Managepdf extends React.Component {
         this.state = {
             open: false,
             dialogType: null,
+            copyDialog: false,
             pdfid: '',
             pdfname: '',
             loadPdf: [],
@@ -175,6 +176,12 @@ class Managepdf extends React.Component {
 
                     </DialogActions>
                 </Dialog>
+                <Dialog open={this.state.copyDialog} onClose={() => this.setState({ copyDialog: false })} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Copied</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ copyDialog: false })}>Close</Button>
+                    </DialogActions>
+                </Dialog>
                 {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.name ?
                     <Button variant="contained" color="primary" style={{ width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
                         Upload PDF
@@ -232,7 +239,7 @@ class Managepdf extends React.Component {
                                         <React.Fragment>
                                             <TableCell align="center">
                                             <Button className="Button-table"
-                                                    onClick={() => navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`)}
+                                                    onClick={() => {navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`); this.setState({ copyDialog: true }); }}
                                                 >
                                                     <LinkOutlinedIcon color="action" /> &nbsp;
                                                     </Button>
