@@ -28,6 +28,7 @@ class Studentlecture extends React.Component {
             openfiletype: "",
             typeFile: null,
             dialogquestionopen: false,
+            confirmDialog: false,
             dialogQA: false,
             dialogUpload: false,
             loadquestion: [],
@@ -298,22 +299,47 @@ class Studentlecture extends React.Component {
         else if (type === "audio") this.setState({ popupaudio: false })
     };
     handleUploadFile = async () => {
-
-        const apiBaseUrl = "http://localhost:3001/user/upload-file/" + this.props.location.state.pdfid
-        const formData = new FormData()
-        formData.append('file', this.state.file);
-        formData.append('type', this.state.typeFile)
-        this.handleOpen()
+        if(this.state.file) {
+            const apiBaseUrl = "http://localhost:3001/user/upload-file/" + this.props.location.state.pdfid
+            const formData = new FormData()
+            formData.append('file', this.state.file);
+            formData.append('type', this.state.typeFile)
+            this.handleOpen()
+            await fetch(apiBaseUrl, {
+                method: 'POST',
+                body: formData
+            }).then((res) => res.json())
+                .then((res) => {
+                    this.setState({ open: false, file: null, filename: null })
+                    this.loadfile()
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
+        } else {
+            this.setState({ open: false })
+        }
+    }
+    deleteFile = async (type) => {
+        const apiBaseUrl = "http://localhost:3001/user/delete-file/" + this.props.location.state.pdfid
+        const payload = {
+            'type': type
+        }
         await fetch(apiBaseUrl, {
-            method: 'POST',
-            body: formData
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
         }).then((res) => res.json())
             .then((res) => {
-                this.setState({ open: false, file: null, filename: null })
+                if (type === 'Video') this.setState({ filevideo: null, confirmDialog: false })
+                else this.setState({ fileaudio: null, confirmDialog: false })
                 this.loadfile()
             })
             .catch((error) => {
-                console.error(error)
+                console.error(error);
             });
     }
     handlePoint = () => {
@@ -334,22 +360,26 @@ class Studentlecture extends React.Component {
             .catch((error) => { })
     }
     uploadPdf = async () => {
-        const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf"
-        const formData = new FormData()
-        formData.append('file', this.state.file);
-        formData.append('userid', localStorage.getItem('email'))
-        formData.append('teacherpdf_tpid', this.props.match.params.lectureid)
-        await fetch(apiBaseUrl, {
-            method: 'POST',
-            body: formData
-        }).then((res) => res.json())
-            .then((res) => {
-                this.setState({ dialogUpload: false, file: null, filename: null })
-                window.location.reload()
-            })
-            .catch((error) => {
-                console.error(error)
-            });
+        if(this.state.file) {
+            const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf"
+            const formData = new FormData()
+            formData.append('file', this.state.file);
+            formData.append('userid', localStorage.getItem('email'))
+            formData.append('teacherpdf_tpid', this.props.match.params.lectureid)
+            await fetch(apiBaseUrl, {
+                method: 'POST',
+                body: formData
+            }).then((res) => res.json())
+                .then((res) => {
+                    this.setState({ dialogUpload: false, file: null, filename: null })
+                    window.location.reload()
+                })
+                .catch((error) => {
+                    console.error(error)
+                });
+        } else {
+            this.setState({ dialogUpload: false })
+        }
     }
     componentDidMount() {
         // setInterval(() => console.log("asd"), 1000)
@@ -457,7 +487,7 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Dialog open={this.state.dialogUpload} onClose={false} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Upload Your Own Lecture Note</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Upload Your Lecture Note</DialogTitle>
                     <DialogContent style={{ width: '250px' }}>
                         <input
                             accept="application/pdf"
@@ -484,6 +514,22 @@ class Studentlecture extends React.Component {
                         </Button>
                         <Button onClick={() => this.uploadPdf()} color="primary">
                             Upload
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog
+                    open={this.state.confirmDialog}
+                    onClose={false}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{this.state.typeFile==='Video'?"Remove this Video?":"Remove this Audio"}</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ confirmDialog: false })} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={() => this.deleteFile(this.state.typeFile)} color="primary">
+                            Remove
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -549,7 +595,7 @@ class Studentlecture extends React.Component {
                                                 เล่นวีดีโอ</MenuItem>
                                             <MenuItem
                                                 onClick={() => this.setState({ openfile: false, play: false })}>ปิดวีดีโอ</MenuItem>
-                                            <MenuItem >ลบวีดีโอ</MenuItem>
+                                            <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Video' })} >ลบวีดีโอ</MenuItem>
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>
@@ -582,7 +628,7 @@ class Studentlecture extends React.Component {
                                                 </ListItemIcon>
                                                 เล่นคลิปเสียง</MenuItem>
                                             <MenuItem onClick={() => this.setState({ openfile: false, play: false })}>ปิดคลิปเสียง</MenuItem>
-                                            <MenuItem >ลบคลิปเสียง</MenuItem>
+                                            <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Audio' })} >ลบคลิปเสียง</MenuItem>
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>

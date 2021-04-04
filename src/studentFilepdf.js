@@ -131,7 +131,9 @@ class StudentPdf extends React.Component {
                                     </TableCell>
                                     {localStorage.getItem('email') === this.props.match.params.userid
                                         ? <TableCell align="center">
-                                            <Button className="Button-table"> <DeleteOutlineIcon color="action" /> </Button>
+                                            <Button className="Button-table" onClick={() => this.setState({ confirmDialog: true, sid: value.sid })}>
+                                                <DeleteOutlineIcon color="action" />
+                                            </Button>
                                         </TableCell>
                                         : null}
                                 </TableRow>
