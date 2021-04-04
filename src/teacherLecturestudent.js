@@ -49,26 +49,26 @@ class Teacherlecturestudent extends React.Component {
         return (
             <Container maxWidth="lg">
                 <SlideBar prop={this.props} openSlide={true} appBarName='All Lecture Notes' />
-
-                <TableContainer component={Paper} style={{ marginTop: '100px' , borderRadius: '10px', background: 'white' }}>
                 <Grid item lg={12} style={{ textAlign: 'right' }}>
-                        <TextField
-                            autoFocus
-                            size={'small'}
-                            margin="normal"
-                            label="Search by Student ID"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            onChange={(e) => this.setState({ filter: e.target.value })}
-                            floatingLabelText="Email"
-                            variant="outlined"
-                        />
-                    </Grid>
+                    <TextField
+                        autoFocus
+                        size={'small'}
+                        margin="normal"
+                        label="Search by Student ID"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        onChange={(e) => this.setState({ filter: e.target.value })}
+                        floatingLabelText="Email"
+                        variant="outlined"
+                    />
+                </Grid>
+                <TableContainer component={Paper} style={{  borderRadius: '10px', background: 'white' }}>
+
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -79,9 +79,9 @@ class Teacherlecturestudent extends React.Component {
                         <TableBody>
                             {(this.state.rowperpage > 0 ?
                                 this.state.loadlecturestudent.filter(data => data.alluser_uid.toLowerCase().includes(this.state.filter))
-                                .sort(() => this.state.order)
-                                .slice(this.state.page * this.state.rowperpage,
-                                    this.state.page * this.state.rowperpage + this.state.rowperpage)
+                                    .sort(() => this.state.order)
+                                    .slice(this.state.page * this.state.rowperpage,
+                                        this.state.page * this.state.rowperpage + this.state.rowperpage)
                                 : this.state.loadlecturestudent
                             ).map((value, index) => (
                                 <TableRow key={index}>
@@ -89,7 +89,7 @@ class Teacherlecturestudent extends React.Component {
                                         {value.alluser_uid}
                                     </TableCell>
                                     <TableCell align='center'>
-                                    <Button className="Button-table"
+                                        <Button className="Button-table"
                                             onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${value.alluser_uid}/${value.teacherpdf_tpid}`,

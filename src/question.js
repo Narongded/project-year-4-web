@@ -222,9 +222,7 @@ class Question extends React.Component {
                         }
                     </DialogActions>
                 </Dialog>
-
-                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
-                    <Grid item lg={12} style={{ textAlign: 'right' }}>
+                <Grid item lg={12} style={{ textAlign: 'right' }}>
                         <TextField
                             autoFocus
                             size={'small'}
@@ -242,6 +240,8 @@ class Question extends React.Component {
                             variant="outlined"
                         />
                     </Grid>
+                <TableContainer component={Paper}>
+                    
 
                     <Table aria-label="simple table">
                         <TableHead>

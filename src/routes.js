@@ -8,6 +8,7 @@ import Studentchapter from './studentChapter'
 import StudentPdf from './studentFilepdf'
 import Studentlecture from './studentLecture'
 import Question from './question'
+import Setting from './setting'
 import Teacherlecturestudent from './teacherLecturestudent'
 import Search from './search'
 class Routes extends Component {
@@ -35,6 +36,7 @@ class Routes extends Component {
         <Route path="/student-chapter/:userid" component={Studentchapter} />
         <Route path="/student-pdf/:userid/:chapterid" component={StudentPdf} />
         <Route path="/student-lecture/:userid/:lectureid" component={Studentlecture} />
+        <Route path="/setting/:userid" component={Setting} />
         <Route path="/question/:pdfid" component={Question} />
       </div>
     )

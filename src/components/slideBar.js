@@ -10,7 +10,8 @@ import {
   Grid, MenuItem, Select, InputLabel, ListItem,
   List, ListItemIcon, ListItemText, Button, Card, TextField, Divider, Avatar
 } from '@material-ui/core';
-
+import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Drawer from '@material-ui/core/Drawer';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -144,6 +145,13 @@ class Slidebar extends React.Component {
                   })}>
                   <ListItemIcon><SearchOutlinedIcon /></ListItemIcon>
                   <ListItemText primary={"Search Lecture Notes"} />
+                </ListItem>
+                <ListItem button key={"Setting"} onClick={() =>
+                  this.props.prop.history.push({
+                    pathname: `/setting/${localStorage.getItem('email')}`
+                  })}>
+                  <ListItemIcon><SettingsOutlinedIcon /></ListItemIcon>
+                  <ListItemText primary={"Setting"} />
                 </ListItem>
                 <Divider />
                 <br />
