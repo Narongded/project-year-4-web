@@ -163,7 +163,7 @@ class Question extends React.Component {
                                         <TextField
                                             id="outlined-full-width"
                                             style={{ margin: 8 }}
-                                            placeholder="Answer is..."
+                                            placeholder="Enter Answer"
                                             margin="normal"
                                             InputLabelProps={{
                                                 shrink: true,
