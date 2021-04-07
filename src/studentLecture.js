@@ -148,6 +148,15 @@ class Studentlecture extends React.Component {
                 });
         }
 
+        docViewer.on('documentLoaded', () => {
+            this.setState({ pageCount: docViewer.getPageCount() })
+            if (this.props.location.state.page) docViewer.setCurrentPage(this.props.location.state.page)
+        })
+
+        if(this.props.match.params.userid !== localStorage.getItem('email')) {
+            annotManager.setReadOnly(true)
+            instance.disableElements([ 'leftPanel', 'leftPanelButton' ])
+        }
         instance.disableElements(['annotationNoteConnectorLine'])
         const FitMode = instance.FitMode
         instance.setFitMode(FitMode.FitWidth)
@@ -159,122 +168,121 @@ class Studentlecture extends React.Component {
             'strikeoutToolGroupButton', 'squigglyToolGroupButton',
             'stickyToolGroupButton', 'outlinesPanelButton',
             'toggleNotesButton', 'highlightToolButton'])
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
-                img: 'assets/icons/outline_save_black_48dp.png',
-                title: "Save to Server",
-                onClick: async () => savedata(header),
-                hidden: ['small-mobile']
+        if(this.props.match.params.userid === localStorage.getItem('email')) {
+            instance.setHeaderItems(header => {
+                header.push({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_save_black_48dp.png',
+                    title: "Save to Server",
+                    onClick: async () => savedata(header),
+                    hidden: ['small-mobile']
+                })
+                header.getHeader('small-mobile-more-buttons').unshift({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_save_black_48dp.png',
+                    title: "Save to Server",
+                    onClick: async () => savedata(header),
+                    dataElement: 'saveButton'
+                })
             })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/outline_save_black_48dp.png',
-                title: "Save to Server",
-                onClick: async () => savedata(header),
-                dataElement: 'saveButton'
+            instance.setHeaderItems(header => {
+                header.push({
+                    type: 'actionButton',
+                    img: 'assets/icons/baseline_upload_black_48dp.png',
+                    title: "Upload Lecture Note",
+                    onClick: async () => this.setState({ dialogUpload: true }),
+                    hidden: ['small-mobile']
+                })
+                header.getHeader('small-mobile-more-buttons').unshift({
+                    type: 'actionButton',
+                    img: 'assets/icons/baseline_upload_black_48dp.png',
+                    title: "Upload Lecture Note",
+                    onClick: async () => this.setState({ dialogUpload: true }),
+                    dataElement: 'saveButton'
+                })
             })
-        })
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
-                img: 'assets/icons/baseline_upload_black_48dp.png',
-                title: "Upload Lecture Note",
-                onClick: async () => this.setState({ dialogUpload: true }),
-                hidden: ['small-mobile']
+            instance.setHeaderItems(header => {
+                header.push({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_ondemand_video_black_48dp.png',
+                    title: "Upload Video",
+                    onClick: async () => this.setState({ open: true, typeFile: "Video" }),
+                    hidden: ['small-mobile']
+                })
+                header.getHeader('small-mobile-more-buttons').unshift({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_ondemand_video_black_48dp.png',
+                    title: "Upload Video",
+                    onClick: async () => this.setState({ open: true, typeFile: "Video" }),
+                    dataElement: 'saveVideo'
+                })
             })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/baseline_upload_black_48dp.png',
-                title: "Upload Lecture Note",
-                onClick: async () => this.setState({ dialogUpload: true }),
-                dataElement: 'saveButton'
+            instance.setHeaderItems(header => {
+                header.push({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_record_voice_over_black_48dp.png',
+                    title: "Upload Audio",
+                    onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
+                    hidden: ['small-mobile']
+                })
+                header.getHeader('small-mobile-more-buttons').unshift({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_record_voice_over_black_48dp.png',
+                    title: "Upload Audio",
+                    onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
+                    dataElement: 'saveAudio'
+                })
             })
-        })
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
-                img: 'assets/icons/outline_ondemand_video_black_48dp.png',
-                title: "Upload Video",
-                onClick: async () => this.setState({ open: true, typeFile: "Video" }),
-                hidden: ['small-mobile']
-            })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/outline_ondemand_video_black_48dp.png',
-                title: "Upload Video",
-                onClick: async () => this.setState({ open: true, typeFile: "Video" }),
-                dataElement: 'saveVideo'
-            })
-        })
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
-                img: 'assets/icons/outline_record_voice_over_black_48dp.png',
-                title: "Upload Audio",
-                onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
-                hidden: ['small-mobile']
-            })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/outline_record_voice_over_black_48dp.png',
-                title: "Upload Audio",
-                onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
-                dataElement: 'saveAudio'
-            })
-        })
-        docViewer.on('documentLoaded', () => {
-            this.setState({ pageCount: docViewer.getPageCount() })
-            if (this.props.location.state.page) docViewer.setCurrentPage(this.props.location.state.page)
-        })
-        docViewer.on('pageNumberUpdated', () => {
-            this.setState({ pageCount: docViewer.getPageCount() })
-        })
 
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
-                img: 'assets/icons/outline_question_answer_black_48dp.png',
-                title: "Question teacher",
-                onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
-                hidden: ['small-mobile']
+            docViewer.on('pageNumberUpdated', () => {
+                this.setState({ pageCount: docViewer.getPageCount() })
             })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/outline_question_answer_black_48dp.png',
-                title: "Question teacher",
-                onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
-                dataElement: 'Question'
-            })
-        })
 
-        instance.setHeaderItems(header => {
-            header.push({
-                type: 'actionButton',
-                img: 'assets/icons/outline_add_box_black_48dp.png',
-                title: "New Page",
-                onClick: async () => {
-                    const doc = docViewer.getDocument()
-                    const width = 612;
-                    const height = 792
-                    await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
-                    this.setState({ pageCount: docViewer.getPageCount() })
-                }, dataElement: 'newButton',
-                hidden: ['small-mobile']
+            instance.setHeaderItems(header => {
+                header.push({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_question_answer_black_48dp.png',
+                    title: "Question teacher",
+                    onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
+                    hidden: ['small-mobile']
+                })
+                header.getHeader('small-mobile-more-buttons').unshift({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_question_answer_black_48dp.png',
+                    title: "Question teacher",
+                    onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
+                    dataElement: 'Question'
+                })
             })
-            header.getHeader('small-mobile-more-buttons').unshift({
-                type: 'actionButton',
-                img: 'assets/icons/outline_add_box_black_48dp.png',
-                title: "New Page",
-                onClick: async () => {
-                    const doc = docViewer.getDocument()
-                    const width = 612;
-                    const height = 792
-                    await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
-                    this.setState({ pageCount: docViewer.getPageCount() })
-                }, dataElement: 'newButton'
+
+            instance.setHeaderItems(header => {
+                header.push({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_add_box_black_48dp.png',
+                    title: "New Page",
+                    onClick: async () => {
+                        const doc = docViewer.getDocument()
+                        const width = 612;
+                        const height = 792
+                        await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                        this.setState({ pageCount: docViewer.getPageCount() })
+                    }, dataElement: 'newButton',
+                    hidden: ['small-mobile']
+                })
+                header.getHeader('small-mobile-more-buttons').unshift({
+                    type: 'actionButton',
+                    img: 'assets/icons/outline_add_box_black_48dp.png',
+                    title: "New Page",
+                    onClick: async () => {
+                        const doc = docViewer.getDocument()
+                        const width = 612;
+                        const height = 792
+                        await doc.insertBlankPages([docViewer.getCurrentPage() + 1], width, height)
+                        this.setState({ pageCount: docViewer.getPageCount() })
+                    }, dataElement: 'newButton'
+                })
             })
-        })
+        }
     })
     handleOpen = (type) => {
         if (type === 'QA') {
