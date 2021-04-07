@@ -91,8 +91,8 @@ class StudentPdf extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>List of Lecture Notes</b></TableCell>
-                                <TableCell align="center"><b>Lecture Notes</b></TableCell>
+                                <TableCell><b>Lecture Notes</b></TableCell>
+                                <TableCell align="center"><b>View</b></TableCell>
                                 <TableCell align="center"><b>Q&A</b></TableCell>
                                 {localStorage.getItem('email') === this.props.match.params.userid
                                     ? <TableCell align="center"><b>Remove</b></TableCell>

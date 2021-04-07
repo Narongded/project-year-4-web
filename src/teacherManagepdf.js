@@ -12,6 +12,7 @@ import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import LinkOutlinedIcon from '@material-ui/icons/LinkOutlined';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 import Container from '@material-ui/core/Container';
 
@@ -75,6 +76,27 @@ class Managepdf extends React.Component {
             });
     }
 
+    updatePdf = async (pdfid) => {
+        const apiBaseUrl = `http://localhost:3001/admin/update-pdf/${pdfid}`;
+        const formData = new FormData();
+        formData.append('pdfname', this.state.pdfname);
+
+        if (this.state.file) {     
+            formData.append('file', this.state.file);
+        }
+
+        await fetch(apiBaseUrl, {
+            method: 'POST',
+            body: formData
+        }).then((res) => res.json())
+            .then((res) => {
+                this.loadPdf()
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     deletePdf = async (pdfid) => {
         const apiBaseUrl = `http://localhost:3001/admin/delete-pdf/${pdfid}`;
         await fetch(apiBaseUrl, {
@@ -100,16 +122,20 @@ class Managepdf extends React.Component {
         this.setState({
             open: false
         })
-        console.log(pdfid)
         if (page === 'create') {
-            if (this.state.pdfname !== '') {
+            if (this.state.pdfname !== '' || !this.state.file) {
                 this.uploadPdf()
+            }
+        }
+        if (page === 'update') {
+            if (this.state.pdfname !== '') {
+                this.updatePdf(pdfid)
             }
         }
         if (page === 'delete') {
             this.deletePdf(pdfid)
         }
-        this.setState({ fileName: null })
+        this.setState({ file: null, fileName: null })
     };
 
     componentDidMount() {
@@ -119,19 +145,21 @@ class Managepdf extends React.Component {
     render() {
         return (
             <Container maxWidth="lg" style={{ display: 'flex', flexDirection: 'column' }}>
-                <SlideBar prop={this.props} openSlide={true} appBarName={this.props.location.state.chapter+' Lesson Documents'} />
+                <SlideBar prop={this.props} openSlide={true} appBarName={this.props.location.state.chapter+' Lecture Slide'} />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
-                            <DialogTitle id="form-dialog-title">PDF Name</DialogTitle>
+                            <DialogTitle id="form-dialog-title">Lecture Slide Name</DialogTitle>
                             <DialogContent style={{ width: '250px' }}>
                                 <TextField
                                     id="outlined-full-width"
-                                    placeholder="Enter PDF Name"
+                                    label="Lecture Slide Name"
+                                    placeholder="Enter Slide Name"
                                     margin="normal"
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    value={this.state.pdfname ? this.state.pdfname :null}
                                     onChange={(event) => { this.setState({ pdfname: event.target.value }) }}
                                     variant="outlined"
                                 />
@@ -158,16 +186,20 @@ class Managepdf extends React.Component {
                             </DialogContent>
                         </div>
                         :
-                        <DialogTitle id="form-dialog-title">Remove PDF File</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Remove Slide</DialogTitle>
                     }
                     <DialogActions>
-                        <Button onClick={() => this.setState({ open: false })} color="primary">
+                        <Button onClick={() => this.setState({ open: false, pdfname: '', file: null, fileName: null })} color="primary">
                             Cancel
                         </Button>
                         {this.state.dialogType === 'create' ?
                             <Button onClick={() => this.handleClose('create')} color="primary">
                                 Upload
                         </Button>
+                            : this.state.dialogType === 'update' ?
+                                <Button onClick={() => this.handleClose('update', this.state.pdfid)} color="primary">
+                                    Change
+                                </Button>
                             :
                             <Button onClick={() => this.handleClose('delete', this.state.pdfid)} color="primary" autoFocus>
                                 Remove
@@ -193,12 +225,13 @@ class Managepdf extends React.Component {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>List of PDFs</b></TableCell>
+                                <TableCell><b>Lecture Slides</b></TableCell>
                                 <TableCell align="center"><b>Student Lecture Notes</b></TableCell>
                                 <TableCell align="center"><b>Q&A</b></TableCell>
                                 {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.name ?
                                     <React.Fragment>
                                         <TableCell align="center"><b>Link to PDF</b></TableCell>
+                                        <TableCell align="center"><b>Edit</b></TableCell>
                                         <TableCell align="center"><b>Remove</b></TableCell>
                                     </React.Fragment>
                                 : null}
@@ -242,6 +275,12 @@ class Managepdf extends React.Component {
                                                     onClick={() => {navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`); this.setState({ copyDialog: true }); }}
                                                 >
                                                     <LinkOutlinedIcon color="action" /> &nbsp;
+                                                    </Button>
+
+                                            </TableCell >
+                                            <TableCell align="center">
+                                            <Button className="Button-table"onClick={() => { this.handleClickOpen('update', value.tpid); this.setState({ pdfname: value.pdfname}) }}>
+                                                    <EditOutlinedIcon color="action" /> &nbsp;
                                                     </Button>
 
                                             </TableCell >

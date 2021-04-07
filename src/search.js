@@ -5,11 +5,12 @@ import {
     AppBar, IconButton, Toolbar, Button, Grid,
     TextField, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, TableContainer, Table, TableBody, TableCell,
-    TableHead, TableRow, Paper
+    TableHead, TableRow, Paper, TableFooter, TablePagination, InputAdornment
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
+import SearchIcon from '@material-ui/icons/Search';
 
 class Search extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class Search extends React.Component {
         this.state = {
             search: '',
             loadchapter: [],
+            filter: '',
             rowperpage: 5,
             page: 0
         }
@@ -54,7 +56,24 @@ class Search extends React.Component {
         return (
             <Container maxWidth="lg">
                 <Slidebar prop={this.props} appBarName='Search Lecture Notes' openSlide={true} />
-                <TableContainer component={Paper} style={{ marginTop: '100px' }}>
+                <Grid item lg={12} style={{ textAlign: 'right' }}>
+                    <TextField
+                        autoFocus
+                        size={'small'}
+                        margin="normal"
+                        label="Search by Subjects"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        onChange={(e) => this.setState({ filter: e.target.value })}
+                        variant="outlined"
+                    />
+                </Grid>
+                <TableContainer component={Paper}>
                     <Table aria-label="simple table" >
                         <TableHead>
                             <TableRow>
@@ -63,13 +82,19 @@ class Search extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.loadchapter.map((value, index) => (
+                            {(this.state.rowperpage > 0 ?
+                                this.state.loadchapter.filter(data => data.subjectid.toLowerCase().includes(this.state.filter.toLowerCase()) || data.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+                                    .sort(() => this.state.order)
+                                    .slice(this.state.page * this.state.rowperpage,
+                                        this.state.page * this.state.rowperpage + this.state.rowperpage)
+                                : this.state.loadchapter
+                            ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell component="th" scope="row">
-                                        {value.name}
+                                        {value.subjectid} {value.name} ({value.semester}/{value.year})
                                     </TableCell>
                                     <TableCell align="center">
-                                    <Button className="Button-table" onClick={() => this.handleRedirect('searchpdf', value.cid, value.teacher, value.name)}>
+                                        <Button className="Button-table" onClick={() => this.handleRedirect('searchpdf', value.cid, value.teacher, value.name)}>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                             All Lecture Notes
                                         </Button>
@@ -77,6 +102,23 @@ class Search extends React.Component {
                                 </TableRow>
                             ))}
                         </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                    colSpan={5}
+                                    count={this.state.loadchapter.length}
+                                    rowsPerPage={this.state.rowperpage}
+                                    page={this.state.page}
+                                    SelectProps={{
+                                        inputProps: { 'aria-label': 'rows per page' },
+                                        native: true,
+                                    }}
+                                    onChangePage={(event, newPage) => this.setState({ page: newPage })}
+                                    onChangeRowsPerPage={(event) => this.setState({ rowperpage: parseInt(event.target.value, 10) })}
+                                />
+                            </TableRow>
+                        </TableFooter>
                     </Table>
                 </TableContainer>
             </Container>

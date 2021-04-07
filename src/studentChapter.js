@@ -59,7 +59,7 @@ class Studentchapter extends React.Component {
                                 <TableRow>
                                     <TableCell> <b>Subjects </b></TableCell>
                                     <TableCell> <b>Teacher</b> </TableCell>
-                                    <TableCell align="center"><b> Manage Lecture Notes</b> </TableCell>
+                                    <TableCell align="center"><b>Lecture Notes</b> </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -68,7 +68,7 @@ class Studentchapter extends React.Component {
                                 ).map((value, index) => (
                                     <TableRow key={index}>
                                         <TableCell component="th" scope="row">
-                                            {value.name}
+                                            {value.subjectid} {value.name} ({value.semester}/{value.year})
                                         </TableCell>
                                         <TableCell component="th" scope="row">
                                             {value.teacher}
