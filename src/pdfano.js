@@ -103,7 +103,9 @@ class Pdfano extends React.Component {
                 });
         }
 
+        annotManager.setReadOnly(true)
         instance.disableElements(['annotationNoteConnectorLine'])
+        instance.disableElements([ 'leftPanel', 'leftPanelButton' ]);
         const FitMode = instance.FitMode
         instance.setFitMode(FitMode.FitWidth)
         instance.disableFeatures(instance.Feature.TextSelection)
@@ -160,7 +162,7 @@ class Pdfano extends React.Component {
                     </DialogActions>
                 </Dialog>
 
-                <Slidebar prop={this.props} appBarName="Click 'Save to Server' to Save This File to Your Account" openSlide={true} />
+                <Slidebar prop={this.props} appBarName="Click 'Save to Server' to Save to Your Account" openSlide={true} />
                 <div className="webviewer" ref={this.viewerRef} style={{ height: "88vh" }}></div>
             </Container >
         )

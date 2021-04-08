@@ -13,7 +13,7 @@ class Footer extends React.Component {
     }
     render() {
         return (
-            <AppBar position="static" color="primary" style={{ position: "fixed", bottom: 0, textAlign: "center", paddingBottom: 5}}>
+            <AppBar position="static" color="inherit" style={{ position: "fixed", bottom: 0, textAlign: "center", paddingBottom: 5, color: '#e75107' }}>
                 <Container maxWidth="xl">
                     <Toolbar>
                         <Typography variant="body1" color="inherit">
