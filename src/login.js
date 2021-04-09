@@ -35,44 +35,44 @@ class Login extends Component {
   }
   handleClick = async (event) => {
 
-    if (this.state.type) {
-      if (this.state.first_name === '' || this.state.last_name === '' || this.state.email === ''
-        || this.state.password === '' || this.state.role === '') {
-        this.setState({ dialog: true, mes: 'Please Enter All The Blank, กรุณากรอกข้อมูลให้ครบถ้วน' })
-      } else if (this.state.role === 'นักศึกษา') {
-        if (this.state.studentnumber === '') {
-          this.setState({ dialog: true, mes: 'Please Enter Student ID, กรุณากรอกรหัสนักศึกษา' })
-        }
-      } else if (this.state.checkpassword === false) {
-        this.setState({ dialog: true, mes: 'Wrong Password, รหัสผ่านไม่ถูกต้อง' })
-      }
-      else {
-        const apiBaseUrl = "http://localhost:3001/regis";
-        const payload = {
-          "first_name": this.state.first_name,
-          "last_name": this.state.last_name,
-          "email": this.state.email,
-          "studentnumber": this.state.studentnumber,
-          "password": this.state.password,
-          "role": this.state.role
-        }
-        fetch(apiBaseUrl, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        }).then((response) => response.json()
-        ).then((responseJson) => {
-          this.setState({ dialog: true, mes: responseJson.mes })
-        })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    }
-    else {
+    // if (this.state.type) {
+    //   if (this.state.first_name === '' || this.state.last_name === '' || this.state.email === ''
+    //     || this.state.password === '' || this.state.role === '') {
+    //     this.setState({ dialog: true, mes: 'Please Enter All The Blank, กรุณากรอกข้อมูลให้ครบถ้วน' })
+    //   } else if (this.state.role === 'นักศึกษา') {
+    //     if (this.state.studentnumber === '') {
+    //       this.setState({ dialog: true, mes: 'Please Enter Student ID, กรุณากรอกรหัสนักศึกษา' })
+    //     }
+    //   } else if (this.state.checkpassword === false) {
+    //     this.setState({ dialog: true, mes: 'Wrong Password, รหัสผ่านไม่ถูกต้อง' })
+    //   }
+    //   else {
+    //     const apiBaseUrl = "http://localhost:3001/regis";
+    //     const payload = {
+    //       "first_name": this.state.first_name,
+    //       "last_name": this.state.last_name,
+    //       "email": this.state.email,
+    //       "studentnumber": this.state.studentnumber,
+    //       "password": this.state.password,
+    //       "role": this.state.role
+    //     }
+    //     fetch(apiBaseUrl, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify(payload)
+    //     }).then((response) => response.json()
+    //     ).then((responseJson) => {
+    //       this.setState({ dialog: true, mes: responseJson.mes })
+    //     })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //   }
+    // }
+    // else {
       if (this.state.email === '' || this.state.password === '') {
         this.setState({ dialog: true, mes: 'Please Enter All The Blank, กรุณากรอกข้อมูลให้ครบถ้วน' })
       } else {
@@ -112,7 +112,7 @@ class Login extends Component {
             console.error(error);
           });
       }
-    }
+    // }
   }
   componentDidMount() {
     this.handleAuthenicate()
@@ -137,7 +137,6 @@ class Login extends Component {
                 />
                 <br />
                 <TextField
-                  autoFocus
                   size={'small'}
                   margin="normal"
                   label="Password"

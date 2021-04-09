@@ -182,14 +182,15 @@ class Setting extends React.Component {
                             display: 'flex',
                             flexDirection: 'row',
                             alignItems: 'center'
-                        }}> <PersonAddIcon color="primary" />  &nbsp;  ManageSubscribe</span>
+                        }}> <PersonAddIcon color="primary" />  &nbsp;  Invite Friends</span>
                     </DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
                             margin="dense"
                             id="name"
-                            label="Email Address"
+                            label="Username"
+                            placeholder="Enter Friend Username"
                             type="email"
                             fullWidth
                             onChange={(e) => this.setState({ textemail: e.target.value })}
