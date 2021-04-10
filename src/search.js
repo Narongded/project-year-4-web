@@ -62,7 +62,7 @@ class Search extends React.Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
-                
+
             }).then((res) => res.json())
                 .then((res) => {
                     this.setState({ profile: res.data })
@@ -108,7 +108,7 @@ class Search extends React.Component {
                             autoFocus
                             size={'small'}
                             margin="normal"
-                            label="Filter by Subjects"
+                            label="Filter Table"
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
