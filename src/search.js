@@ -143,7 +143,7 @@ class Search extends React.Component {
                                                 {value.subjectid} {value.name} ({value.semester}/{value.year})
                                             </TableCell>
                                             <TableCell align="center">
-                                                <Button className="Button-table" onClick={() => this.handleRedirect('searchpdf', value.teacher, value.cid, value.name)}>
+                                                <Button className="Button-table" onClick={() => this.handleRedirect('searchpdf', value.teacher, value.cid, value.subjectid+' '+value.name+' ('+value.semester+'/'+value.year+')')}>
                                                     <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                                     All Lecture Notes
                                                 </Button>

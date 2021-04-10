@@ -251,7 +251,7 @@ class Managepdf extends React.Component {
                                             onClick={() =>
                                                 this.props.history.push({
                                                     pathname: `/lecture-student/${value.tpid}`,
-                                                    state: { pdfpath: value.spdfname }
+                                                    state: { pdfpath: value.spdfname, pdfname: value.pdfname }
                                                 })
                                             }
                                         >

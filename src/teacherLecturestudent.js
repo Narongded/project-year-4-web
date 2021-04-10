@@ -48,7 +48,7 @@ class Teacherlecturestudent extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName='All Lecture Notes' />
+                <SlideBar prop={this.props} openSlide={true} appBarName={'All ' + this.props.location.state.pdfname + ' Lecture Notes'} />
                 <Grid item lg={12} style={{ textAlign: 'right' }}>
                     <TextField
                         autoFocus
