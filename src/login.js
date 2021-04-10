@@ -129,9 +129,9 @@ class Login extends Component {
                   autoFocus
                   size={'small'}
                   margin="normal"
-                  label="Email"
-                  type="email"
-                  floatingLabelText="Email"
+                  label="Username"
+                  type="text"
+                  floatingLabelText="Username"
                   onChange={(event, newValue) => this.setState({ email: event.target.value })}
                   variant="outlined"
                 />
