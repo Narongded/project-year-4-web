@@ -456,7 +456,7 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Dialog id={'qa'} open={this.state.dialogQA} maxWidth="lg" fullWidth="true" onClose={() => this.setState({ dialogQA: false })} aria-labelledby="form-dialog-title">
-                    <Question prop={this.props} lectureid={this.props.match.params.lectureid} userid={localStorage.getItem('email')} />
+                    <Question prop={this.props} lectureid={this.props.match.params.lectureid} pdfname={this.props.location.state.pdfname} userid={localStorage.getItem('email')} />
                 </Dialog>
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
 

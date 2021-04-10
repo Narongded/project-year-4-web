@@ -154,7 +154,7 @@ class Question extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName={this.props.location.state.pdfname + ' Q&A'} />
+                <SlideBar prop={this.props} openSlide={true} appBarName={!this.props.pdfname ? this.props.location.state.pdfname + ' Q&A' : this.props.pdfname} />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
