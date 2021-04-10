@@ -71,7 +71,7 @@ class Setting extends React.Component {
         }).then((res) => res.json())
             .then((res) => {
                 this.setState({ loadsettingstatus: res.statusshared, loadsettingpeople: res.data })
-                if (this.state.loadsettingstatus) this.setState({ checked: this.state.loadsettingstatus[0].sharedtoggleid })
+                if (this.state.loadsettingstatus) this.setState({ checked: this.state.loadsettingstatus[0].status })
             })
             .catch((error) => {
                 console.error(error);
@@ -131,6 +131,7 @@ class Setting extends React.Component {
                         <ListItem>
                             <ListItemText id="switch-list-label-wifi" primary="Shared" />
                             <ListItemSecondaryAction>
+                                {console.log(this.state.checked)}
                                 <Switch
                                     checked={this.state.checked === 1 ? true : false}
                                     edge="end"
