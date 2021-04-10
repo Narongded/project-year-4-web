@@ -122,7 +122,7 @@ class Setting extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <Slidebar prop={this.props} appBarName='Search Lecture Notes' openSlide={true} />
+                <Slidebar prop={this.props} appBarName='Share Lecture Notes Settings' openSlide={true} />
                 <Container maxWidth="md" style={{ backgroundColor: 'white' }}>
 
                     <List>
