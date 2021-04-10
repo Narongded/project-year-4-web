@@ -439,8 +439,7 @@ class Studentlecture extends React.Component {
                             <TextField
                                 autoFocus
                                 margin="normal"
-                                label="Question"
-                                floatingLabelText="Question"
+                                label="Question is..."
                                 onChange={(event) => { this.setState({ question: event.target.value }) }}
                                 variant="outlined"
                             />
@@ -542,7 +541,7 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
 
-                <Slidebar prop={this.props} appBarName={this.props.location.state.pdfname} openSlide={true} />
+                <Slidebar prop={this.props} appBarName={localStorage.getItem('role') === 'teacher' ? this.props.match.params.userid.split("it") : this.props.location.state.pdfname} openSlide={true} />
                 { this.state.openfile &&
 
                     <Rnd

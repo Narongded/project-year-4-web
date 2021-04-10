@@ -114,12 +114,13 @@ class Question extends React.Component {
                 console.error(error);
             });
     }
-    handleOpen = (dialogType, id, actionType) => {
+    handleOpen = (dialogType, id, actionType, data) => {
         this.setState({
             open: true,
             dialogType: dialogType,
             id: id,
-            actionType: actionType
+            actionType: actionType,
+            qa: data
         })
     }
     handleClose = (dialogType, id, actionType) => {
@@ -134,6 +135,7 @@ class Question extends React.Component {
         } else if (dialogType === 'update') {
             if (this.state.qa !== '') {
                 this.updateQa(id, actionType)
+                this.setState({ qa: '' })
             }
         } else if (dialogType === 'delete') {
             this.deleteQa(id, actionType)
@@ -164,6 +166,7 @@ class Question extends React.Component {
                                             id="outlined-full-width"
                                             style={{ margin: 8 }}
                                             placeholder="Enter Answer"
+                                            value={this.state.qa}
                                             margin="normal"
                                             InputLabelProps={{
                                                 shrink: true,
@@ -182,6 +185,7 @@ class Question extends React.Component {
                                             id="outlined-full-width"
                                             style={{ margin: 8 }}
                                             placeholder="Question is..."
+                                            value={this.state.qa}
                                             margin="normal"
                                             InputLabelProps={{
                                                 shrink: true,
@@ -321,12 +325,12 @@ class Question extends React.Component {
                                     </TableCell>
                                     <TableCell align="right">
                                         {(value.answername || value.answername === '') && value.ans_alluser_uid === localStorage.getItem('email') ?
-                                           <Button className="Button-table" onClick={() => this.handleOpen('update', value.aid, 'answer')}>
+                                           <Button className="Button-table" onClick={() => this.handleOpen('update', value.aid, 'answer', value.answername)}>
                                                 <EditOutlinedIcon color="action" /> &nbsp;
                                                 Change Answer
                                             </Button>
                                             : value.ques_alluser_uid === localStorage.getItem('email') ?
-                                            <Button className="Button-table" onClick={() => this.handleOpen('update', value.qid, 'question')}>
+                                            <Button className="Button-table" onClick={() => this.handleOpen('update', value.qid, 'question', value.questionname)}>
                                                     <EditOutlinedIcon color="action" /> &nbsp;
                                                     Change Question
                                                 </Button>

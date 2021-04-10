@@ -186,7 +186,7 @@ class Managepdf extends React.Component {
                             </DialogContent>
                         </div>
                         :
-                        <DialogTitle id="form-dialog-title">Remove Slide</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Remove Chapter & Slide</DialogTitle>
                     }
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false, pdfname: '', file: null, fileName: null })} color="primary">
