@@ -54,7 +54,7 @@ class Teacherlecturestudent extends React.Component {
                         autoFocus
                         size={'small'}
                         margin="normal"
-                        label="Search by Student ID"
+                        label="Filter by Student ID"
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
