@@ -122,14 +122,14 @@ class Setting extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <Slidebar prop={this.props} appBarName='Share Lecture Notes Settings' openSlide={true} />
+                <Slidebar prop={this.props} appBarName='Lecture Notes Sharing Settings' openSlide={true} />
                 <Container maxWidth="md" style={{ backgroundColor: 'white' }}>
 
                     <List>
                         <br />
                         <span style={{ fontSize: '15pt', fontWeight: '600' }}>Setting</span>
                         <ListItem>
-                            <ListItemText id="switch-list-label-wifi" primary="Shared" />
+                            <ListItemText id="switch-list-label-wifi" primary="Share" />
                             <ListItemSecondaryAction>
                                 <Switch
                                     checked={this.state.checked === 1 ? true : false}
