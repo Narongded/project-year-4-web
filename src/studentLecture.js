@@ -157,7 +157,7 @@ class Studentlecture extends React.Component {
             annotManager.setReadOnly(true)
             instance.disableElements([ 'leftPanel', 'leftPanelButton' ])
         }
-        instance.disableElements(['annotationNoteConnectorLine'])
+        instance.disableElements(['annotationNoteConnectorLine', 'documentControl'])
         const FitMode = instance.FitMode
         instance.setFitMode(FitMode.FitWidth)
         instance.disableFeatures(instance.Feature.TextSelection)
@@ -439,8 +439,7 @@ class Studentlecture extends React.Component {
                             <TextField
                                 autoFocus
                                 margin="normal"
-                                label="Question"
-                                floatingLabelText="Question"
+                                label="Question is..."
                                 onChange={(event) => { this.setState({ question: event.target.value }) }}
                                 variant="outlined"
                             />
@@ -457,7 +456,7 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Dialog id={'qa'} open={this.state.dialogQA} maxWidth="lg" fullWidth="true" onClose={() => this.setState({ dialogQA: false })} aria-labelledby="form-dialog-title">
-                    <Question prop={this.props} lectureid={this.props.match.params.lectureid} userid={localStorage.getItem('email')} />
+                    <Question prop={this.props} lectureid={this.props.match.params.lectureid} pdfname={this.props.location.state.pdfname} userid={localStorage.getItem('email')} />
                 </Dialog>
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
 
@@ -542,7 +541,7 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
 
-                <Slidebar prop={this.props} appBarName={this.props.location.state.pdfname} openSlide={true} />
+                <Slidebar prop={this.props} appBarName={localStorage.getItem('role') === 'teacher' ? this.props.match.params.userid.split("it") : this.props.location.state.pdfname} openSlide={true} />
                 { this.state.openfile &&
 
                     <Rnd

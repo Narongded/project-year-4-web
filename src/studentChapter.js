@@ -22,8 +22,11 @@ class Studentchapter extends React.Component {
 
         }
     }
-    handleRedirect = async (page, chapterid) => {
-        if (page === 'managepdf') this.props.history.push(`/student-pdf/${this.props.match.params.userid}/${chapterid}`);
+    handleRedirect = async (page, chapterid, chaptername) => {
+        if (page === 'managepdf') this.props.history.push({
+            pathname: `/student-pdf/${this.props.match.params.userid}/${chapterid}`,
+            state: { chaptername: chaptername } 
+        });
     }
 
     loadChapter = async () => {
@@ -75,7 +78,7 @@ class Studentchapter extends React.Component {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Button className="Button-table"
-                                                onClick={() => this.handleRedirect('managepdf', value.cid)}>
+                                                onClick={() => this.handleRedirect('managepdf', value.cid, value.subjectid+' '+value.name+' ('+value.semester+'/'+value.year+')')}>
                                                 <InsertDriveFileOutlinedIcon color="action" /> &nbsp;Manage
                                         </Button>
                                         </TableCell>

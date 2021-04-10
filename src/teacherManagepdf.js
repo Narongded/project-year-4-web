@@ -186,7 +186,7 @@ class Managepdf extends React.Component {
                             </DialogContent>
                         </div>
                         :
-                        <DialogTitle id="form-dialog-title">Remove Slide</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Remove Chapter & Slide</DialogTitle>
                     }
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false, pdfname: '', file: null, fileName: null })} color="primary">
@@ -251,7 +251,7 @@ class Managepdf extends React.Component {
                                             onClick={() =>
                                                 this.props.history.push({
                                                     pathname: `/lecture-student/${value.tpid}`,
-                                                    state: { pdfpath: value.spdfname }
+                                                    state: { pdfpath: value.spdfname, pdfname: value.pdfname }
                                                 })
                                             }
                                         >
@@ -262,7 +262,8 @@ class Managepdf extends React.Component {
                                     <Button className="Button-table"
                                             onClick={() => {
                                                 this.props.history.push({
-                                                    pathname: `/question/${value.tpid}`
+                                                    pathname: `/question/${value.tpid}`,
+                                                    state: { pdfname: value.pdfname }
                                                 })
                                             }}>
                                             <HelpOutlineOutlinedIcon color="action" /> &nbsp;

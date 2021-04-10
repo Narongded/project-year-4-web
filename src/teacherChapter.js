@@ -144,7 +144,7 @@ class Chapter extends React.Component {
     render() {
         return (
             <Container maxWidth="lg" style={{ display: 'flex', flexDirection: 'column' }}>
-                <Slidebar prop={this.props} appBarName='Subjects' openSlide={true} />
+                <Slidebar prop={this.props} appBarName='All Subjects' openSlide={true} />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
@@ -251,7 +251,7 @@ class Chapter extends React.Component {
                                         <Button className="Button-table" onClick={() =>
                                             this.props.history.push({
                                                 pathname: `/managepdf/${value.cid}`,
-                                                state: { name: value.teacher, chapter: value.name }
+                                                state: { name: value.teacher, chapter: value.subjectid+' '+value.name+' ('+value.semester+'/'+value.year+')' }
                                             })
                                         }>
                                             <InsertDriveFileOutlinedIcon color="action" /> &nbsp;

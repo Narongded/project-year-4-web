@@ -122,14 +122,14 @@ class Setting extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <Slidebar prop={this.props} appBarName='Search Lecture Notes' openSlide={true} />
+                <Slidebar prop={this.props} appBarName='Lecture Notes Sharing Settings' openSlide={true} />
                 <Container maxWidth="md" style={{ backgroundColor: 'white' }}>
 
                     <List>
                         <br />
                         <span style={{ fontSize: '15pt', fontWeight: '600' }}>Setting</span>
                         <ListItem>
-                            <ListItemText id="switch-list-label-wifi" primary="Shared" />
+                            <ListItemText id="switch-list-label-wifi" primary="Share" />
                             <ListItemSecondaryAction>
                                 {console.log(this.state.checked)}
                                 <Switch
@@ -183,14 +183,15 @@ class Setting extends React.Component {
                             display: 'flex',
                             flexDirection: 'row',
                             alignItems: 'center'
-                        }}> <PersonAddIcon color="primary" />  &nbsp;  ManageSubscribe</span>
+                        }}> <PersonAddIcon color="primary" />  &nbsp;  Invite Friends</span>
                     </DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
                             margin="dense"
                             id="name"
-                            label="Email Address"
+                            label="Username"
+                            placeholder="Enter Friend Username"
                             type="email"
                             fullWidth
                             onChange={(e) => this.setState({ textemail: e.target.value })}

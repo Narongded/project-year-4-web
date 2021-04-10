@@ -48,13 +48,13 @@ class Teacherlecturestudent extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName='All Lecture Notes' />
+                <SlideBar prop={this.props} openSlide={true} appBarName={'All ' + this.props.location.state.pdfname + ' Lecture Notes'} />
                 <Grid item lg={12} style={{ textAlign: 'right' }}>
                     <TextField
                         autoFocus
                         size={'small'}
                         margin="normal"
-                        label="Search by Student ID"
+                        label="Filter by Student ID"
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -86,7 +86,7 @@ class Teacherlecturestudent extends React.Component {
                             ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
-                                        {value.alluser_uid}
+                                        {value.alluser_uid.split("it")}
                                     </TableCell>
                                     <TableCell align='center'>
                                         <Button className="Button-table"
