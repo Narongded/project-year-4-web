@@ -62,7 +62,7 @@ class Search extends React.Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
-    
+                
             }).then((res) => res.json())
                 .then((res) => {
                     this.setState({ profile: res.data })
@@ -92,7 +92,9 @@ class Search extends React.Component {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon onClick={() => this.searchProfile(this.state.search)}></SearchIcon>
+                                    <Button onClick={() => this.searchProfile(this.state.search)}>
+                                        <SearchIcon color="action" />
+                                    </Button>
                                 </InputAdornment>
                             ),
                         }}
@@ -159,11 +161,11 @@ class Search extends React.Component {
                                 </TableHead>
                                 <TableBody>
                                     {(this.state.rowperpage > 0 ?
-                                        this.state.profile.filter((ele, ind) => ind === this.state.profile.findIndex( elem => elem.alluser_uid === ele.alluser_uid) && ele.alluser_uid.toLowerCase().includes(this.state.filter.toLowerCase()))
+                                        this.state.profile.filter((ele, ind) => ind === this.state.profile.findIndex(elem => elem.alluser_uid === ele.alluser_uid) && ele.alluser_uid.toLowerCase().includes(this.state.filter.toLowerCase()))
                                             .sort(() => this.state.order)
                                             .slice(this.state.page * this.state.rowperpage,
                                                 this.state.page * this.state.rowperpage + this.state.rowperpage)
-                                        : this.state.loadchapter
+                                        : this.state.profile
                                     ).map((value, index) => (
                                         <TableRow key={index}>
                                             <TableCell component="th" scope="row">
