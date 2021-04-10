@@ -227,7 +227,7 @@ class Question extends React.Component {
                             autoFocus
                             size={'small'}
                             margin="normal"
-                            label="Search by Student ID"
+                            label="Filter by Student ID"
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -302,7 +302,7 @@ class Question extends React.Component {
                                         }
                                     </TableCell>
                                     <TableCell>
-                                        {value.ques_alluser_uid}
+                                        {value.ques_alluser_uid.split("it")}
                                     </TableCell>
                                     <TableCell>
                                         {value.questionname}

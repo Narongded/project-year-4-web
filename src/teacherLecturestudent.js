@@ -86,7 +86,7 @@ class Teacherlecturestudent extends React.Component {
                             ).map((value, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
-                                        {value.alluser_uid}
+                                        {value.alluser_uid.split("it")}
                                     </TableCell>
                                     <TableCell align='center'>
                                         <Button className="Button-table"

@@ -10,6 +10,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SearchIcon from '@material-ui/icons/Search';
 
 class Search extends React.Component {
@@ -53,9 +54,9 @@ class Search extends React.Component {
             });
     }
 
-    searchProfile = async (username) => {
-        if (username) {
-            const apiBaseUrl = `http://localhost:3001/user/getprofile/${username}`;
+    searchProfile = async (studentid) => {
+        if (studentid) {
+            const apiBaseUrl = `http://localhost:3001/user/getchapter/it${studentid}`;
             await fetch(apiBaseUrl, {
                 method: 'GET',
                 headers: {
@@ -88,7 +89,7 @@ class Search extends React.Component {
                     <TextField
                         size={'small'}
                         margin="normal"
-                        label="Search by Username"
+                        label="Search by Student ID"
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -155,7 +156,7 @@ class Search extends React.Component {
                             <React.Fragment>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell> <b> Username </b></TableCell>
+                                        <TableCell> <b> Student ID </b></TableCell>
                                         <TableCell align="center"><b>Go to Profile</b></TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -169,11 +170,11 @@ class Search extends React.Component {
                                     ).map((value, index) => (
                                         <TableRow key={index}>
                                             <TableCell component="th" scope="row">
-                                                {value.alluser_uid}
+                                                {value.alluser_uid.split("it")}
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Button className="Button-table" onClick={() => this.handleRedirect('searchprofile', value.alluser_uid)}>
-                                                    <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
+                                                    <AccountBoxIcon color="action" /> &nbsp;
                                                     Profile
                                                 </Button>
                                             </TableCell>

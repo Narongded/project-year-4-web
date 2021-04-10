@@ -69,7 +69,7 @@ class StudentPdf extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
-                <SlideBar prop={this.props} openSlide={true} appBarName={'All ' + this.props.match.params.userid + ' Lecture Notes'} />
+                <SlideBar prop={this.props} openSlide={true} appBarName={'Lecture Notes'} />
                 <Dialog
                     open={this.state.confirmDialog}
                     onClose={false}
