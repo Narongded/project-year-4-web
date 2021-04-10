@@ -294,7 +294,7 @@ class Question extends React.Component {
                                             ? <Button color="primary" style={{ paddingLeft: '0px' }} onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${value.ques_alluser_uid}/${value.teacherpdfid}`,
-                                                    state: { pdfpath: value.studentpdf_sid, userid: value.ques_alluser_uid, page: value.page }
+                                                    state: { pdfpath: value.studentpdf_sid, userid: value.ques_alluser_uid, page: value.page, pdfname: this.props.location.state.pdfname }
                                                 })
                                             }
                                             }>
