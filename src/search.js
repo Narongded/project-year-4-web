@@ -56,7 +56,7 @@ class Search extends React.Component {
 
     searchProfile = async (studentid) => {
         if (studentid) {
-            const apiBaseUrl = `http://localhost:3001/user/getchapter/it${studentid}`;
+            const apiBaseUrl = `http://localhost:3001/user/getchapter/${studentid}`;
             await fetch(apiBaseUrl, {
                 method: 'GET',
                 headers: {
@@ -170,7 +170,7 @@ class Search extends React.Component {
                                     ).map((value, index) => (
                                         <TableRow key={index}>
                                             <TableCell component="th" scope="row">
-                                                {value.alluser_uid.split("it")}
+                                                {value.alluser_uid}
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Button className="Button-table" onClick={() => this.handleRedirect('searchprofile', value.alluser_uid)}>

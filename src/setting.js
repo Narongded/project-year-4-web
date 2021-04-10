@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import Slidebar from './components/slideBar';
 import {
     ListItem, ListItemText, ListItemSecondaryAction, Button, Grid,
-    Divider, Dialog, DialogActions, DialogContent,
+    Divider, Dialog, DialogActions, DialogContent, ButtonGroup,
     DialogContentText, IconButton, Checkbox, Table, TableBody, TableCell,
     TableHead, TableRow, List, Switch, Menu, MenuItem, Fade, TextField
 } from '@material-ui/core';
@@ -14,7 +14,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Container from '@material-ui/core/Container';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import { ThreeSixtySharp } from '@material-ui/icons';
-
+import ClearIcon from '@material-ui/icons/Clear';
+import DoneIcon from '@material-ui/icons/Done';
 class Setting extends React.Component {
     constructor(props) {
         super(props)
@@ -110,9 +111,26 @@ class Setting extends React.Component {
             }
         }).then((res) => res.json())
             .then((res) => {
-                this.setState({ confirmDialog: false })
+                this.setState({ confirmDialog: false, sharedlistid: null })
                 this.loadSetting()
             })
+            .catch((err) => console.log('err'))
+    }
+    handleAccept = (sharedtoggleid,alluser_uid) => {
+        const apiBaseUrl = `http://localhost:3001/setting/accept-shared/${sharedtoggleid}`
+        fetch(apiBaseUrl, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "email": alluser_uid,
+                'owner': this.state.loadsettingstatus[0].alluser_uid
+            })
+        })
+            .then((res) => res.json())
+            .then((res) => this.loadSetting())
             .catch((err) => console.log('err'))
     }
     componentDidMount() {
@@ -131,8 +149,8 @@ class Setting extends React.Component {
                         <ListItem>
                             <ListItemText id="switch-list-label-wifi" primary="Share" />
                             <ListItemSecondaryAction>
-                                {console.log(this.state.checked)}
                                 <Switch
+                                    color="primary"
                                     checked={this.state.checked === 1 ? true : false}
                                     edge="end"
                                     onChange={(e) => this.handleStatus(e)}
@@ -140,6 +158,22 @@ class Setting extends React.Component {
                                 />
                             </ListItemSecondaryAction>
                         </ListItem>
+                        <Divider />
+                        <br />
+                        <span style={{ fontSize: '15pt', fontWeight: '600' }}>Pending</span>
+                        {this.state.loadsettingpeople.filter(data => data.status === 0).length !== 0 &&
+                            this.state.loadsettingpeople.filter(data => data.status === 0).map((value, index) =>
+                                <ListItem>
+                                    <ListItemText id="switch-list-label-wifi" primary={value.alluser_uid} />
+                                    <Button size="small" onClick={() => this.handleAccept(value.sharedlistid, value.alluser_uid)}>
+                                        <DoneIcon style={{ color: 'green' }} />
+                                    </Button>
+                                    <Button size="small" onClick={() => { this.setState({ sharedlistid: value.sharedlistid }, () => this.handleDeletepeople()) }}>
+                                        <ClearIcon style={{ color: 'red' }} />
+                                    </Button>
+                                </ListItem>
+                            )
+                        }
                         <Divider />
                         <br />
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -165,7 +199,7 @@ class Setting extends React.Component {
                             </Menu>
                         </div>
                         {this.state.loadsettingpeople.length !== 0 &&
-                            this.state.loadsettingpeople.map((value, index) =>
+                            this.state.loadsettingpeople.filter(data => data.status === 1).map((value, index) =>
                                 <ListItem>
                                     <ListItemText id="switch-list-label-wifi" primary={value.alluser_uid} />
                                     <ListItemSecondaryAction>
