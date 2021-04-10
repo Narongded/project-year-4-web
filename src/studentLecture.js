@@ -157,7 +157,7 @@ class Studentlecture extends React.Component {
             annotManager.setReadOnly(true)
             instance.disableElements([ 'leftPanel', 'leftPanelButton' ])
         }
-        instance.disableElements(['annotationNoteConnectorLine'])
+        instance.disableElements(['annotationNoteConnectorLine', 'documentControl'])
         const FitMode = instance.FitMode
         instance.setFitMode(FitMode.FitWidth)
         instance.disableFeatures(instance.Feature.TextSelection)
