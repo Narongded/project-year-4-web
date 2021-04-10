@@ -262,7 +262,8 @@ class Managepdf extends React.Component {
                                     <Button className="Button-table"
                                             onClick={() => {
                                                 this.props.history.push({
-                                                    pathname: `/question/${value.tpid}`
+                                                    pathname: `/question/${value.tpid}`,
+                                                    state: { pdfname: value.pdfname }
                                                 })
                                             }}>
                                             <HelpOutlineOutlinedIcon color="action" /> &nbsp;
