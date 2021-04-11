@@ -390,13 +390,14 @@ class Studentlecture extends React.Component {
         }
     }
     componentDidMount() {
-        // setInterval(() => console.log("asd"), 1000)
         this.props.location.state === undefined ? this.props.history.push({ pathname: '/login' }) : this.showpdf()
         this.loadfile()
-        this.interval = setInterval(() => {
-            const time = this.state.time + 1
-            this.setState({ time: time })
-        }, 1000)
+        if (this.props.match.params.userid !== localStorage.getItem('email')) {
+            this.interval = setInterval(() => {
+                const time = this.state.time + 1
+                this.setState({ time: time })
+            }, 1000)
+        }
     }
     componentWillUnmount() {
         clearInterval(this.interval)
