@@ -74,7 +74,7 @@ class Login extends Component {
     // }
     // else {
       if (this.state.email === '' || this.state.password === '') {
-        this.setState({ dialog: true, mes: 'Please Enter All The Blank, กรุณากรอกข้อมูลให้ครบถ้วน' })
+        this.setState({ dialog: true, mes: 'Please Enter The Blanks' })
       } else {
         const apiBaseUrl = "http://localhost:3001/login";
         const payload = {
@@ -114,6 +114,12 @@ class Login extends Component {
       }
     // }
   }
+  handleKeypress = (event) => {
+    // trigger by pressing the 'enter' key
+    if (event.key === 'Enter') {
+      this.handleClick(event)
+    }
+  }
   componentDidMount() {
     this.handleAuthenicate()
   }
@@ -143,6 +149,7 @@ class Login extends Component {
                   type="password"
                   floatingLabelText="Password"
                   onChange={(event, newValue) => this.setState({ password: event.target.value })}
+                  onKeyPress={this.handleKeypress}
                   variant="outlined"
                 />
                 <br />
