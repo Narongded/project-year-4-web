@@ -172,22 +172,6 @@ class Studentlecture extends React.Component {
             instance.setHeaderItems(header => {
                 header.push({
                     type: 'actionButton',
-                    img: 'assets/icons/outline_save_black_48dp.png',
-                    title: "Save to Server",
-                    onClick: async () => savedata(header),
-                    hidden: ['small-mobile']
-                })
-                header.getHeader('small-mobile-more-buttons').unshift({
-                    type: 'actionButton',
-                    img: 'assets/icons/outline_save_black_48dp.png',
-                    title: "Save to Server",
-                    onClick: async () => savedata(header),
-                    dataElement: 'saveButton'
-                })
-            })
-            instance.setHeaderItems(header => {
-                header.push({
-                    type: 'actionButton',
                     img: 'assets/icons/baseline_upload_black_48dp.png',
                     title: "Upload Lecture Note",
                     onClick: async () => this.setState({ dialogUpload: true }),
@@ -283,6 +267,22 @@ class Studentlecture extends React.Component {
                 })
             })
         }
+        instance.setHeaderItems(header => {
+            header.push({
+                type: 'actionButton',
+                img: 'assets/icons/outline_save_black_48dp.png',
+                title: "Save to Server",
+                onClick: async () => savedata(header),
+                hidden: ['small-mobile']
+            })
+            header.getHeader('small-mobile-more-buttons').unshift({
+                type: 'actionButton',
+                img: 'assets/icons/outline_save_black_48dp.png',
+                title: "Save to Server",
+                onClick: async () => savedata(header),
+                dataElement: 'saveButton'
+            })
+        })
     })
     handleOpen = (type) => {
         if (type === 'QA') {
