@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import './studentChapter.css'
+import Permission from './components/perrmission'
 class Studentchapter extends React.Component {
     constructor(props) {
         super(props)
@@ -25,7 +26,7 @@ class Studentchapter extends React.Component {
     handleRedirect = async (page, chapterid, chaptername) => {
         if (page === 'managepdf') this.props.history.push({
             pathname: `/student-pdf/${this.props.match.params.userid}/${chapterid}`,
-            state: { chaptername: chaptername } 
+            state: { chaptername: chaptername }
         });
     }
 
@@ -54,6 +55,7 @@ class Studentchapter extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Permission prop={this.props} />
                 <Container maxWidth="lg">
                     <Slidebar prop={this.props} appBarName='Subjects' openSlide={true} />
                     <TableContainer component={Paper} style={{ marginTop: '100px', borderRadius: '10px', background: 'white' }}>
@@ -78,7 +80,7 @@ class Studentchapter extends React.Component {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Button className="Button-table"
-                                                onClick={() => this.handleRedirect('managepdf', value.cid, value.subjectid+' '+value.name+' ('+value.semester+'/'+value.year+')')}>
+                                                onClick={() => this.handleRedirect('managepdf', value.cid, value.subjectid + ' ' + value.name + ' (' + value.semester + '/' + value.year + ')')}>
                                                 <InsertDriveFileOutlinedIcon color="action" /> &nbsp;Manage
                                         </Button>
                                         </TableCell>

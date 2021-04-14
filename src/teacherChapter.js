@@ -7,6 +7,7 @@ import {
     DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
     TableHead, TableRow, Paper, InputLabel, Select, MenuItem, FormControl
 } from '@material-ui/core';
+import Footer from './components/footer';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
@@ -143,6 +144,7 @@ class Chapter extends React.Component {
 
     render() {
         return (
+            <React.Fragment>
             <Container maxWidth="lg" style={{ display: 'flex', flexDirection: 'column' }}>
                 <Slidebar prop={this.props} appBarName='All Subjects' openSlide={true} />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
@@ -224,7 +226,7 @@ class Chapter extends React.Component {
                         }
                     </DialogActions>
                 </Dialog>
-                <Button variant="outlined" color="primary" style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
+                <Button variant="contained" color="primary" style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
                     Create Subject
                         </Button>
                 <TableContainer component={Paper} style={{ borderRadius: '10px', background: 'white' }}>
@@ -295,14 +297,10 @@ class Chapter extends React.Component {
                         </TableFooter>
                     </Table>
                 </TableContainer>
-
-                <div class="footer" style={{
-                    position: "fixed", left: "0", bottom: "0",
-                    width: "100%", height: "7%", backgroundColor: "red"
-                }}>
-                    <p>Footer</p>
-                </div>
             </Container >
+            <Footer prop={this.props} />
+
+            </React.Fragment>
 
         )
     }
