@@ -12,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
+import Permission from './components/perrmission'
 class StudentPdf extends React.Component {
     constructor(props) {
         super(props)
@@ -69,6 +70,7 @@ class StudentPdf extends React.Component {
     render() {
         return (
             <Container maxWidth="lg">
+                <Permission prop={this.props} />
                 <SlideBar prop={this.props} openSlide={true} appBarName={'All ' + this.props.location.state.chaptername + ' Lecture Notes'} />
                 <Dialog
                     open={this.state.confirmDialog}

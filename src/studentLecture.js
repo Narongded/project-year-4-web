@@ -18,6 +18,7 @@ import ReactPlayer from 'react-player'
 import './studentLecture.css'
 import { saveAs } from 'file-saver';
 import Question from './question.js'
+import Permission from './components/perrmission'
 class Studentlecture extends React.Component {
     constructor(props) {
         super(props);
@@ -407,6 +408,7 @@ class Studentlecture extends React.Component {
         return (
 
             <Container maxWidth='lg' style={{ marginTop: '50px' }}>
+                <Permission prop={this.props} />
                 <Dialog
                     open={this.state.statusopen}
                     onClose={false}
