@@ -103,7 +103,7 @@ class Permission extends React.Component {
                 <DialogTitle id="alert-dialog-title">{"Request to Access?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Request Access to This Page.
+                        Request access to this page.
               </DialogContentText>
                 </DialogContent>
                 <DialogActions>
