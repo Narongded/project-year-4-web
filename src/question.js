@@ -231,7 +231,7 @@ class Question extends React.Component {
                             autoFocus
                             size={'small'}
                             margin="normal"
-                            label="Filter by Username"
+                            label="Filter by Student ID"
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">

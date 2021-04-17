@@ -91,8 +91,8 @@ class Search extends React.Component {
                         margin="normal"
                         label="Search by Username"
                         InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
+                            endAdornment: (
+                                <InputAdornment position="end">
                                     <Button onClick={() => this.searchProfile(this.state.search)}>
                                         <SearchIcon color="action" />
                                     </Button>
