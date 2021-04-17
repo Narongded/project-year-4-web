@@ -91,8 +91,8 @@ class Search extends React.Component {
                         margin="normal"
                         label="Search by Student ID"
                         InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
+                            endAdornment: (
+                                <InputAdornment position="end">
                                     <Button onClick={() => this.searchProfile(this.state.search)}>
                                         <SearchIcon color="action" />
                                     </Button>
@@ -143,7 +143,7 @@ class Search extends React.Component {
                                                 {value.subjectid} {value.name} ({value.semester}/{value.year})
                                             </TableCell>
                                             <TableCell align="center">
-                                                <Button className="Button-table" onClick={() => this.handleRedirect('searchpdf', value.teacher, value.cid, value.subjectid+' '+value.name+' ('+value.semester+'/'+value.year+')')}>
+                                                <Button className="Button-table" onClick={() => this.handleRedirect('searchpdf', value.teacher, value.cid, value.subjectid + ' ' + value.name + ' (' + value.semester + '/' + value.year + ')')}>
                                                     <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
                                                     All Lecture Notes
                                                 </Button>

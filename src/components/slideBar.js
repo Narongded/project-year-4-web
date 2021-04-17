@@ -139,20 +139,24 @@ class Slidebar extends React.Component {
                   <ListItemIcon><HomeOutlinedIcon /></ListItemIcon>
                   <ListItemText primary={"Home"} />
                 </ListItem>
-                <ListItem button key={"Search Lecture Notes"} onClick={() =>
-                  this.props.prop.history.push({
-                    pathname: `/search/${localStorage.getItem('email')}`
-                  })}>
-                  <ListItemIcon><SearchOutlinedIcon /></ListItemIcon>
-                  <ListItemText primary={"Search Lecture Notes"} />
-                </ListItem>
-                <ListItem button key={"Setting"} onClick={() =>
-                  this.props.prop.history.push({
-                    pathname: `/setting/${localStorage.getItem('email')}`
-                  })}>
-                  <ListItemIcon><SettingsOutlinedIcon /></ListItemIcon>
-                  <ListItemText primary={"Setting"} />
-                </ListItem>
+                {localStorage.getItem('role') !== 'teacher' ?
+                  <ListItem button key={"Search Lecture Notes"} style={{}} onClick={() =>
+                    this.props.prop.history.push({
+                      pathname: `/search/${localStorage.getItem('email')}`
+                    })}>
+                    <ListItemIcon><SearchOutlinedIcon /></ListItemIcon>
+                    <ListItemText primary={"Search Lecture Notes"} />
+                  </ListItem> : null}
+                {localStorage.getItem('role') !== 'teacher' ?
+                  <ListItem button key={"Setting"} onClick={() =>
+                    this.props.prop.history.push({
+                      pathname: `/setting/${localStorage.getItem('email')}`
+                    })}>
+                    <ListItemIcon><SettingsOutlinedIcon /></ListItemIcon>
+                    <ListItemText primary={"Setting"} />
+                  </ListItem>
+                  : null}
+
                 <Divider />
                 <br />
                 <ListItem button key={"Logout"} onClick={this.handleRedirec} >

@@ -116,7 +116,7 @@ class StudentPdf extends React.Component {
                                                 })
                                             }}
                                         >
-                                            <VisibilityOutlinedIcon color="action" /> &nbsp;
+                                            <VisibilityOutlinedIcon color="action" />
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
@@ -127,7 +127,7 @@ class StudentPdf extends React.Component {
                                                     state: { pdfname: value.pdfname }
                                                 })
                                             }}>
-                                            <HelpOutlineOutlinedIcon color="action" /> &nbsp;
+                                            <HelpOutlineOutlinedIcon color="action" />
                                         </Button>
                                     </TableCell>
                                     {localStorage.getItem('email') === this.props.match.params.userid

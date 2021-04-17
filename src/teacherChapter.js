@@ -256,18 +256,18 @@ class Chapter extends React.Component {
                                                 state: { name: value.teacher, chapter: value.subjectid+' '+value.name+' ('+value.semester+'/'+value.year+')' }
                                             })
                                         }>
-                                            <InsertDriveFileOutlinedIcon color="action" /> &nbsp;
+                                            <InsertDriveFileOutlinedIcon color="action" /> 
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
                                     <Button className="Button-table" onClick={() => { this.handleClickOpen('update', value.cid);
                                         this.setState({ subjectid: value.subjectid, chaptername: value.name, semester: value.semester, year: value.year }) }}>
-                                            <EditOutlinedIcon color="action" /> &nbsp;
+                                            <EditOutlinedIcon color="action" /> 
                                             </Button>
                                     </TableCell>
                                     <TableCell align="center">
                                     <Button className="Button-table" onClick={() => this.handleClickOpen('delete', value.cid)}>
-                                            <DeleteOutlinedIcon color="action" /> &nbsp;
+                                            <DeleteOutlinedIcon color="action" /> 
                                             </Button>
                                     </TableCell>
                                 </TableRow>
