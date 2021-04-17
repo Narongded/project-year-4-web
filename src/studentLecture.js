@@ -12,8 +12,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PlayArrowOutlinedIcon from '@material-ui/icons/PlayArrowOutlined';
 import { Rnd } from "react-rnd";
-import AddIcon from '@material-ui/icons/Add';
+import VideoLibraryOutlinedIcon from '@material-ui/icons/VideoLibraryOutlined';
+import LibraryMusicOutlinedIcon from '@material-ui/icons/LibraryMusicOutlined';
 import CloseIcon from '@material-ui/icons/Close';
+import ContactSupportOutlinedIcon from '@material-ui/icons/ContactSupportOutlined';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import ReactPlayer from 'react-player'
 import './studentLecture.css'
 import { saveAs } from 'file-saver';
@@ -582,7 +585,7 @@ class Studentlecture extends React.Component {
                         onClick={() => this.setState({ popupvideo: true })}
                         disabled={this.state.filevideo !== null ? false : true}
                     >
-                        <AddIcon />
+                        <VideoLibraryOutlinedIcon />
                     </Fab>
                     <Popper open={this.state.popupvideo} anchorEl={this.popupvideoref.current}
                         placement={'left-start'}
@@ -604,8 +607,16 @@ class Studentlecture extends React.Component {
                                                 </ListItemIcon>
                                                 เล่นวีดีโอ</MenuItem>
                                             <MenuItem
-                                                onClick={() => this.setState({ openfile: false, play: false })}>ปิดวีดีโอ</MenuItem>
-                                            <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Video' })} >ลบวีดีโอ</MenuItem>
+                                                onClick={() => this.setState({ openfile: false, play: false })}>
+                                                <ListItemIcon>
+                                                    <CloseIcon fontSize="small" />
+                                                </ListItemIcon>
+                                                ปิดวีดีโอ</MenuItem>
+                                            <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Video' })} >
+                                                <ListItemIcon>
+                                                    <DeleteOutlineIcon fontSize="small" />
+                                                </ListItemIcon>
+                                                ลบวีดีโอ</MenuItem>
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>
@@ -613,10 +624,10 @@ class Studentlecture extends React.Component {
                         )}
                     </Popper>
 
-                    <Fab color="primary" aria-label="add" ref={this.popupaudioref}
+                    <Fab color="primary" aria-label="audio" ref={this.popupaudioref}
                         onClick={() => this.setState({ popupaudio: true })}
                         disabled={this.state.fileaudio !== null ? false : true}>
-                        <AddIcon />
+                        <LibraryMusicOutlinedIcon />
                     </Fab>
                     <Popper open={this.state.popupaudio} anchorEl={this.popupaudioref.current}
                         placement={'left-start'}
@@ -637,18 +648,26 @@ class Studentlecture extends React.Component {
                                                     <PlayArrowOutlinedIcon fontSize="small" />
                                                 </ListItemIcon>
                                                 เล่นคลิปเสียง</MenuItem>
-                                            <MenuItem onClick={() => this.setState({ openfile: false, play: false })}>ปิดคลิปเสียง</MenuItem>
-                                            <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Audio' })} >ลบคลิปเสียง</MenuItem>
+                                            <MenuItem onClick={() => this.setState({ openfile: false, play: false })}>
+                                                <ListItemIcon>
+                                                    <CloseIcon fontSize="small" />
+                                                </ListItemIcon>
+                                                ปิดคลิปเสียง</MenuItem>
+                                            <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Audio' })} >
+                                                <ListItemIcon>
+                                                    <DeleteOutlineIcon fontSize="small" />
+                                                </ListItemIcon>
+                                                ลบคลิปเสียง</MenuItem>
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>
                             </Grow>
                         )}
                     </Popper>
-                    <Fab color="secondary" aria-label="add"
+                    <Fab color="secondary" aria-label="Q&A"
                         onClick={() => this.handleOpen('QA')}
                     >
-                        <AddIcon />
+                        <ContactSupportOutlinedIcon />
                     </Fab>
                 </div>
                 <div className="webviewer" ref={this.viewerRef} style={{ height: "85vh" }}></div>
