@@ -255,7 +255,7 @@ class Managepdf extends React.Component {
                                                 })
                                             }
                                         >
-                                            <VisibilityOutlinedIcon color="action" /> &nbsp;
+                                            <VisibilityOutlinedIcon color="action" /> 
                                         </Button>
                                     </TableCell>
                                     <TableCell align="center">
@@ -266,7 +266,7 @@ class Managepdf extends React.Component {
                                                     state: { pdfname: value.pdfname }
                                                 })
                                             }}>
-                                            <HelpOutlineOutlinedIcon color="action" /> &nbsp;
+                                            <HelpOutlineOutlinedIcon color="action" /> 
                                         </Button>
                                     </TableCell>
                                     {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.name ?
@@ -275,19 +275,19 @@ class Managepdf extends React.Component {
                                             <Button className="Button-table"
                                                     onClick={() => {navigator.clipboard.writeText(`http://localhost:3000/student/${value.tpid}`); this.setState({ copyDialog: true }); }}
                                                 >
-                                                    <LinkOutlinedIcon color="action" /> &nbsp;
+                                                    <LinkOutlinedIcon color="action" /> 
                                                     </Button>
 
                                             </TableCell >
                                             <TableCell align="center">
                                             <Button className="Button-table"onClick={() => { this.handleClickOpen('update', value.tpid); this.setState({ pdfname: value.pdfname}) }}>
-                                                    <EditOutlinedIcon color="action" /> &nbsp;
+                                                    <EditOutlinedIcon color="action" /> 
                                                     </Button>
 
                                             </TableCell >
                                             <TableCell align="center">
                                             <Button className="Button-table" onClick={() => this.handleClickOpen('delete', value.tpid)}>
-                                                    <DeleteOutlinedIcon color="action" /> &nbsp;
+                                                    <DeleteOutlinedIcon color="action" /> 
                                                     </Button>
                                             </TableCell>
                                         </React.Fragment>

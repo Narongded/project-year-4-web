@@ -6,7 +6,7 @@ import {
     AppBar, IconButton, Toolbar, Button, Grid,
     TextField, Dialog, DialogActions, DialogContent,
     DialogContentText, DialogTitle, TableFooter, TablePagination, TableContainer, Table, TableBody, TableCell,
-    TableHead, TableRow, Paper, InputAdornment
+    TableHead, TableRow, Paper, InputAdornment, TableSortLabel
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import SearchIcon from '@material-ui/icons/Search';
@@ -18,7 +18,10 @@ class Teacherlecturestudent extends React.Component {
             loadlecturestudent: [],
             filter: '',
             rowperpage: 5,
-            page: 0
+            page: 0,
+            typeOrder: null,
+            orderBy: 'asc',
+            order: -1
         }
     }
     loadLectureStudent = async () => {
@@ -45,6 +48,12 @@ class Teacherlecturestudent extends React.Component {
         this.loadLectureStudent()
 
     }
+    handleOrderBy = () => {
+        let orderby = this.state.orderBy === 'asc' ? 'desc' : 'asc'
+        this.setState({ orderBy: orderby })
+        this.setState({ order: orderby === 'desc' ? 1 : -1 })
+
+    }
     render() {
         return (
             <Container maxWidth="lg">
@@ -67,12 +76,30 @@ class Teacherlecturestudent extends React.Component {
                         variant="outlined"
                     />
                 </Grid>
-                <TableContainer component={Paper} style={{  borderRadius: '10px', background: 'white' }}>
+                <TableContainer component={Paper} style={{ borderRadius: '10px', background: 'white' }}>
 
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>Author</b></TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                        active={this.state.typeOrder === "author" ? true : false}
+                                        direction={this.state.orderBy}
+                                        onClick={() => {
+                                            this.handleOrderBy()
+                                            this.setState({ typeOrder: "author" })
+                                        }}>
+                                        <b>Author</b>
+                                    </TableSortLabel></TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                        active={this.state.typeOrder === "point" ? true : false}
+                                        direction={this.state.orderBy}
+                                        onClick={() => {
+                                            this.handleOrderBy()
+                                            this.setState({ typeOrder: "point" })
+                                        }}
+                                    ><b>Point</b></TableSortLabel></TableCell>
                                 <TableCell align='center'><b>Lecture Notes</b></TableCell>
                             </TableRow>
                         </TableHead>
@@ -88,6 +115,9 @@ class Teacherlecturestudent extends React.Component {
                                     <TableCell>
                                         {value.alluser_uid.split("it")}
                                     </TableCell>
+                                    <TableCell>
+                                        {value.point}
+                                    </TableCell>
                                     <TableCell align='center'>
                                         <Button className="Button-table"
                                             onClick={() => {
@@ -97,7 +127,7 @@ class Teacherlecturestudent extends React.Component {
                                                 })
                                             }}
                                         >
-                                            <VisibilityOutlinedIcon color="action" /> &nbsp;
+                                            <VisibilityOutlinedIcon color="action" />
                                         </Button>
                                     </TableCell>
                                 </TableRow>
