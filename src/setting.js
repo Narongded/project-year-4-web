@@ -247,7 +247,7 @@ class Setting extends React.Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"Remove This Lecture Notes?"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Remove Friend?"}</DialogTitle>
                     <DialogActions>
                         <Button onClick={() => this.setState({ confirmDialog: false })} color="primary">
                             Cancel

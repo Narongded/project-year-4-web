@@ -56,7 +56,7 @@ class Permission extends React.Component {
         }).then((res) => res.json())
             .then((res) => {
                 
-                // this.setState({ loadchapter: res.data })
+                this.setState({ visitorstatus: false })
                 this.loadSetting()
 
             })
@@ -80,7 +80,7 @@ class Permission extends React.Component {
             }).then((res) => res.json())
                 .then((res) => {
                     if ((res.toggleid[0].statusshared === 0) && (!res.data[0] || res.data[0].status === 0)) {
-                        this.setState({ visitorstatus: !false, sharedtoggleid: res.toggleid[0].sharedtoggleid })
+                        this.setState({ visitorstatus: true, sharedtoggleid: res.toggleid[0].sharedtoggleid })
                     }
                 })
                 .catch((error) => {
@@ -100,11 +100,10 @@ class Permission extends React.Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Request to Access?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous location data to
-                        Google, even when no apps are running.
+                        Request access to this page.
               </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -113,12 +112,15 @@ class Permission extends React.Component {
                             pathname: '/login'
                         })
                     }}>
-                        Disagree
+                        Cancel
                     </Button>
                     <Button color="primary" onClick={() => {
                         this.handleSendemail()
+                        this.props.prop.history.push({
+                            pathname: '/login'
+                        })
                     }} autoFocus>
-                        Agree
+                        Request
                     </Button>
                 </DialogActions>
             </Dialog>

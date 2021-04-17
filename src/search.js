@@ -89,7 +89,7 @@ class Search extends React.Component {
                     <TextField
                         size={'small'}
                         margin="normal"
-                        label="Search by Student ID"
+                        label="Search by Username"
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
