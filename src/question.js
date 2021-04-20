@@ -331,9 +331,8 @@ class Question extends React.Component {
                                     </TableCell>
                                     <TableCell align="right">
                                         {value.answername === null && (value.townerpdf === localStorage.getItem('email')) ?
-                                            <Button color="primary" onClick={() => this.handleOpen('create', value.qid, 'answer')}>
+                                            <Button className="Button-table" onClick={() => this.handleOpen('create', value.qid, 'answer')}>
                                                 <AddOutlinedIcon color="action" /> &nbsp;
-                                                Add Answer
                                             </Button>
                                             : null
                                         }

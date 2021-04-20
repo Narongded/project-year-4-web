@@ -13,6 +13,7 @@
 
 #qa .MuiPaper-root.MuiTableContainer-root.MuiPaper-elevation1.MuiPaper-rounded {
   margin-top: 0px !important;
+  margin-bottom: 15px;
 }
 
 #qa .mainslideBar {

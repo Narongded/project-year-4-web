@@ -154,11 +154,11 @@ class Studentlecture extends React.Component {
         }
 
         docViewer.on('documentLoaded', () => {
-            this.setState({ pageCount: docViewer.getPageCount() })
+            this.setState({ pageCount: docViewer.getPageCount(), currentpage: docViewer.getCurrentPage() })
             if (this.props.location.state.page) docViewer.setCurrentPage(this.props.location.state.page)
         })
         docViewer.on('pageNumberUpdated', () => {
-            this.setState({ currentpage: docViewer.getCurrentPage() })
+            this.setState({ pageCount: docViewer.getPageCount(), currentpage: docViewer.getCurrentPage()  })
         })
 
         if (this.props.match.params.userid !== localStorage.getItem('email')) {
@@ -226,9 +226,6 @@ class Studentlecture extends React.Component {
                 })
             })
 
-            docViewer.on('pageNumberUpdated', () => {
-                this.setState({ pageCount: docViewer.getPageCount() })
-            })
 
             instance.setHeaderItems(header => {
                 header.push({
@@ -400,7 +397,7 @@ class Studentlecture extends React.Component {
     componentDidMount() {
         this.props.location.state === undefined ? this.props.history.push({ pathname: '/login' }) : this.showpdf()
         this.loadfile()
-        if (this.props.match.params.userid !== localStorage.getItem('email')) {
+        if (this.props.match.params.userid !== localStorage.getItem('email') || localStorage.getItem('role') === 'student') {
             this.interval = setInterval(() => {
                 const time = this.state.time + 1
                 this.setState({ time: time })
@@ -466,7 +463,7 @@ class Studentlecture extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Dialog id={'qa'} open={this.state.dialogQA} maxWidth="lg" fullWidth="true" onClose={() => this.setState({ dialogQA: false })} aria-labelledby="form-dialog-title">
-                    <Question prop={this.props} lectureid={this.props.match.params.lectureid} pdfname={this.props.location.state.pdfname} userid={localStorage.getItem('email')} />
+                    <Question prop={this.props} lectureid={this.props.match.params.lectureid} pdfname={this.props.location.state.pdfname} userid={localStorage.getItem('email')} page={this.state.currentpage} />
                 </Dialog>
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
 
