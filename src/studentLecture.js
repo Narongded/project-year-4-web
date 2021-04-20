@@ -49,7 +49,8 @@ class Studentlecture extends React.Component {
             popupvideo: false,
             popupaudio: false,
             pageCount: 0,
-            time: 0
+            time: 0,
+            currentpage: null
         }
         this.viewerRef = React.createRef();
         this.popupvideoref = React.createRef();
@@ -156,10 +157,13 @@ class Studentlecture extends React.Component {
             this.setState({ pageCount: docViewer.getPageCount() })
             if (this.props.location.state.page) docViewer.setCurrentPage(this.props.location.state.page)
         })
+        docViewer.on('pageNumberUpdated', () => {
+            this.setState({ currentpage: docViewer.getCurrentPage() })
+        })
 
-        if(this.props.match.params.userid !== localStorage.getItem('email')) {
+        if (this.props.match.params.userid !== localStorage.getItem('email')) {
             annotManager.setReadOnly(true)
-            instance.disableElements([ 'leftPanel', 'leftPanelButton' ])
+            instance.disableElements(['leftPanel', 'leftPanelButton'])
         }
         instance.disableElements(['annotationNoteConnectorLine', 'documentControl'])
         const FitMode = instance.FitMode
@@ -172,7 +176,7 @@ class Studentlecture extends React.Component {
             'strikeoutToolGroupButton', 'squigglyToolGroupButton',
             'stickyToolGroupButton', 'outlinesPanelButton',
             'toggleNotesButton', 'highlightToolButton'])
-        if(this.props.match.params.userid === localStorage.getItem('email')) {
+        if (this.props.match.params.userid === localStorage.getItem('email')) {
             instance.setHeaderItems(header => {
                 header.push({
                     type: 'actionButton',
@@ -311,7 +315,7 @@ class Studentlecture extends React.Component {
         else if (type === "audio") this.setState({ popupaudio: false })
     };
     handleUploadFile = async () => {
-        if(this.state.file) {
+        if (this.state.file) {
             const apiBaseUrl = "http://localhost:3001/user/upload-file/" + this.props.location.state.pdfid
             const formData = new FormData()
             formData.append('file', this.state.file);
@@ -372,7 +376,7 @@ class Studentlecture extends React.Component {
             .catch((error) => { })
     }
     uploadPdf = async () => {
-        if(this.state.file) {
+        if (this.state.file) {
             const apiBaseUrl = "http://localhost:3001/user/upload-studentpdf"
             const formData = new FormData()
             formData.append('file', this.state.file);
@@ -536,7 +540,7 @@ class Studentlecture extends React.Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{this.state.typeFile==='Video'?"Remove this Video?":"Remove this Audio"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{this.state.typeFile === 'Video' ? "Remove this Video?" : "Remove this Audio"}</DialogTitle>
                     <DialogActions>
                         <Button onClick={() => this.setState({ confirmDialog: false })} color="primary">
                             Cancel

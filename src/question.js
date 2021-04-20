@@ -289,7 +289,7 @@ class Question extends React.Component {
                                 : this.state.loadquestion
                             ).map((value, index) => (
                                 <TableRow key={index}>
-                                    <TableCell>
+                                    <TableCell >
                                         {!this.props.userid
                                             ? <Button color="primary" style={{ paddingLeft: '0px' }} onClick={() => {
                                                 this.props.history.push({
@@ -328,12 +328,11 @@ class Question extends React.Component {
                                         {(value.answername || value.answername === '') && value.ans_alluser_uid === localStorage.getItem('email') ?
                                            <Button className="Button-table" onClick={() => this.handleOpen('update', value.aid, 'answer', value.answername)}>
                                                 <EditOutlinedIcon color="action" /> &nbsp;
-                                                Change Answer
                                             </Button>
                                             : value.ques_alluser_uid === localStorage.getItem('email') ?
                                             <Button className="Button-table" onClick={() => this.handleOpen('update', value.qid, 'question', value.questionname)}>
                                                     <EditOutlinedIcon color="action" /> &nbsp;
-                                                    Change Question
+                                                  
                                                 </Button>
                                                 : null
                                         }
@@ -342,12 +341,10 @@ class Question extends React.Component {
                                         {value.answername && (value.ans_alluser_uid === localStorage.getItem('email')) ?
                                              <Button className="Button-table" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
                                                 <DeleteOutlinedIcon color="action" /> &nbsp;
-                                                Remove Answer
                                             </Button>
                                             : (value.questionname || value.questionname === '') && (value.ques_alluser_uid === localStorage.getItem('email')) ?
                                             <Button className="Button-table" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
                                                     <DeleteOutlinedIcon color="action" /> &nbsp;
-                                                    Remove Question
                                             </Button> : null
                                         }
                                     </TableCell>
