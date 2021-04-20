@@ -397,7 +397,7 @@ class Studentlecture extends React.Component {
     componentDidMount() {
         this.props.location.state === undefined ? this.props.history.push({ pathname: '/login' }) : this.showpdf()
         this.loadfile()
-        if (this.props.match.params.userid !== localStorage.getItem('email')) {
+        if (this.props.match.params.userid !== localStorage.getItem('email') || localStorage.getItem('role') === 'student') {
             this.interval = setInterval(() => {
                 const time = this.state.time + 1
                 this.setState({ time: time })
