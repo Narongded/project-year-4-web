@@ -147,6 +147,17 @@ class Question extends React.Component {
         this.setState({ order: orderby === 'desc' ? 1 : -1 })
 
     }
+    handleSortitem = (a, b, condition, typeorder) => {
+
+        if (condition === 'page') {
+            return typeorder === 'asc' ? (a.page > b.page) - (a.page < b.page) : (a.page < b.page) - (a.page > b.page)
+        }
+        else {
+            return typeorder === 'asc' ? (a.ques_alluser_uid > b.ques_alluser_uid) - (a.ques_alluser_uid < b.ques_alluser_uid) 
+            : (a.ques_alluser_uid < b.ques_alluser_uid) - (a.ques_alluser_uid > b.ques_alluser_uid)
+        }
+
+    }
     componentDidMount() {
         this.loadquestion()
 
@@ -227,30 +238,30 @@ class Question extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Grid item lg={12} style={{ textAlign: 'right' }}>
-                        <TextField
-                            autoFocus
-                            size={'small'}
-                            margin="normal"
-                            label="Filter by Student ID"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            onChange={(e) => this.setState({ filter: e.target.value })}
-                            floatingLabelText="Email"
-                            variant="outlined"
-                        />
-                    </Grid>
+                    <TextField
+                        autoFocus
+                        size={'small'}
+                        margin="normal"
+                        label="Filter by Student ID"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        onChange={(e) => this.setState({ filter: e.target.value })}
+                        floatingLabelText="Email"
+                        variant="outlined"
+                    />
+                </Grid>
                 <TableContainer component={Paper}>
-                    
+
 
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>
+                                <TableCell style={{ width: '10% !important' }}>
                                     <TableSortLabel
                                         active={this.state.typeOrder === "page" ? true : false}
                                         direction={this.state.orderBy}
@@ -259,7 +270,7 @@ class Question extends React.Component {
                                             this.setState({ typeOrder: "page" })
                                         }}
                                     ><b>Page</b></TableSortLabel></TableCell>
-                                <TableCell>
+                                <TableCell style={{ width: '15% !important' }}>
                                     <TableSortLabel
                                         active={this.state.typeOrder === "StudentID" ? true : false}
                                         direction={this.state.orderBy}
@@ -269,33 +280,36 @@ class Question extends React.Component {
                                         }}
                                     >
                                         <b>Student ID</b> </TableSortLabel></TableCell>
-                                <TableCell>
-
+                                <TableCell style={{ width: '30% !important' }}>
                                     <b> Question  </b>
                                 </TableCell>
 
-                                <TableCell><b>Answer</b></TableCell>
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-                                <TableCell align="right"></TableCell>
+                                <TableCell style={{ width: '30% !important' }}><b>Answer</b></TableCell>
+                                <TableCell style={{ width: '5% !important' }}></TableCell>
+                                <TableCell style={{ width: '5% !important' }}></TableCell>
+                                <TableCell style={{ width: '5% !important' }} align="right"></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {(this.state.rowperpage > 0 ?
                                 this.state.loadquestion.filter(data => data.ques_alluser_uid.toLowerCase().includes(this.state.filter))
-                                    .sort(() => this.state.order)
+                                    .sort((a, b) => {
+                                        return this.handleSortitem(a, b, this.state.typeOrder, this.state.orderBy)
+                                    })
                                     .slice(this.state.page * this.state.rowperpage,
                                         this.state.page * this.state.rowperpage + this.state.rowperpage)
                                 : this.state.loadquestion
                             ).map((value, index) => (
                                 <TableRow key={index}>
-                                    <TableCell >
+                                    <TableCell  >
                                         {!this.props.userid
                                             ? <Button color="primary" style={{ paddingLeft: '0px' }} onClick={() => {
                                                 this.props.history.push({
                                                     pathname: `/student-lecture/${value.ques_alluser_uid}/${value.teacherpdfid}`,
-                                                    state: { pdfpath: value.studentpdf_sid, userid: value.ques_alluser_uid, 
-                                                        page: value.page, pdfname: this.props.location.state.pdfname, pdfid: value.sid }
+                                                    state: {
+                                                        pdfpath: value.studentpdf_sid, userid: value.ques_alluser_uid,
+                                                        page: value.page, pdfname: this.props.location.state.pdfname, pdfid: value.sid
+                                                    }
                                                 })
                                             }
                                             }>
@@ -326,24 +340,24 @@ class Question extends React.Component {
                                     </TableCell>
                                     <TableCell align="right">
                                         {(value.answername || value.answername === '') && value.ans_alluser_uid === localStorage.getItem('email') ?
-                                           <Button className="Button-table" onClick={() => this.handleOpen('update', value.aid, 'answer', value.answername)}>
+                                            <Button className="Button-table" onClick={() => this.handleOpen('update', value.aid, 'answer', value.answername)}>
                                                 <EditOutlinedIcon color="action" /> &nbsp;
                                             </Button>
                                             : value.ques_alluser_uid === localStorage.getItem('email') ?
-                                            <Button className="Button-table" onClick={() => this.handleOpen('update', value.qid, 'question', value.questionname)}>
+                                                <Button className="Button-table" onClick={() => this.handleOpen('update', value.qid, 'question', value.questionname)}>
                                                     <EditOutlinedIcon color="action" /> &nbsp;
-                                                  
+
                                                 </Button>
                                                 : null
                                         }
                                     </TableCell>
                                     <TableCell align="right">
                                         {value.answername && (value.ans_alluser_uid === localStorage.getItem('email')) ?
-                                             <Button className="Button-table" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
+                                            <Button className="Button-table" onClick={() => this.handleOpen('delete', value.aid, 'answer')}>
                                                 <DeleteOutlinedIcon color="action" /> &nbsp;
                                             </Button>
                                             : (value.questionname || value.questionname === '') && (value.ques_alluser_uid === localStorage.getItem('email')) ?
-                                            <Button className="Button-table" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
+                                                <Button className="Button-table" onClick={() => this.handleOpen('delete', value.qid, 'question')}>
                                                     <DeleteOutlinedIcon color="action" /> &nbsp;
                                             </Button> : null
                                         }
