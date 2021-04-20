@@ -161,23 +161,30 @@ class Setting extends React.Component {
                         <Divider />
                         <br />
                         <span style={{ fontSize: '15pt', fontWeight: '600' }}>Pending</span>
-                        {this.state.loadsettingpeople.filter(data => data.status === 0).length !== 0 &&
-                            this.state.loadsettingpeople.filter(data => data.status === 0).map((value, index) =>
-                                <ListItem>
-                                    <ListItemText id="switch-list-label-wifi" primary={value.alluser_uid} />
-                                    <Button size="small" onClick={() => this.handleAccept(value.sharedlistid, value.alluser_uid)}>
-                                        <DoneIcon style={{ color: 'green' }} />
-                                    </Button>
-                                    <Button size="small" onClick={() => { this.setState({ sharedlistid: value.sharedlistid }, () => this.handleDeletepeople()) }}>
-                                        <ClearIcon style={{ color: 'red' }} />
-                                    </Button>
-                                </ListItem>
-                            )
+                        {this.state.checked === 0 ?
+                            <div>
+                                {this.state.loadsettingpeople.filter(data => data.status === 0).length !== 0 &&
+                                this.state.loadsettingpeople.filter(data => data.status === 0).map((value, index) =>
+                                    <ListItem>
+                                        <ListItemText id="switch-list-label-wifi" primary={value.alluser_uid} />
+                                        <Button size="small" onClick={() => this.handleAccept(value.sharedlistid, value.alluser_uid)}>
+                                            <DoneIcon style={{ color: 'green' }} />
+                                        </Button>
+                                        <Button size="small" onClick={() => { this.setState({ sharedlistid: value.sharedlistid }, () => this.handleDeletepeople()) }}>
+                                            <ClearIcon style={{ color: 'red' }} />
+                                        </Button>
+                                    </ListItem>
+                                )
+                                }
+                            </div>
+                            : null
                         }
                         <Divider />
                         <br />
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <span style={{ fontSize: '15pt', fontWeight: '600', flex: '0.98' }}>Shared With</span>
+                            {this.state.checked === 0 ?
+                            <div>
                             <IconButton
                                 aria-controls="fade-menu" aria-haspopup="true"
                                 onClick={(e) => this.setState({ anchorEl: e.currentTarget })}
@@ -193,22 +200,30 @@ class Setting extends React.Component {
                                 TransitionComponent={Fade}
                             >
 
-                                <MenuItem onClick={() => this.setState({ dialogadd: true })}>
-                                    Add Friend
-                                </MenuItem>
+                                    <MenuItem onClick={() => this.setState({ dialogadd: true })}>
+                                        Add Friend
+                                    </MenuItem>
                             </Menu>
+                            </div>
+                                : null
+                            }
                         </div>
-                        {this.state.loadsettingpeople.length !== 0 &&
-                            this.state.loadsettingpeople.filter(data => data.status === 1).map((value, index) =>
-                                <ListItem>
-                                    <ListItemText id="switch-list-label-wifi" primary={value.alluser_uid} />
-                                    <ListItemSecondaryAction>
-                                        <IconButton aria-label="delete" onClick={() => this.setState({ confirmDialog: true, sharedlistid: value.sharedlistid })}>
-                                            <DeleteIcon fontSize="small" />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            )}
+                        {this.state.checked === 0 ?
+                            <div>
+                                {this.state.loadsettingpeople.length !== 0 &&
+                                    this.state.loadsettingpeople.filter(data => data.status === 1).map((value, index) =>
+                                        <ListItem>
+                                            <ListItemText id="switch-list-label-wifi" primary={value.alluser_uid} />
+                                            <ListItemSecondaryAction>
+                                                <IconButton aria-label="delete" onClick={() => this.setState({ confirmDialog: true, sharedlistid: value.sharedlistid })}>
+                                                    <DeleteIcon fontSize="small" />
+                                                </IconButton>
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    )}
+                            </div>
+                            : null
+                        }
                     </List>
                 </Container>
                 <Dialog open={this.state.dialogadd} onClose={() => this.setState({ dialogadd: false })} aria-labelledby="form-dialog-title">
