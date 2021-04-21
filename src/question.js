@@ -292,7 +292,8 @@ class Question extends React.Component {
                         </TableHead>
                         <TableBody>
                             {(this.state.rowperpage > 0 ?
-                                this.state.loadquestion.filter(data => data.ques_alluser_uid.toLowerCase().includes(this.state.filter))
+                                this.state.loadquestion.filter(data => data.ques_alluser_uid.toLowerCase().includes(this.state.filter)
+                                && this.props.page ? this.props.page === data.page : true)
                                     .sort((a, b) => {
                                         return this.handleSortitem(a, b, this.state.typeOrder, this.state.orderBy)
                                     })
