@@ -20,7 +20,7 @@ class Teacherlecturestudent extends React.Component {
             rowperpage: 5,
             page: 0,
             typeOrder: null,
-            orderBy: 'asc',
+            orderBy: 'author',
             order: -1
         }
     }
@@ -52,6 +52,18 @@ class Teacherlecturestudent extends React.Component {
         let orderby = this.state.orderBy === 'asc' ? 'desc' : 'asc'
         this.setState({ orderBy: orderby })
         this.setState({ order: orderby === 'desc' ? 1 : -1 })
+
+    }
+    handleSortitem = (a, b, condition, typeorder) => {
+        console.log(condition+' '+typeorder)
+        if (condition === 'point') {
+        
+            return typeorder === 'asc' ? (a.point > b.point) - (a.point < b.point) : (a.point < b.point) - (a.point > b.point)
+        }
+        else {
+            return typeorder === 'asc' ? (a.alluser_uid > b.alluser_uid) - (a.alluser_uid < b.alluser_uid)
+                : (a.alluser_uid < b.alluser_uid) - (a.alluser_uid > b.alluser_uid)
+        }
 
     }
     render() {
@@ -106,8 +118,9 @@ class Teacherlecturestudent extends React.Component {
                         <TableBody>
                             {(this.state.rowperpage > 0 ?
                                 this.state.loadlecturestudent.filter(data => data.alluser_uid.toLowerCase().includes(this.state.filter))
-                                    .sort(() => this.state.order)
-                                    .slice(this.state.page * this.state.rowperpage,
+                                    .sort((a, b) => {
+                                        return this.handleSortitem(a, b, this.state.typeOrder, this.state.orderBy)
+                                    }).slice(this.state.page * this.state.rowperpage,
                                         this.state.page * this.state.rowperpage + this.state.rowperpage)
                                 : this.state.loadlecturestudent
                             ).map((value, index) => (

@@ -153,8 +153,8 @@ class Question extends React.Component {
             return typeorder === 'asc' ? (a.page > b.page) - (a.page < b.page) : (a.page < b.page) - (a.page > b.page)
         }
         else {
-            return typeorder === 'asc' ? (a.ques_alluser_uid > b.ques_alluser_uid) - (a.ques_alluser_uid < b.ques_alluser_uid) 
-            : (a.ques_alluser_uid < b.ques_alluser_uid) - (a.ques_alluser_uid > b.ques_alluser_uid)
+            return typeorder === 'asc' ? (a.ques_alluser_uid > b.ques_alluser_uid) - (a.ques_alluser_uid < b.ques_alluser_uid)
+                : (a.ques_alluser_uid < b.ques_alluser_uid) - (a.ques_alluser_uid > b.ques_alluser_uid)
         }
 
     }
@@ -256,12 +256,11 @@ class Question extends React.Component {
                     />
                 </Grid>
                 <TableContainer component={Paper}>
-
-
-                    <Table aria-label="simple table">
-                        <TableHead>
+                    <Table>
+                        <TableHead >
                             <TableRow>
-                                <TableCell style={{ width: '10% !important' }}>
+
+                                <TableCell >
                                     <TableSortLabel
                                         active={this.state.typeOrder === "page" ? true : false}
                                         direction={this.state.orderBy}
@@ -270,7 +269,7 @@ class Question extends React.Component {
                                             this.setState({ typeOrder: "page" })
                                         }}
                                     ><b>Page</b></TableSortLabel></TableCell>
-                                <TableCell style={{ width: '15% !important' }}>
+                                <TableCell>
                                     <TableSortLabel
                                         active={this.state.typeOrder === "StudentID" ? true : false}
                                         direction={this.state.orderBy}
@@ -280,20 +279,20 @@ class Question extends React.Component {
                                         }}
                                     >
                                         <b>Student ID</b> </TableSortLabel></TableCell>
-                                <TableCell style={{ width: '30% !important' }}>
+                                <TableCell >
                                     <b> Question  </b>
                                 </TableCell>
 
-                                <TableCell style={{ width: '30% !important' }}><b>Answer</b></TableCell>
-                                <TableCell style={{ width: '5% !important' }}></TableCell>
-                                <TableCell style={{ width: '5% !important' }}></TableCell>
-                                <TableCell style={{ width: '5% !important' }} align="right"></TableCell>
+                                <TableCell><b>Answer</b></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell align="right"></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {(this.state.rowperpage > 0 ?
                                 this.state.loadquestion.filter(data => data.ques_alluser_uid.toLowerCase().includes(this.state.filter)
-                                && this.props.page ? this.props.page === data.page : true)
+                                    && this.props.page ? this.props.page === data.page : true)
                                     .sort((a, b) => {
                                         return this.handleSortitem(a, b, this.state.typeOrder, this.state.orderBy)
                                     })
@@ -324,10 +323,10 @@ class Question extends React.Component {
                                     <TableCell>
                                         {value.ques_alluser_uid.split("it")}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell style={{ wordBreak: 'break-all', maxWidth: '300px', minWidth: '300px' }}>
                                         {value.questionname}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell style={{ wordBreak: 'break-all', maxWidth: '300px', minWidth: '300px' }}>
                                         {value.answername}
                                     </TableCell>
                                     <TableCell align="right">
