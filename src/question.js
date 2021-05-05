@@ -293,7 +293,7 @@ class Question extends React.Component {
                             {(this.state.rowperpage > 0 ?
                                 this.props.page ?
                                     this.state.loadquestion.filter(data => data.ques_alluser_uid.toLowerCase().includes(this.state.filter)
-                                        && this.props.page ? this.props.page === data.page : false)
+                                        && this.props.page === data.page)
                                         .sort((a, b) => {
                                             return this.handleSortitem(a, b, this.state.typeOrder, this.state.orderBy)
                                         })
