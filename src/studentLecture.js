@@ -604,14 +604,14 @@ class Studentlecture extends React.Component {
                                     <ClickAwayListener onClickAway={(e) => this.handleClose(e, "video")}>
                                         <MenuList autoFocusItem={true} id="menu-list-grow" >
                                             <MenuItem
-                                                onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Video" })}>
+                                                onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Video", popupvideo: false })}>
                                                 <ListItemIcon>
                                                     <PlayArrowOutlinedIcon fontSize="small" />
                                                 </ListItemIcon>
                                                 เล่นวีดีโอ</MenuItem>
 
                                             <MenuItem
-                                                onClick={() => this.setState({ openfile: false, play: false })}>
+                                                onClick={() => this.setState({ openfile: false, play: false, popupvideo: false })}>
                                                 <ListItemIcon>
                                                     <CloseIcon fontSize="small" />
                                                 </ListItemIcon>
@@ -652,13 +652,13 @@ class Studentlecture extends React.Component {
                                     <ClickAwayListener onClickAway={(e) => this.handleClose(e, "audio")}>
                                         <MenuList autoFocusItem={true} id="menu-list-grow" >
                                             <MenuItem
-                                                onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Audio" })}>
+                                                onClick={() => this.setState({ play: true, openfile: true, openfiletype: "Audio", popupaudio: false })}>
                                                 <ListItemIcon>
                                                     <PlayArrowOutlinedIcon fontSize="small" />
                                                 </ListItemIcon>
                                                 เล่นคลิปเสียง</MenuItem>
 
-                                            <MenuItem onClick={() => this.setState({ openfile: false, play: false })}>
+                                            <MenuItem onClick={() => this.setState({ openfile: false, play: false, popupaudio: false })}>
                                                 <ListItemIcon>
                                                     <CloseIcon fontSize="small" />
                                                 </ListItemIcon>
