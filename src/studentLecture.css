@@ -19,3 +19,10 @@
 #qa .mainslideBar {
   display: none;
 }
+.test13 video {
+  border: 1px solid black;
+}
+.test13 audio {
+  border: 1px solid black;
+}
+

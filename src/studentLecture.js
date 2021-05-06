@@ -55,6 +55,7 @@ class Studentlecture extends React.Component {
         this.viewerRef = React.createRef();
         this.popupvideoref = React.createRef();
         this.popupaudioref = React.createRef();
+
     }
 
     loadfile = async () => {
@@ -158,7 +159,7 @@ class Studentlecture extends React.Component {
             if (this.props.location.state.page) docViewer.setCurrentPage(this.props.location.state.page)
         })
         docViewer.on('pageNumberUpdated', () => {
-            this.setState({ pageCount: docViewer.getPageCount(), currentpage: docViewer.getCurrentPage()  })
+            this.setState({ pageCount: docViewer.getPageCount(), currentpage: docViewer.getCurrentPage() })
         })
 
         if (this.props.match.params.userid !== localStorage.getItem('email')) {
@@ -560,18 +561,19 @@ class Studentlecture extends React.Component {
                             height: "max-content",
                             border: "solid 20px #ffffff00",
                             background: "rgb(240 240 240 / 0%)",
+
                         }}
                         default={{
                             x: 0,
                             y: 0,
                             width: 320,
-                            height: 300,
+                            height: 300
                         }}
                     >
-                        <ReactPlayer
+                        <ReactPlayer className = "test13"
                             playing={this.state.play}
                             loop={false}
-                            style={{ display: "contents" }}
+                            style={{ display: "contents", border: "1px solid black" }}
                             onError={(e) => console.log(e)}
                             url={this.state.openfiletype === "Video" ?
                                 this.state.filevideo
@@ -607,17 +609,23 @@ class Studentlecture extends React.Component {
                                                     <PlayArrowOutlinedIcon fontSize="small" />
                                                 </ListItemIcon>
                                                 เล่นวีดีโอ</MenuItem>
+
                                             <MenuItem
                                                 onClick={() => this.setState({ openfile: false, play: false })}>
                                                 <ListItemIcon>
                                                     <CloseIcon fontSize="small" />
                                                 </ListItemIcon>
                                                 ปิดวีดีโอ</MenuItem>
-                                            <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Video' })} >
-                                                <ListItemIcon>
-                                                    <DeleteOutlineIcon fontSize="small" />
-                                                </ListItemIcon>
+                                            {this.props.match.params.userid === localStorage.getItem("email") &&
+                                                <>
+                                                    <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Video' })} >
+                                                        <ListItemIcon>
+                                                            <DeleteOutlineIcon fontSize="small" />
+                                                        </ListItemIcon>
                                                 ลบวีดีโอ</MenuItem>
+                                                </>
+                                            }
+
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>
@@ -649,16 +657,22 @@ class Studentlecture extends React.Component {
                                                     <PlayArrowOutlinedIcon fontSize="small" />
                                                 </ListItemIcon>
                                                 เล่นคลิปเสียง</MenuItem>
+
                                             <MenuItem onClick={() => this.setState({ openfile: false, play: false })}>
                                                 <ListItemIcon>
                                                     <CloseIcon fontSize="small" />
                                                 </ListItemIcon>
                                                 ปิดคลิปเสียง</MenuItem>
-                                            <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Audio' })} >
-                                                <ListItemIcon>
-                                                    <DeleteOutlineIcon fontSize="small" />
-                                                </ListItemIcon>
+                                            {this.props.match.params.userid === localStorage.getItem("email") &&
+                                                <>
+                                                    <MenuItem onClick={() => this.setState({ confirmDialog: true, typeFile: 'Audio' })} >
+                                                        <ListItemIcon>
+                                                            <DeleteOutlineIcon fontSize="small" />
+                                                        </ListItemIcon>
                                                 ลบคลิปเสียง</MenuItem>
+                                                </>
+                                            }
+
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>
