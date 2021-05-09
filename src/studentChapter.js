@@ -57,13 +57,13 @@ class Studentchapter extends React.Component {
             <React.Fragment>
                 <Permission prop={this.props} />
                 <Container maxWidth="lg">
-                    <Slidebar prop={this.props} appBarName='Subjects' openSlide={true} />
+                    <Slidebar prop={this.props} appBarName='Courses' openSlide={true} />
                     <TableContainer component={Paper} style={{ marginTop: '100px', borderRadius: '10px', background: 'white' }}>
                         <Table aria-label="simple table" >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell> <b>Subjects </b></TableCell>
-                                    <TableCell> <b>Teacher</b> </TableCell>
+                                    <TableCell> <b>Courses </b></TableCell>
+                                    <TableCell> <b>Lecturer</b> </TableCell>
                                     <TableCell align="center"><b>Lecture Notes</b> </TableCell>
                                 </TableRow>
                             </TableHead>

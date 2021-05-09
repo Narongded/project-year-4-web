@@ -146,16 +146,16 @@ class Chapter extends React.Component {
         return (
             <React.Fragment>
             <Container maxWidth="lg" style={{ display: 'flex', flexDirection: 'column' }}>
-                <Slidebar prop={this.props} appBarName='All Subjects' openSlide={true} />
+                <Slidebar prop={this.props} appBarName='All Courses' openSlide={true} />
                 <Dialog open={this.state.open} onClose={false} aria-labelledby="form-dialog-title">
                     {this.state.dialogType !== 'delete' ?
                         <div>
-                            <DialogTitle id="form-dialog-title">Subjects</DialogTitle>
+                            <DialogTitle id="form-dialog-title">Courses</DialogTitle>
                             <DialogContent style={{ width: '250px' }}>
                                 <TextField
                                     id="outlined-full-width"
-                                    placeholder="Enter Subjects ID"
-                                    label="Subject ID"
+                                    placeholder="Enter Course ID"
+                                    label="Courses ID"
                                     margin="normal"
                                     InputLabelProps={{
                                         shrink: true,
@@ -166,8 +166,8 @@ class Chapter extends React.Component {
                                 />
                                 <TextField
                                     id="outlined-full-width"
-                                    placeholder="Enter Subjects Name"
-                                    label="Subject Name"
+                                    placeholder="Enter Course Name"
+                                    label="Course Name"
                                     margin="normal"
                                     InputLabelProps={{
                                         shrink: true,
@@ -205,7 +205,7 @@ class Chapter extends React.Component {
                             </DialogContent>
                         </div>
                         :
-                        <DialogTitle id="form-dialog-title">Remove This Subjects</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Remove This Course</DialogTitle>
                     }
                     <DialogActions>
                         <Button onClick={() => this.setState({ open: false, subjectid: '', chaptername: '', semester: 1, year: '' })} color="primary">
@@ -227,16 +227,16 @@ class Chapter extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <Button variant="contained" color="primary" style={{ marginBottom: '10px', width: 'max-content', alignSelf: 'flex-end' }} onClick={() => this.handleClickOpen('create')}>
-                    Create Subject
+                    Create Course
                         </Button>
                 <TableContainer component={Paper} style={{ borderRadius: '10px', background: 'white' }}>
 
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b>Subjects</b></TableCell>
+                                <TableCell><b>Courses</b></TableCell>
                                 <TableCell align="center"><b>Manage Slide</b></TableCell>
-                                <TableCell align="center"><b>Change Subject Details</b></TableCell>
+                                <TableCell align="center"><b>Change Course Details</b></TableCell>
                                 <TableCell align="center"><b>Remove</b></TableCell>
                             </TableRow>
                         </TableHead>

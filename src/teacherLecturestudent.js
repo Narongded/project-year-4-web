@@ -111,7 +111,7 @@ class Teacherlecturestudent extends React.Component {
                                             this.handleOrderBy()
                                             this.setState({ typeOrder: "point" })
                                         }}
-                                    ><b>Point</b></TableSortLabel></TableCell>
+                                    ><b>Total View(Sec)</b></TableSortLabel></TableCell>
                                 <TableCell align='center'><b>Lecture Notes</b></TableCell>
                             </TableRow>
                         </TableHead>

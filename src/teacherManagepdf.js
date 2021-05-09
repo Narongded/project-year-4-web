@@ -230,7 +230,7 @@ class Managepdf extends React.Component {
                                 <TableCell align="center"><b>Q&A</b></TableCell>
                                 {localStorage.getItem('firstname')+' '+localStorage.getItem('lastname') === this.props.location.state.name ?
                                     <React.Fragment>
-                                        <TableCell align="center"><b>Link to PDF</b></TableCell>
+                                        <TableCell align="center"><b>Get PDF Link</b></TableCell>
                                         <TableCell align="center"><b>Edit</b></TableCell>
                                         <TableCell align="center"><b>Remove</b></TableCell>
                                     </React.Fragment>

@@ -232,14 +232,14 @@ class Studentlecture extends React.Component {
                 header.push({
                     type: 'actionButton',
                     img: 'assets/icons/outline_question_answer_black_48dp.png',
-                    title: "Question teacher",
+                    title: "Ask Questions",
                     onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
                     hidden: ['small-mobile']
                 })
                 header.getHeader('small-mobile-more-buttons').unshift({
                     type: 'actionButton',
                     img: 'assets/icons/outline_question_answer_black_48dp.png',
-                    title: "Question teacher",
+                    title: "Ask Questions",
                     onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
                     dataElement: 'Question'
                 })
