@@ -177,6 +177,7 @@ class Studentlecture extends React.Component {
             'strikeoutToolGroupButton', 'squigglyToolGroupButton',
             'stickyToolGroupButton', 'outlinesPanelButton',
             'toggleNotesButton', 'highlightToolButton'])
+        if (localStorage.getItem('role') === 'teacher') instance.disableElements(['saveButton'])
         if (this.props.match.params.userid === localStorage.getItem('email')) {
             instance.setHeaderItems(header => {
                 header.push({
@@ -184,14 +185,15 @@ class Studentlecture extends React.Component {
                     img: 'assets/icons/baseline_upload_black_48dp.png',
                     title: "Upload Lecture Note",
                     onClick: async () => this.setState({ dialogUpload: true }),
-                    hidden: ['small-mobile']
+                    hidden: ['small-mobile'],
+                    dataElement: 'uploadButton'
                 })
                 header.getHeader('small-mobile-more-buttons').unshift({
                     type: 'actionButton',
                     img: 'assets/icons/baseline_upload_black_48dp.png',
                     title: "Upload Lecture Note",
                     onClick: async () => this.setState({ dialogUpload: true }),
-                    dataElement: 'saveButton'
+                    dataElement: 'uploadButton'
                 })
             })
             instance.setHeaderItems(header => {
@@ -200,7 +202,8 @@ class Studentlecture extends React.Component {
                     img: 'assets/icons/outline_ondemand_video_black_48dp.png',
                     title: "Upload Video",
                     onClick: async () => this.setState({ open: true, typeFile: "Video" }),
-                    hidden: ['small-mobile']
+                    hidden: ['small-mobile'],
+                    dataElement: 'saveVideo'
                 })
                 header.getHeader('small-mobile-more-buttons').unshift({
                     type: 'actionButton',
@@ -216,7 +219,8 @@ class Studentlecture extends React.Component {
                     img: 'assets/icons/outline_record_voice_over_black_48dp.png',
                     title: "Upload Audio",
                     onClick: async () => this.setState({ open: true, typeFile: "Audio" }),
-                    hidden: ['small-mobile']
+                    hidden: ['small-mobile'],
+                    dataElement: 'saveAudio'
                 })
                 header.getHeader('small-mobile-more-buttons').unshift({
                     type: 'actionButton',
@@ -227,14 +231,15 @@ class Studentlecture extends React.Component {
                 })
             })
 
-
+            // instance.disableElements(['Question'])
             instance.setHeaderItems(header => {
                 header.push({
                     type: 'actionButton',
                     img: 'assets/icons/outline_question_answer_black_48dp.png',
                     title: "Ask Questions",
                     onClick: async () => this.setState({ dialogquestionopen: true, pagevalue: docViewer.getCurrentPage() }),
-                    hidden: ['small-mobile']
+                    hidden: ['small-mobile'],
+                    dataElement: 'Question'
                 })
                 header.getHeader('small-mobile-more-buttons').unshift({
                     type: 'actionButton',
@@ -279,7 +284,8 @@ class Studentlecture extends React.Component {
                 img: 'assets/icons/outline_save_black_48dp.png',
                 title: "Save to Server",
                 onClick: async () => savedata(header),
-                hidden: ['small-mobile']
+                hidden: ['small-mobile'],
+                dataElement: 'saveButton'
             })
             header.getHeader('small-mobile-more-buttons').unshift({
                 type: 'actionButton',
